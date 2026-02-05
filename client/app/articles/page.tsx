@@ -359,7 +359,7 @@ const Blog = () => {
                                                             {calculateReadTime(post.content)}
                                                         </span>
                                                         <Link href={`/articles/${post.slug}`}>
-                                                            <Button variant="outline" className="hover:bg-primary hover:text-white transition-colors">
+                                                            <Button variant="secondary" className="hover:bg-primary hover:text-white transition-colors">
                                                                 Read Article
                                                                 <ArrowRight className="ml-2" size={16} />
                                                             </Button>
@@ -399,7 +399,7 @@ const Blog = () => {
                                     onClick={() => setActiveCategory(category.name)}
                                     className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                                         activeCategory === category.name
-                                            ? "bg-primary text-white shadow-md"
+                                            ? "bg-secondary text-white shadow-md"
                                             : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                                     }`}
                                 >
@@ -426,7 +426,7 @@ const Blog = () => {
                             <div className="text-center py-12">
                                 <h3 className="text-xl font-semibold text-foreground mb-2">No posts found</h3>
                                 <p className="text-muted-foreground mb-6">Try selecting a different category</p>
-                                <Button variant="outline" onClick={() => setActiveCategory("All")}>
+                                <Button variant="secondary" onClick={() => setActiveCategory("All")}>
                                     View All Posts
                                 </Button>
                             </div>
@@ -486,31 +486,6 @@ const Blog = () => {
                                 )}
                             </>
                         )}
-                    </div>
-                </section>
-
-                {/* Newsletter */}
-                <section className="py-16 px-4 bg-gray-50 dark:bg-gray-900">
-                    <div className="container mx-auto max-w-2xl text-center">
-                        <h2 className="text-3xl sm:text-4xl font-semibold text-foreground mb-4">
-                            Get Weekly Insights
-                        </h2>
-                        <p className="text-muted-foreground max-w-lg mx-auto mb-8">
-                            Join thousands of business leaders who receive our weekly newsletter with actionable strategies and insights.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                className="flex-1 px-5 py-3 rounded-xl border bg-white dark:bg-gray-800 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                            />
-                            <Button size="lg" className="bg-primary text-white hover:bg-primary/90">
-                                Subscribe
-                            </Button>
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-4">
-                            No spam, ever. Unsubscribe anytime.
-                        </p>
                     </div>
                 </section>
             </Layout>

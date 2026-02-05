@@ -1,6 +1,9 @@
 "use client";
 
-import { Award, BookOpen, Users, Trophy } from "lucide-react";
+import {Award, BookOpen, Users, Trophy, CheckCircle2} from "lucide-react";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/app/components/ui/card";
+import {Button} from "@/app/components/ui/button";
+import Link from "next/link";
 
 interface Achievement {
     icon: React.ComponentType<{ className?: string }>;
@@ -11,23 +14,23 @@ interface Achievement {
 const achievements: Achievement[] = [
     {
         icon: Trophy,
-        title: "Forbes Top 50",
-        description: "Business Consultants 2024",
+        title: "IIM - MBA",
+        description: "Masters in Business Administration from IIM Pune (2006-2008)",
     },
     {
         icon: BookOpen,
-        title: "Bestselling Author",
-        description: "'Growth Mindset' Book",
+        title: "Panelist",
+        description: "Smart Healthcare India Summit 2015",
     },
     {
         icon: Users,
         title: "Speaker",
-        description: "TEDx & Fortune 500 Events",
+        description: "Conference on Medical Textiles by ITTA 2015",
     },
     {
         icon: Award,
-        title: "Certified",
-        description: "McKinsey & Bain Alum",
+        title: "Expertise",
+        description: "Market Research & Sourcing strategies",
     },
 ];
 
@@ -42,25 +45,21 @@ export function AboutSection() {
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
               About Me
             </span>
-                            <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-foreground mb-6">
-                                Building Businesses, <br />
-                                <span className="text-primary">Empowering Leaders</span>
-                            </h2>
+                            <h3 className="font-serif text-3xl sm:text-4xl text-foreground mb-6">
+                                Strategy & Growth Advisor
+                            </h3>
                             <div className="space-y-4 text-muted-foreground leading-relaxed">
                                 <p>
-                                    I&apos;m Sundar, and I believe every business has untapped potential waiting to be unlocked.
-                                    After spending a decade at top consulting firms like McKinsey and Bain, I realized my true
-                                    passion lay in working closely with entrepreneurs and growing companies.
+                                    I am a Strategy & Growth Advisor with 18+ years of experience, working at the intersection of business strategy, market research, and design thinking.
                                 </p>
                                 <p>
-                                    What drives me? Seeing that moment when a founder finally has clarity on their path forward.
-                                    Watching a struggling team transform into a high-performing unit. Celebrating with clients
-                                    when they hit milestones they once thought impossible.
+                                    I partner with leadership teams to bring clarity when decisions are high-stakes—whether it’s entering a new market, scaling a business, launching a product, or validating an investment. My work spans India, Europe, the US, and Southeast Asia, across startups, MSMEs, large enterprises, and institutions..
                                 </p>
                                 <p>
-                                    My approach blends rigorous strategic thinking with genuine human connection. Because at
-                                    the end of the day, business is about people—and I&apos;m here to help you bring out the best
-                                    in yours.
+                                    What defines my approach is the ability to blend analytical depth with human-centered thinking. I don’t just ask “What does the data say?”—I focus equally on “What problem are we really trying to solve?”
+                                </p>
+                                <p>
+                                    The result: strategies that are insight-led, practical, and execution-ready
                                 </p>
                             </div>
                         </div>
@@ -75,7 +74,7 @@ export function AboutSection() {
                                         className="bg-card rounded-2xl p-6 shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-1"
                                     >
                                         <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                                            <Icon className="w-6 h-6 text-primary" />
+                                            <Icon className="w-6 h-6 text-accent" />
                                         </div>
                                         <h3 className="font-serif font-semibold text-foreground mb-1">
                                             {achievement.title}
@@ -86,9 +85,20 @@ export function AboutSection() {
                                     </div>
                                 );
                             })}
+
+                        </div>
+                        <div
+                            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in"
+                            style={{ animationDelay: "0.3s" }}
+                        >
+                            <Button variant="secondary" size="sm">
+                                <Link href="/services">View My Services</Link>
+                            </Button>
                         </div>
                     </div>
                 </div>
+
             </section>
+
     );
 }

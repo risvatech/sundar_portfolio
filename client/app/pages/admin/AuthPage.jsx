@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import api from "../../service/api";
 import { toast } from "sonner";
 import Image from "next/image";
-import Logo from "@/public/sundar.png";
+import Logo from "../../../public/sundar.png";
 
 export default function AuthPage() {
     const { loginMutation } = useAuth();

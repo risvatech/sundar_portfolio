@@ -49,7 +49,7 @@ export function CTASection() {
                                 className="bg-white text-primary hover:bg-white/90 rounded-2xl"
                                 onClick={handleScheduleClick}
                             >
-                                Schedule Your Call
+                                Let’s Talk Strategy
                                 <ArrowRight className="ml-2" size={20} />
                             </Button>
                             <Button

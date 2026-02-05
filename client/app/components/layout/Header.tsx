@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {Layers, Menu, X} from "lucide-react";
+import {Menu, X} from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
 
@@ -13,10 +13,12 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-    { name: "About", path: "/" },
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
     { name: "Services", path: "/services" },
-    { name: "Impact", path: "/impact" },
-    // { name: "Impact", path: "/expertise" },
+    { name: "Impact", path: "/experience" },
+    { name: "Events", path: "/events" },
+    { name: "Social", path: "/social" },
     { name: "Articles",  path: "/articles" },
 
 ];
@@ -105,8 +107,8 @@ export function Header() {
 
                 {/* CTA Button */}
                 <div className="hidden md:block">
-                    <Button variant="hero" size="lg">
-                        <Link href="/book">Book a Consultation</Link>
+                    <Button variant="warm" size="lg" className="text-white">
+                        <Link href="/book">Let’s Talk Strategy</Link>
                     </Button>
                 </div>
 
@@ -147,7 +149,7 @@ export function Header() {
                             {item.name}
                         </Link>
                     ))}
-                    <Button variant="hero" size="lg" className="mt-4 w-full">
+                    <Button variant="secondary" size="lg" className="mt-4 w-full text-white">
                         <Link href="/book">Book a Consultation</Link>
                     </Button>
                 </div>

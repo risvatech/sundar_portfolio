@@ -722,7 +722,7 @@ export default function AddEditBlog({ postToEdit, categories, onSuccess, onCance
                         <div className="mt-8 pt-6 border-t border-gray-200">
                             <h3 className="text-lg font-semibold mb-3">SEO Preview</h3>
                             <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                                <div className="text-blue-600 text-sm mb-1">example.com/articles/{formData.slug}</div>
+                                <div className="text-blue-600 text-sm mb-1">example.com/blog/{formData.slug}</div>
                                 <div className="text-lg text-gray-900 font-medium mb-1">
                                     {formData.metaTitle || formData.title}
                                 </div>

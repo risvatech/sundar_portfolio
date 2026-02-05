@@ -2,11 +2,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     // Enable output: 'export' only when NEXT_EXPORT=true
-    output: process.env.NEXT_EXPORT === 'true' ? 'export' : undefined,
+    output: "standalone",
 
     images: {
         unoptimized: true,
-        domains: ['localhost', '127.0.0.1', 'sundar.risva.app'],
+        domains: ['localhost', '127.0.0.1', 'www.risva.app', 'risva.app'],
         remotePatterns: [
             {
                 protocol: 'http',
@@ -21,14 +21,19 @@ const nextConfig = {
                 pathname: '/api/uploads/**',
             },
             {
-                protocol: 'http',
-                hostname: 'sundar.risva.app',
+                protocol: 'https',
+                hostname: 'www.risva.app',
                 pathname: '/api/uploads/**',
             },
             {
                 protocol: 'https',
-                hostname: 'sundar.risva.app',
+                hostname: 'risva.app',
                 pathname: '/api/uploads/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'images.unsplash.com',
+                pathname: '/**',
             },
         ],
     },

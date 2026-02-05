@@ -219,7 +219,43 @@ export const runInstallation = async (req, res) => {
     ON consultation_requests(created_at DESC);
 `);
 
+        // Create tables first
+        await client.query(`
+            CREATE TABLE IF NOT EXISTS gallery_categories (
+                                                              id SERIAL PRIMARY KEY,
+                                                              name VARCHAR(255) NOT NULL UNIQUE,
+                description TEXT,
+                is_active BOOLEAN DEFAULT true,
+                created_at TIMESTAMP DEFAULT NOW(),
+                updated_at TIMESTAMP DEFAULT NOW()
+                );
+        `);
 
+        await client.query(`
+    CREATE TABLE IF NOT EXISTS gallery_items (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        description TEXT,
+        thumbnail_url VARCHAR(500),
+        image_urls TEXT,
+        category_id INTEGER,
+        is_active BOOLEAN DEFAULT true,
+        sort_order INTEGER DEFAULT 0,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW(),
+        CONSTRAINT fk_gallery_items_category
+            FOREIGN KEY (category_id) 
+            REFERENCES gallery_categories(id)
+            ON DELETE SET NULL
+    );
+`);
+
+// Then insert the social category - ONLY specify columns you're providing values for
+        await client.query(`
+    INSERT INTO gallery_categories (name, description)
+    VALUES ('social', 'Social events and gatherings')
+    ON CONFLICT (name) DO NOTHING;
+`);
 
         // ======================
         // CHECK IF ADMIN ROLE EXISTS

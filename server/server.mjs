@@ -14,6 +14,7 @@ import postsRoutes from "./routes/postsRoutes.js";
 import path from "path";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import consultationRoutes from "./routes/consultationRoutes.js";
+import galleryRoutes from "./routes/galleryRoutes.js";
 
 
 dotenv.config();
@@ -48,6 +49,7 @@ app.use("/api/roles", rolesRoutes);
 app.use('/api/posts', postsRoutes);
 app.use("/api/upload", uploadRoute);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/gallery", galleryRoutes);
 app.use('/api', consultationRoutes);
 
 

@@ -6,7 +6,7 @@ import { CheckCircle2, ArrowRight } from "lucide-react";
 export default function ProvenImpact() {
     return (
         <section className="py-16 px-6">
-            <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center bg-primary rounded-3xl overflow-hidden shadow-elevated">
+            <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center bg-[#2E5C8A] rounded-3xl overflow-hidden shadow-elevated">
                 {/* Left Image */}
                 <div className="relative h-full min-h-[400px] md:min-h-[500px]">
                     <Image
@@ -69,7 +69,7 @@ export default function ProvenImpact() {
                             href="/services"
                             className="inline-flex items-center justify-center bg-white text-primary px-8 py-4 rounded-xl font-semibold hover:border hover:bg-primary hover:text-white transition-all duration-300 hover:shadow-lg text-center"
                         >
-                            Explore All Case Studies
+                            Explore All Services
                             <ArrowRight className="ml-2" size={20} />
                         </Link>
                         <Link

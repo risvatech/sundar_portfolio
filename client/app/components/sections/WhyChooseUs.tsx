@@ -27,7 +27,7 @@ const features: FeatureItem[] = [
 
 export default function WhyChooseUs() {
     return (
-        <section className="py-20 px-6 bg-[#0F4C5C]">
+        <section className="py-20 px-6 bg-primary">
             <div className="max-w-7xl mx-auto text-center">
                 <h2 className="text-4xl font-bold text-white mb-4">
                     Why Clients Choose Us
@@ -41,9 +41,9 @@ export default function WhyChooseUs() {
                         return (
                             <div
                                 key={i}
-                                className="rounded-xl p-8 hover:shadow-lg transition-all duration-300 text-center bg-primary/90 hover:bg-primary"
+                                className="rounded-xl p-8 hover:shadow-lg transition-all duration-300 text-center bg-secondary/70 hover:bg-primary"
                             >
-                                <div className="w-16 h-16 mx-auto flex items-center justify-center rounded-lg bg-white/10 backdrop-blur-sm text-white text-2xl mb-6">
+                                <div className="w-16 h-16 mx-auto flex items-center justify-center rounded-lg bg-white/10 backdrop-blur-sm text-accent text-2xl mb-6">
                                     <Icon className="w-8 h-8" />
                                 </div>
                                 <h3 className="text-xl font-semibold mb-3 text-white">{item.title}</h3>

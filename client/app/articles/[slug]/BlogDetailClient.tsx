@@ -211,71 +211,71 @@ export default function BlogDetailClient({
             />
 
             <Layout>
-            <div className="min-h-screen mt-10">
-                <div className="py-6 px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-7xl mx-auto">
-                        <div className="md:hidden flex items-center justify-between">
-                            <Link href="/articles">
-                                <Button variant="ghost" className="gap-2 hover:bg-purple-500/10">
-                                    <ArrowLeft className="w-4 h-4" />
-                                    Back to Articles
-                                </Button>
-                            </Link>
-                        </div>
-                        {/*<div className="w-24 h-1.5 bg-[hsl(21_90%_48%)] mb-6" />*/}
-                        <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-primary mb-6 animate-fade-in">
-                            {initialPost.metaTitle || initialPost.title}
-                        </h1>
-                        <div className="flex flex-col md:flex-row gap-6">
-                            <div className="flex-1 md:pl-4">
-                                <div className="hidden md:block mb-4">
-                                    <Link href="/articles">
-                                        <Button variant="ghost" className="gap-2 hover:bg-purple-500/10 hover:text-black">
-                                            <ArrowLeft className="w-4 h-4" />
-                                            Back to Articles
-                                        </Button>
-                                    </Link>
-                                </div>
-
-                                <div className="max-w-4xl mx-auto">
-                                    <div className="mb-5">
-                                        <div className="flex flex-wrap items-center gap-4 p-4 bg-secondary/50 backdrop-blur-sm rounded-xl border mb-6">
-                                            <div className="flex items-center gap-2">
-                                                <Layers className="w-4 h-4 text-primary" />
-                                                <span className="text-sm font-medium">{initialCategory?.name || "Uncategorized"}</span>
-                                            </div>
-                                            <Separator orientation="vertical" className="h-4" />
-                                            <div className="flex items-center gap-2">
-                                                <Clock className="w-4 h-4 text-primary" />
-                                                <span className="text-sm font-medium">{calculateReadTime(initialPost.content)}</span>
-                                            </div>
-                                            <Separator orientation="vertical" className="h-4" />
-                                            <div className="flex items-center gap-2">
-                                                <Calendar className="w-4 h-4 text-primary" />
-                                                <span className="text-sm font-medium">{formatDate(initialPost.createdAt)}</span>
-                                            </div>
-                                            <Separator orientation="vertical" className="h-4" />
-                                            <div className="flex items-center gap-2">
-                                                <Eye className="w-4 h-4 text-primary" />
-                                                <span className="text-sm font-medium">{viewCount.toLocaleString()} views</span>
-                                            </div>
-                                            <Separator orientation="vertical" className="h-4" />
-                                            <div className="flex items-center gap-2">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    className="gap-1.5 h-8 px-3"
-                                                    onClick={() => handleShare('copy')}
-                                                >
-                                                    {copied ? <Check className="w-3.5 h-3.5" /> : <Share2 className="w-3.5 h-3.5" />}
-                                                    <span className="text-sm">{copied ? 'Copied!' : 'Share'}</span>
-                                                </Button>
-                                            </div>
-                                        </div>
+                <div className="min-h-screen mt-20">
+                    <div className="py-6 px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="md:hidden flex items-center justify-between">
+                                <Link href="/articles">
+                                    <Button variant="ghost" className="gap-2 hover:bg-purple-500/10">
+                                        <ArrowLeft className="w-4 h-4" />
+                                        Back to Articles
+                                    </Button>
+                                </Link>
+                            </div>
+                            {/*<div className="w-24 h-1.5 bg-[hsl(21_90%_48%)] mb-6" />*/}
+                            <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-primary mb-3 animate-fade-in">
+                                {initialPost.metaTitle || initialPost.title}
+                            </h1>
+                            <div className="flex flex-col md:flex-row gap-6">
+                                <div className="flex-1 md:pl-4">
+                                    <div className="hidden md:block mb-4">
+                                        <Link href="/articles">
+                                            <Button variant="ghost" className="gap-2 hover:bg-purple-500/10 hover:text-black">
+                                                <ArrowLeft className="w-4 h-4" />
+                                                Back to Articles
+                                            </Button>
+                                        </Link>
                                     </div>
 
-                                    <article className="prose prose-lg dark:prose-invert max-w-none mb-16">
-                                        <style jsx global>{`
+                                    <div className="max-w-4xl mx-auto">
+                                        <div className="mb-5">
+                                            <div className="flex flex-wrap items-center gap-4 p-4 bg-secondary-light backdrop-blur-sm rounded-xl border mb-6">
+                                                <div className="flex items-center gap-2">
+                                                    <Layers className="w-4 h-4 text-primary" />
+                                                    <span className="text-sm font-medium">{initialCategory?.name || "Uncategorized"}</span>
+                                                </div>
+                                                <Separator orientation="vertical" className="h-4" />
+                                                <div className="flex items-center gap-2">
+                                                    <Clock className="w-4 h-4 text-primary" />
+                                                    <span className="text-sm font-medium">{calculateReadTime(initialPost.content)}</span>
+                                                </div>
+                                                <Separator orientation="vertical" className="h-4" />
+                                                <div className="flex items-center gap-2">
+                                                    <Calendar className="w-4 h-4 text-primary" />
+                                                    <span className="text-sm font-medium">{formatDate(initialPost.createdAt)}</span>
+                                                </div>
+                                                <Separator orientation="vertical" className="h-4" />
+                                                <div className="flex items-center gap-2">
+                                                    <Eye className="w-4 h-4 text-primary" />
+                                                    <span className="text-sm font-medium">{viewCount.toLocaleString()} views</span>
+                                                </div>
+                                                <Separator orientation="vertical" className="h-4" />
+                                                <div className="flex items-center gap-2">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        className="gap-1.5 h-8 px-3"
+                                                        onClick={() => handleShare('copy')}
+                                                    >
+                                                        {copied ? <Check className="w-3.5 h-3.5" /> : <Share2 className="w-3.5 h-3.5" />}
+                                                        <span className="text-sm">{copied ? 'Copied!' : 'Share'}</span>
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <article className="prose prose-lg dark:prose-invert max-w-none mb-16">
+                                            <style jsx global>{`
                                             .html-content {
                                                 font-size: 1rem;
                                                 line-height: 1;
@@ -511,162 +511,162 @@ export default function BlogDetailClient({
                                             }
                                         `}</style>
 
-                                        {initialPost.coverImage && (
-                                            <div className="relative aspect-video w-full mb-12 rounded-2xl overflow-hidden border">
-                                                <Image
-                                                    src={initialPost.coverImage}
-                                                    alt={initialPost.title}
-                                                    fill
-                                                    className="object-cover"
-                                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                                    unoptimized={initialPost.coverImage?.startsWith('http://localhost:5002')}
-                                                />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                                            </div>
-                                        )}
-
-                                        {displayExcerpt && (
-                                            <div className="p-4 bg-primary/20 rounded-2xl border border-primary mb-12">
-                                                <p className="text-xl font-medium text-foreground leading-relaxed">
-                                                    {displayExcerpt}
-                                                </p>
-                                            </div>
-                                        )}
-
-                                        <div className="html-content">
-                                            {renderHTMLContent(initialPost.content)}
-                                        </div>
-
-                                        {postTags.length > 0 && (
-                                            <div className="flex flex-wrap gap-3 mt-12 pt-8 border-t border-secondary">
-                                                <div className="flex items-center gap-2 w-full mb-4">
-                                                    <Tag className="w-5 h-5 text-muted-foreground" />
-                                                    <span className="font-medium">Tags:</span>
+                                            {initialPost.coverImage && (
+                                                <div className="relative aspect-video w-full mb-12 rounded-2xl overflow-hidden border">
+                                                    <Image
+                                                        src={initialPost.coverImage}
+                                                        alt={initialPost.title}
+                                                        fill
+                                                        className="object-cover"
+                                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                        unoptimized={initialPost.coverImage?.startsWith('http://localhost:5002')}
+                                                    />
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                                                 </div>
-                                                {postTags.map((tag: string, index: number) => (
-                                                    <Badge
-                                                        key={index}
-                                                        variant="secondary"
-                                                        className="gap-2 px-4 py-2 hover:bg-purple-500/20 cursor-pointer transition-colors"
-                                                    >
-                                                        #{tag}
-                                                    </Badge>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </article>
+                                            )}
 
-                                    <Card className="mb-16 border border-secondary">
-                                        <CardContent className="p-8">
-                                            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                                                <div>
-                                                    <h3 className="text-2xl font-bold mb-2">Share this article</h3>
-                                                    <p className="text-muted-foreground">
-                                                        Help others discover this insightful content
+                                            {displayExcerpt && (
+                                                <div className="p-4 bg-secondary-light rounded-2xl border border-primary mb-12">
+                                                    <p className="text-xl font-medium text-foreground leading-relaxed">
+                                                        {displayExcerpt}
                                                     </p>
                                                 </div>
-                                                <div className="flex flex-wrap gap-3">
-                                                    <Button
-                                                        variant="outline"
-                                                        onClick={() => handleShare('twitter')}
-                                                        className="gap-2 rounded-xl hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500"
-                                                    >
-                                                        <Twitter className="w-5 h-5" />
-                                                        Twitter
-                                                    </Button>
-                                                    <Button
-                                                        variant="outline"
-                                                        onClick={() => handleShare('linkedin')}
-                                                        className="gap-2 rounded-xl hover:bg-blue-700/10 hover:text-blue-700 hover:border-blue-700"
-                                                    >
-                                                        <Linkedin className="w-5 h-5" />
-                                                        LinkedIn
-                                                    </Button>
-                                                    <Button
-                                                        variant="outline"
-                                                        onClick={() => handleShare('facebook')}
-                                                        className="gap-2 rounded-xl hover:bg-blue-600/10 hover:text-blue-600 hover:border-blue-600"
-                                                    >
-                                                        <Facebook className="w-5 h-5" />
-                                                        Facebook
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
+                                            )}
 
-                                    {initialRelatedPosts.length > 0 && (
-                                        <div className="mb-16">
-                                            <div className="flex items-center justify-between mb-8">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="p-2 bg-primary">
-                                                        <Sparkles className="w-6 h-6 text-white" />
+                                            <div className="html-content">
+                                                {renderHTMLContent(initialPost.content)}
+                                            </div>
+
+                                            {postTags.length > 0 && (
+                                                <div className="flex flex-wrap gap-3 mt-12 pt-8 border-t border-secondary">
+                                                    <div className="flex items-center gap-2 w-full mb-4">
+                                                        <Tag className="w-5 h-5 text-muted-foreground" />
+                                                        <span className="font-medium">Tags:</span>
                                                     </div>
-                                                    <h2 className="text-3xl font-bold">Related Articles</h2>
+                                                    {postTags.map((tag: string, index: number) => (
+                                                        <Badge
+                                                            key={index}
+                                                            variant="secondary"
+                                                            className="gap-2 px-4 py-2 hover:bg-purple-500/20 cursor-pointer transition-colors"
+                                                        >
+                                                            #{tag}
+                                                        </Badge>
+                                                    ))}
                                                 </div>
-                                                <Link href="/articles">
-                                                    <Button variant="ghost" className="gap-2 hover:bg-purple-500/10">
-                                                        View All
-                                                        <ChevronRight className="w-4 h-4" />
-                                                    </Button>
-                                                </Link>
-                                            </div>
+                                            )}
+                                        </article>
 
-                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                                {initialRelatedPosts.map((related) => (
-                                                    <Link href={`/articles/${related.slug}`} key={related.id}>
-                                                        <Card className="group hover:shadow-2xl transition-all duration-300 h-full border hover:border-purple-500/50">
-                                                            <CardContent className="p-6">
-                                                                <Badge
-                                                                    variant="secondary"
-                                                                    className="mb-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20"
-                                                                >
-                                                                    {related.category}
-                                                                </Badge>
-                                                                <h4 className="font-bold mb-3 line-clamp-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600 group-hover:bg-clip-text transition-all duration-300">
-                                                                    {related.title}
-                                                                </h4>
-                                                                <p className="text-muted-foreground mb-4 line-clamp-3">
-                                                                    {related.excerpt}
-                                                                </p>
-                                                                <div className="flex items-center justify-between text-sm text-muted-foreground">
-                                                                    <div className="flex items-center gap-2">
-                                                                        <Clock className="w-3 h-3" />
-                                                                        {calculateReadTime(related.excerpt)}
-                                                                    </div>
-                                                                    <Button
-                                                                        size="sm"
-                                                                        className="gap-2 hover:text-primary"
-                                                                    >
-                                                                        Read
-                                                                        <ArrowRight className="w-3 h-3" />
-                                                                    </Button>
-                                                                </div>
-                                                            </CardContent>
-                                                        </Card>
+                                        <Card className="mb-16 border border-secondary">
+                                            <CardContent className="p-8">
+                                                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                                                    <div>
+                                                        <h3 className="text-2xl font-bold mb-2">Share this article</h3>
+                                                        <p className="text-muted-foreground">
+                                                            Help others discover this insightful content
+                                                        </p>
+                                                    </div>
+                                                    <div className="flex flex-wrap gap-3">
+                                                        <Button
+                                                            variant="outline"
+                                                            onClick={() => handleShare('twitter')}
+                                                            className="gap-2 rounded-xl hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500"
+                                                        >
+                                                            <Twitter className="w-5 h-5" />
+                                                            Twitter
+                                                        </Button>
+                                                        <Button
+                                                            variant="outline"
+                                                            onClick={() => handleShare('linkedin')}
+                                                            className="gap-2 rounded-xl hover:bg-blue-700/10 hover:text-blue-700 hover:border-blue-700"
+                                                        >
+                                                            <Linkedin className="w-5 h-5" />
+                                                            LinkedIn
+                                                        </Button>
+                                                        <Button
+                                                            variant="outline"
+                                                            onClick={() => handleShare('facebook')}
+                                                            className="gap-2 rounded-xl hover:bg-blue-600/10 hover:text-blue-600 hover:border-blue-600"
+                                                        >
+                                                            <Facebook className="w-5 h-5" />
+                                                            Facebook
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+
+                                        {initialRelatedPosts.length > 0 && (
+                                            <div className="mb-16">
+                                                <div className="flex items-center justify-between mb-8">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="p-2 bg-primary">
+                                                            <Sparkles className="w-6 h-6 text-white" />
+                                                        </div>
+                                                        <h2 className="text-3xl font-bold">Related Articles</h2>
+                                                    </div>
+                                                    <Link href="/articles">
+                                                        <Button variant="ghost" className="gap-2 hover:bg-purple-500/10">
+                                                            View All
+                                                            <ChevronRight className="w-4 h-4" />
+                                                        </Button>
                                                     </Link>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
+                                                </div>
 
-                                    <div className="text-center mt-12">
-                                        <Link href="/articles">
-                                            <Button
-                                                variant="outline"
-                                                className="gap-3 px-8 py-6 rounded-xl bg-primary text-white transition-all duration-300"
-                                            >
-                                                <ArrowLeft className="w-5 h-5" />
-                                                Back to All Articles
-                                            </Button>
-                                        </Link>
+                                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                                    {initialRelatedPosts.map((related) => (
+                                                        <Link href={`/articles/${related.slug}`} key={related.id}>
+                                                            <Card className="group hover:shadow-2xl transition-all duration-300 h-full border hover:border-purple-500/50">
+                                                                <CardContent className="p-6">
+                                                                    <Badge
+                                                                        variant="secondary"
+                                                                        className="mb-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20"
+                                                                    >
+                                                                        {related.category}
+                                                                    </Badge>
+                                                                    <h4 className="font-bold mb-3 line-clamp-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600 group-hover:bg-clip-text transition-all duration-300">
+                                                                        {related.title}
+                                                                    </h4>
+                                                                    <p className="text-muted-foreground mb-4 line-clamp-3">
+                                                                        {related.excerpt}
+                                                                    </p>
+                                                                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                                                                        <div className="flex items-center gap-2">
+                                                                            <Clock className="w-3 h-3" />
+                                                                            {calculateReadTime(related.excerpt)}
+                                                                        </div>
+                                                                        <Button
+                                                                            size="sm"
+                                                                            className="gap-2 hover:text-primary"
+                                                                        >
+                                                                            Read
+                                                                            <ArrowRight className="w-3 h-3" />
+                                                                        </Button>
+                                                                    </div>
+                                                                </CardContent>
+                                                            </Card>
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        <div className="text-center mt-12">
+                                            <Link href="/articles">
+                                                <Button
+                                                    variant="outline"
+                                                    className="gap-3 px-8 py-6 rounded-xl bg-primary text-white transition-all duration-300"
+                                                >
+                                                    <ArrowLeft className="w-5 h-5" />
+                                                    Back to All Articles
+                                                </Button>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </Layout>
         </>
     )

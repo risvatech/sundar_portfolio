@@ -120,7 +120,7 @@ export const SEO_CONFIG: Record<string, PageMetadata> = {
         ogTitle: 'Tech Blog – Risva Technologies',
         ogDescription: 'Insights on AI, web and mobile development.',
         ogImage: 'https://www.risva.app/favicon.ico',
-        ogUrl: 'https://www.risva.app/articles',
+        ogUrl: 'https://www.risva.app/blog',
         ogType: 'blog',
         twitterCard: 'summary_large_image',
         twitterTitle: 'Tech Blog – Risva Technologies',

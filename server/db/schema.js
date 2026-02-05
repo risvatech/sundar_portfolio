@@ -58,22 +58,6 @@ export const activities = pgTable("activities", {
     createdBy: integer("created_by").notNull().references(() => users.id),
 });
 
-export const contactMessages = pgTable("contact_messages", {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 255 }).notNull(),
-    email: varchar("email", { length: 255 }).notNull(),
-    phone: varchar("phone", { length: 20 }),
-    company_name: varchar("company_name", { length: 255 }), // Added company_name
-    message: text("message").notNull(),
-
-    // Add status field
-    status: varchar("status", { length: 20 }).default("unread").notNull(),
-
-    // Timestamps
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
-
 export const categories = pgTable("categories", {
     id: serial("id").primaryKey(),
     name: varchar("name", { length: 100 }).notNull(),
@@ -102,51 +86,6 @@ export const posts = pgTable("posts", {
     categoryId: integer("category_id").references(() => categories.id),
 });
 
-export const products = pgTable("products", {
-    id: serial("id").primaryKey(),
-    title: varchar("title", { length: 255 }).notNull(),
-    slug: varchar("slug", { length: 255 }).notNull().unique(),
-    excerpt: text("excerpt"),
-    content: text("content").notNull(),
-    status: varchar("status", { length: 20 }).default("draft"),
-    createdAt: timestamp("created_at").defaultNow(),
-    updatedAt: timestamp("updated_at").defaultNow(),
-    coverImage: text("cover_image"),
-    images: jsonb("images").default([]),
-    description: text("description"),
-    tags: varchar("tags", { length: 255 }),
-    metaTitle: varchar("meta_title", { length: 255 }),
-    metaKeywords: text("meta_keywords"),
-    metaDescription: text("meta_description"),
-    categoryId: integer("category_id").references(() => productcategories.id),
-});
-
-export const productcategories = pgTable("productcategories", {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 100 }).notNull(),
-});
-
-
-export const projectInquiries = pgTable("project_inquiries", {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 100 }).notNull(),
-    email: varchar("email", { length: 255 }).notNull(),
-    company: varchar("company", { length: 100 }),
-    phone: varchar("phone", { length: 20 }),
-    description: text("description").notNull(),
-
-    // Project details
-    projectType: varchar("project_type", { length: 50 }).notNull(),
-    selectedFeatures: jsonb("selected_features").default([]), // Changed from json() to jsonb()
-    budgetRange: varchar("budget_range", { length: 50 }).notNull(),
-    timeline: varchar("timeline", { length: 50 }).notNull(),
-
-    // Metadata
-    status: varchar("status", { length: 20 }).default("new").notNull(),
-    createdAt: timestamp("created_at").defaultNow(),
-    updatedAt: timestamp("updated_at").defaultNow(),
-});
-
 export const quotes = pgTable('quotes', {
     id: serial('id').primaryKey(),
     name: varchar('name', { length: 255 }).notNull(),
@@ -173,7 +112,6 @@ export const quotes = pgTable('quotes', {
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
-
 
 // Consultation Request Table
 export const consultationRequests = pgTable('consultation_requests', {
@@ -224,7 +162,31 @@ export const consultationRequests = pgTable('consultation_requests', {
     updatedAt: timestamp('updated_at').defaultNow(),
 });
 
+// Gallery Category Table
+export const galleryCategories = pgTable('gallery_categories', {
+    id: serial('id').primaryKey(),
+    name: varchar('name', { length: 255 }).notNull().unique(),
+    description: text('description'),
+    isActive: boolean('is_active').default(true),
+    createdAt: timestamp('created_at').defaultNow(),
+    updatedAt: timestamp('updated_at').defaultNow(),
+});
 
+// Gallery Items Table (for multiple images)
+export const galleryItems = pgTable('gallery_items', {
+    id: serial('id').primaryKey(),
+    title: varchar('title', { length: 255 }).notNull(),
+    description: text('description'),
+    thumbnailUrl: varchar('thumbnail_url', { length: 500 }),
+    imageUrls: text('image_urls'), // Store as JSON string
+    categoryId: integer('category_id').references(() => galleryCategories.id, {
+        onDelete: 'SET NULL'
+    }),
+    isActive: boolean('is_active').default(true),
+    sortOrder: integer('sort_order').default(0),
+    createdAt: timestamp('created_at').defaultNow(),
+    updatedAt: timestamp('updated_at').defaultNow(),
+});
 
 
 // ===========================
@@ -261,3 +223,4 @@ export const activitiesRelations = relations(activities, ({ one }) => ({
         references: [users.id],
     }),
 }));
+

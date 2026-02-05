@@ -18,7 +18,7 @@ import {
     Box
 } from "lucide-react";
 import Image from "next/image"
-import Logo from "@/public/assets/risva.png";
+import Logo from "@/.next/standalone/public/assets/risva.png";
 
 interface SubMenuItem {
     name: string;
@@ -60,15 +60,15 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
     const navigationItems: NavigationItem[] = [
         { name: "Booking Enquiry", href: "/cms/bookings", icon: Mail, module: "project-enquiry" },
-        // { name: "Enquiry", href: "/cms/enquiry", icon: Mail, module: "enquiry" },
+        { name: "Events", href: "/cms/events", icon: Mail, module: "gallery" },
         {
             name: "Article",
             href: "#", // Added required href property
             icon: File,
             module: "Article",
             submenu: [
-                { name: "Article List", href: "/cms/articles", icon: File, module: "Blog" },
-                { name: "Category", href: "/cms/articles/category", icon: Shield, module: "Category" },
+                { name: "Article List", href: "/cms/blog", icon: File, module: "Blog" },
+                { name: "Category", href: "/cms/blog/category", icon: Shield, module: "Category" },
             ],
         }
     ];

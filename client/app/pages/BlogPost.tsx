@@ -31,7 +31,7 @@ const BlogPost = ({ params }: BlogPostProps) => {
                         <p className="text-muted-foreground mb-8">
                             The blog post you&apos;re looking for doesn&apos;t exist.
                         </p>
-                        <Button variant="hero" onClick={() => router.push("/articles")}>
+                        <Button variant="hero" onClick={() => router.push("/blog")}>
                             <ArrowLeft className="mr-2" size={16} />
                             Back to Blog
                         </Button>
@@ -54,7 +54,7 @@ const BlogPost = ({ params }: BlogPostProps) => {
                     <Button
                         variant="ghost"
                         className="mb-6 -ml-2"
-                        onClick={() => router.push("/articles")}
+                        onClick={() => router.push("/blog")}
                     >
                         <ArrowLeft className="mr-2" size={16} />
                         Back to Blog
@@ -196,7 +196,7 @@ const BlogPost = ({ params }: BlogPostProps) => {
                                             {relatedPosts.map((relatedPost) => (
                                                 <Link
                                                     key={relatedPost.id}
-                                                    href={`/articles/${relatedPost.slug}`}
+                                                    href={`/blog/${relatedPost.slug}`}
                                                     className="block group"
                                                 >
                                                     <Card variant="default" className="hover:-translate-y-0.5 transition-all duration-300">

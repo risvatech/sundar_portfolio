@@ -33,7 +33,7 @@ const NotFound = () => {
                     <div className="text-sm text-muted-foreground">
                         <p>Looking for something specific?</p>
                         <div className="mt-2 space-x-4">
-                            <Link href="/articles" className="hover:text-primary transition-colors">Blog</Link>
+                            <Link href="/blog" className="hover:text-primary transition-colors">Blog</Link>
                             <Link href="/services" className="hover:text-primary transition-colors">Services</Link>
                             <Link href="/contact" className="hover:text-primary transition-colors">Contact</Link>
                         </div>

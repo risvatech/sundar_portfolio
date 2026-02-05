@@ -174,7 +174,7 @@ const BookConsultationForm = forwardRef<FormResetRef, BookConsultationFormProps>
                                 <label className="text-sm font-medium mb-1 block">First Name *</label>
                                 <Input
                                     {...register("firstName")}
-                                    placeholder="John"
+                                    placeholder=" "
                                     className={errors.firstName ? "border-destructive" : ""}
                                     disabled={isSubmitting}
                                 />
@@ -186,7 +186,7 @@ const BookConsultationForm = forwardRef<FormResetRef, BookConsultationFormProps>
                                 <label className="text-sm font-medium mb-1 block">Last Name *</label>
                                 <Input
                                     {...register("lastName")}
-                                    placeholder="Doe"
+                                    placeholder=" "
                                     className={errors.lastName ? "border-destructive" : ""}
                                     disabled={isSubmitting}
                                 />
@@ -215,7 +215,7 @@ const BookConsultationForm = forwardRef<FormResetRef, BookConsultationFormProps>
                                 <Input
                                     {...register("phone")}
                                     type="tel"
-                                    placeholder="+1 (555) 000-0000"
+                                    placeholder="+91 9487 381 265"
                                     disabled={isSubmitting}
                                 />
                             </div>
@@ -290,7 +290,7 @@ const BookConsultationForm = forwardRef<FormResetRef, BookConsultationFormProps>
                                 <label className="text-sm font-medium mb-1 block">Annual Revenue</label>
                                 <Input
                                     {...register("annualRevenue")}
-                                    placeholder="e.g., $1M - $5M"
+                                    placeholder="e.g., ₹1M - ₹5M"
                                     disabled={isSubmitting}
                                 />
                             </div>
@@ -522,7 +522,7 @@ const BookConsultationForm = forwardRef<FormResetRef, BookConsultationFormProps>
                         <Button
                             type="submit"
                             size="lg"
-                            className="w-full"
+                            className="bg-secondary w-full"
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? (
@@ -531,7 +531,7 @@ const BookConsultationForm = forwardRef<FormResetRef, BookConsultationFormProps>
                                     Submitting...
                                 </>
                             ) : (
-                                "Schedule Your Free Consultation"
+                                "Let’s Talk Strategy"
                             )}
                         </Button>
                         <p className="text-xs text-muted-foreground text-center mt-3">

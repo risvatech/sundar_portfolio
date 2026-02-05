@@ -96,7 +96,7 @@ const Blog = () => {
                                             <p className="text-muted-foreground mb-6 leading-relaxed">
                                                 {post.excerpt}
                                             </p>
-                                            <Link href={`/articles/${post.slug}`}>
+                                            <Link href={`/blog/${post.slug}`}>
                                                 <Button variant="outline" className="self-start">
                                                     Read Article
                                                     <ArrowRight className="ml-2" size={16} />
@@ -151,7 +151,7 @@ const Blog = () => {
                 <div className="container-wide">
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {filteredPosts.map((post) => (
-                            <Link key={post.id} href={`/articles/${post.slug}`}>
+                            <Link key={post.id} href={`/blog/${post.slug}`}>
                                 <Card variant="default" className="group hover:-translate-y-1 h-full transition-all duration-300">
                                     <CardContent className="p-6">
                                         <div className="flex items-center gap-3 mb-4">
@@ -193,31 +193,6 @@ const Blog = () => {
                 </div>
             </section>
 
-            {/* Newsletter */}
-            <section className="section-padding bg-secondary">
-                <div className="container-narrow text-center">
-                    <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-foreground mb-4">
-                        Get Weekly Insights
-                    </h2>
-                    <p className="text-muted-foreground max-w-lg mx-auto mb-8">
-                        Join 5,000+ business leaders who receive my weekly newsletter with actionable
-                        strategies and insights.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                        <input
-                            type="email"
-                            placeholder="Enter your email"
-                            className="flex-1 px-5 py-3 rounded-xl border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                        />
-                        <Button variant="hero" size="lg">
-                            Subscribe
-                        </Button>
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-4">
-                        No spam, ever. Unsubscribe anytime.
-                    </p>
-                </div>
-            </section>
         </Layout>
     );
 };

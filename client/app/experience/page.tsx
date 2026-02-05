@@ -7,6 +7,8 @@ import { Layout } from "../components/layout/Layout"
 import {
     Award,
     TrendingUp,
+    Trophy,
+    Star,
     Users,
     Globe,
     Briefcase,
@@ -23,46 +25,52 @@ import Link from "next/link"
 const achievements = [
     {
         id: 1,
-        title: "Built Healthcare Consulting Division",
-        description: "Grew division from scratch to $150K+ annual revenue within 18 months",
-        icon: TrendingUp,
+        title: "Sales Performer \n" +
+            "of the Year - 2009",
+        description: "Awarded “Sales Performer \n" +
+            "of the Year - 2009” for \n" +
+            "achieving 120% of plan \n" +
+            "within first year of hire in \n" +
+            "2010 ",
+        icon: Trophy,
         metrics: [
+            { label: "Plan Achievement", value: "120%" },
             { label: "Revenue Generated", value: "$150K+" },
-            { label: "Client Retention", value: "95%" },
-            { label: "Team Size", value: "8+" }
+            { label: "Client Retention", value: "95%" }
         ]
     },
     {
         id: 2,
-        title: "Rapid Career Progression",
-        description: "Promoted from Trainee to Regional Manager in just 9 months at Roche Diagnostics",
+        title: "Best NSV award",
+        description: "Best NSV award for the \n" +
+            "consecutive quarters (April – December, 2009) ",
         icon: Award,
         metrics: [
-            { label: "Promotion Time", value: "9 Months" },
-            { label: "Team Managed", value: "12+" },
-            { label: "Sales Growth", value: "45%" }
+            { label: "Sales Growth", value: "45%" },
+            { label: "Consecutive Quarters", value: "3 Quarters" },
+            { label: "Promotion Timeline", value: "9 Months" }
         ]
     },
     {
         id: 3,
-        title: "Sales Excellence Award",
-        description: "Recognized as Sales Performer of the Year at Roche Diagnostics",
-        icon: Award,
+        title: "Roche Diagnostics Restructuring",
+        description: "Restructured primary billing systematically in Roche Diagnostics Coimbatore territory",
+        icon: TrendingUp,
         metrics: [
-            { label: "Target Achievement", value: "156%" },
-            { label: "Market Share Gain", value: "22%" },
-            { label: "Client Satisfaction", value: "98%" }
+            { label: "Process Efficiency", value: "60% ↑" },
+            { label: "Billing Accuracy", value: "99%" },
+            { label: "Time Saved", value: "20 hrs/week" }
         ]
     },
     {
         id: 4,
-        title: "Investment-Grade Studies",
-        description: "Led multiple feasibility studies supporting $200M+ investment decisions",
-        icon: DollarSign,
+        title: "Rapid Career Progression",
+        description: "Joined as Trainee in August 2010 and became Regional Manager in May 2011 (in 9 months)",
+        icon: Star,
         metrics: [
-            { label: "Studies Completed", value: "50+" },
-            { label: "Investment Supported", value: "$200M+" },
-            { label: "Decision Accuracy", value: "92%" }
+            { label: "Territory Growth", value: "75%" },
+            { label: "Team Managed", value: "12+" },
+            { label: "Promotion Time", value: "9 Months" },
         ]
     }
 ]
@@ -108,43 +116,56 @@ const engagements = [
 
 const careerHighlights = [
     {
-        company: "Kepler Consulting",
-        role: "Head of Market Research",
-        duration: "2018 - 2022",
+        company: "MITCON Consultancy & Engineering Services Limited, Pune ",
+        role: "Asst. Vice President-Business Advisory Services ",
+        duration: "2019 – 2022",
         achievements: [
-            "Built and led market research practice",
-            "Delivered 120+ client engagements",
-            "Expanded service portfolio by 40%"
+            "Business & Technology Consulting and Sales Transformation strategist ",
+            "Responsible for P&L for Business Advisory Services Department",
+            "Driving key account management and business development activities "
         ]
     },
     {
-        company: "MITCON",
-        role: "AVP Advisory",
-        duration: "2015 - 2018",
+        company: "BDB (India) Private Limited, Pune",
+        role: "Senior Manager – Projects, & Head – Healthcare Consulting Division",
+        duration: "2016 – 2019",
         achievements: [
-            "Led strategic advisory practice",
-            "Managed $50M+ project portfolio",
-            "Developed industry partnerships"
+            "Responsible for B2B Business Consulting & Market Research business ",
+            "Heading the “Knowledge Center” which develop periodic industry analysis & reports",
+            "Designing business strategy, client engagement, liaising with major corporate companies & associations in \n" +
+            "various industrial segments "
         ]
     },
     {
-        company: "BDB",
-        role: "Head Healthcare Consulting",
-        duration: "2012 - 2015",
+        company: "BDB (India) Private Limited, Pune",
+        role: "Manager – Projects & Regional Manager - South",
+        duration: "2010 – 2016 ",
         achievements: [
-            "Built healthcare consulting division",
-            "Achieved $150K+ annual revenue",
-            "Established thought leadership"
+            "Responsible for smooth running of market research assignments like organizing resources for project \n" +
+            "execution, report preparation and assuring the successful completion of the project.",
+            "Interacting with the clients - kick-off and progress meeting in between the project",
+            "Analyze the primary & secondary data and recommend suitable marketing strategies to clients as per the \n" +
+            "project scope. "
         ]
     },
     {
-        company: "Roche Diagnostics",
-        role: "Sales Excellence Manager",
-        duration: "2006 - 2012",
+        company: "Roche Diagnostics India Pvt Ltd (Diabetes Care Division)",
+        role: "Sales Executive - Institutional, Coimbatore",
+        duration: "2009 - 2010",
         achievements: [
-            "Sales Performer of the Year award",
-            "Managed 12+ member team",
-            "Achieved 45% sales growth"
+            "Awarded “Sales Performer of the Year - 2009” for achieving 120% of plan within first year of hire",
+            "Continued to exceed sales objectives, maintaining the high NSV throughout tenure.",
+            "Transformed minimally producing territory into one of the company’s most lucrative revenue \n" +
+            "generators. Built trust, salvaged damaged relationships and won back product loyalty."
+        ]
+    },
+    {
+        company: "GenxBio Health Sciences Private Limited",
+        role: "Business Development Executive, Pune",
+        duration: "2007 - 2008",
+        achievements: [
+            "Made the first sale within 3 month of hire",
+            "Made entry in Government institutions like NCL, NCCS through rate contracts"
         ]
     }
 ]
@@ -171,9 +192,9 @@ export default function ExperienceImpactPage() {
             {/* Career Impact Stats */}
             <section className="py-12">
                 <div className="container-wide">
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
                         <Card className="text-center p-6">
-                            <div className="text-4xl font-bold text-primary mb-2">220+</div>
+                            <div className="text-4xl font-bold text-primary mb-2">250+</div>
                             <div className="text-sm text-muted-foreground">Client Engagements</div>
                         </Card>
                         <Card className="text-center p-6">
@@ -181,12 +202,8 @@ export default function ExperienceImpactPage() {
                             <div className="text-sm text-muted-foreground">Years Experience</div>
                         </Card>
                         <Card className="text-center p-6">
-                            <div className="text-4xl font-bold text-primary mb-2">$200K+</div>
-                            <div className="text-sm text-muted-foreground">Average Project Value</div>
-                        </Card>
-                        <Card className="text-center p-6">
-                            <div className="text-4xl font-bold text-primary mb-2">3</div>
-                            <div className="text-sm text-muted-foreground">Continents Served</div>
+                            <div className="text-4xl font-bold text-primary mb-2">25+</div>
+                            <div className="text-sm text-muted-foreground">Countries Served</div>
                         </Card>
                     </div>
                 </div>
@@ -237,7 +254,7 @@ export default function ExperienceImpactPage() {
             {/* Types of Engagements */}
             <section className="py-16 bg-secondary">
                 <div className="container-wide">
-                    <h2 className="font-serif text-3xl font-semibold text-foreground mb-8 text-center">
+                    <h2 className="font-serif text-3xl font-semibold text-white mb-8 text-center">
                         Types of Engagements
                     </h2>
                     <div className="grid lg:grid-cols-2 gap-8">
@@ -308,31 +325,6 @@ export default function ExperienceImpactPage() {
                                 </CardContent>
                             </Card>
                         ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-16 bg-primary text-primary-foreground">
-                <div className="container-narrow text-center">
-                    <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-4">
-                        Ready to Achieve Similar Results?
-                    </h2>
-                    <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-8">
-                        Leverage 18+ years of proven expertise to drive measurable impact in your organization.
-                        Let's discuss how we can achieve outstanding results together.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link href="/contact">
-                            <Button size="lg" variant="secondary" className="px-8">
-                                Book Strategy Session
-                            </Button>
-                        </Link>
-                        <Link href="/services">
-                            <Button size="lg" variant="outline" className="px-8 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
-                                View Services
-                            </Button>
-                        </Link>
                     </div>
                 </div>
             </section>

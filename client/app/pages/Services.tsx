@@ -59,10 +59,7 @@ const Services = () => {
                         Every business is unique. I offer a range of consulting services designed to
                         meet you where you are and take you where you want to be.
                     </p>
-                    <Button variant="hero" size="xl">
-                       <Link href="/book"> Book a Free Consultation</Link>
-                        <ArrowRight className="ml-2" size={20} />
-                    </Button>
+
                 </div>
             </section>
 
@@ -108,78 +105,6 @@ const Services = () => {
                     </div>
                 </div>
             </section>
-
-            {/* Case Studies */}
-            {/*<section className="section-padding bg-secondary">*/}
-            {/*    <div className="container-wide">*/}
-            {/*        <div className="text-center mb-16">*/}
-            {/*/!*<span className="inline-block px-4 py-1.5 rounded-full bg-accent-light text-accent-foreground text-sm font-medium mb-4">*!/*/}
-            {/*/!*  Results*!/*/}
-            {/*/!*</span>*!/*/}
-            {/*            <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-foreground mb-4">*/}
-            {/*                Case Studies*/}
-            {/*            </h2>*/}
-            {/*            <p className="text-muted-foreground max-w-2xl mx-auto">*/}
-            {/*                Here&apos;s a glimpse of the impact we&apos;ve achieved together with some of my clients.*/}
-            {/*            </p>*/}
-            {/*        </div>*/}
-
-            {/*        /!*<div className="grid md:grid-cols-3 gap-8">*!/*/}
-            {/*        /!*    {caseStudies.map((study, index) => (*!/*/}
-            {/*        /!*        <Card key={index} variant="elevated" className="overflow-hidden transition-all duration-300 hover:shadow-medium">*!/*/}
-            {/*        /!*            <CardContent className="p-8">*!/*/}
-            {/*        /!*                <div className="inline-block px-3 py-1 rounded-lg bg-primary-light text-primary text-xs font-medium mb-4">*!/*/}
-            {/*        /!*                    {study.industry}*!/*/}
-            {/*        /!*                </div>*!/*/}
-            {/*        /!*                <h3 className="font-serif text-xl font-semibold text-foreground mb-6">*!/*/}
-            {/*        /!*                    {study.company}*!/*/}
-            {/*        /!*                </h3>*!/*/}
-            {/*        /!*                <div className="flex items-center gap-4 mb-2">*!/*/}
-            {/*        /!*                    <div className="flex-1">*!/*/}
-            {/*        /!*                        <div className="text-sm text-muted-foreground mb-1">Before</div>*!/*/}
-            {/*        /!*                        <div className="text-lg font-semibold text-foreground">{study.before}</div>*!/*/}
-            {/*        /!*                    </div>*!/*/}
-            {/*        /!*                    <ArrowRight className="text-primary flex-shrink-0" />*!/*/}
-            {/*        /!*                    <div className="flex-1">*!/*/}
-            {/*        /!*                        <div className="text-sm text-muted-foreground mb-1">After</div>*!/*/}
-            {/*        /!*                        <div className="text-lg font-semibold text-primary">{study.after}</div>*!/*/}
-            {/*        /!*                    </div>*!/*/}
-            {/*        /!*                </div>*!/*/}
-            {/*        /!*                <div className="text-sm text-muted-foreground mt-4 pt-4 border-t">*!/*/}
-            {/*        /!*                    Achieved in {study.timeframe}*!/*/}
-            {/*        /!*                </div>*!/*/}
-            {/*        /!*            </CardContent>*!/*/}
-            {/*        /!*        </Card>*!/*/}
-            {/*        /!*    ))}*!/*/}
-            {/*        /!*</div>*!/*/}
-            {/*    </div>*/}
-            {/*</section>*/}
-
-            <section className="py-16 bg-primary text-primary-foreground">
-                <div className="container-narrow text-center">
-                    <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-4">
-                        Ready to Achieve Similar Results?
-                    </h2>
-                    <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-8">
-                        Leverage 18+ years of proven expertise to drive measurable impact in your organization.
-                        Let's discuss how we can achieve outstanding results together.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link href="/contact">
-                            <Button size="lg" variant="secondary" className="px-8">
-                                Book Strategy Session
-                            </Button>
-                        </Link>
-                        <Link href="/services">
-                            <Button size="lg" variant="outline" className="px-8 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
-                                View Services
-                            </Button>
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
-
         </Layout>
     );
 };

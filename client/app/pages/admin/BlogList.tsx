@@ -183,7 +183,7 @@ export default function BlogList({ onEditPost, refreshTrigger }: BlogListProps) 
                                                     </span>
                                                     <button
                                                         onClick={() => {
-                                                            window.open(`/articles/${post.slug}`, '_blank');
+                                                            window.open(`/blog/${post.slug}`, '_blank');
                                                         }}
                                                         className="p-1 hover:bg-gray-100 rounded"
                                                         title="Preview"
@@ -220,7 +220,7 @@ export default function BlogList({ onEditPost, refreshTrigger }: BlogListProps) 
                                                 )}
                                             </div>
 
-                                            <div className="text-xs text-gray-400 font-mono">/articles/{post.slug}</div>
+                                            <div className="text-xs text-gray-400 font-mono">/blog/{post.slug}</div>
                                         </div>
 
                                         <div className="flex gap-2 lg:flex-col">

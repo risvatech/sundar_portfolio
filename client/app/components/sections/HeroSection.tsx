@@ -3,7 +3,7 @@
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import img from "../../../public/sundara-moorthy.jpg"
+import img from "../../../public/sundara-moorthy2.jpeg"
 import Link from "next/link";
 
 export function HeroSection() {
@@ -27,7 +27,7 @@ export function HeroSection() {
                     <div className="order-2 lg:order-1 text-center lg:text-left">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 animate-fade-in">
                             <span className="w-2 h-2 rounded-full bg-primary animate-pulse-soft" />
-                            15+ Years of Business Excellence
+                            18+ Years of Business Excellence
                         </div>
 
                         <h1
@@ -43,7 +43,7 @@ export function HeroSection() {
                             style={{ animationDelay: "0.2s" }}
                         >
 
-                            As a Business Consultant & Market Strategy Leader, I support organizations in identifying growth opportunities, improving competitiveness, and making strategic investment decisions. Over 18 years, I’ve led 220+ assignments across multiple geographies, helping global enterprises answer their most critical questions:
+                            As a Business Consultant & Market Strategy Leader, I support organizations in identifying growth opportunities, improving competitiveness, and making strategic investment decisions. Over 18 years, I’ve led 250+ assignments across multiple geographies, helping global enterprises answer their most critical questions:
                         </p>
                             <div className="strategy-section">
                                 <ol className="dot-list text-muted-foreground">
@@ -62,34 +62,9 @@ export function HeroSection() {
                             className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in"
                             style={{ animationDelay: "0.3s" }}
                         >
-                            <Button variant="hero" size="xl">
-                                Schedule Your Free Call
-                                <ArrowRight className="ml-2" size={20} />
-                            </Button>
-                            <Button variant="hero-outline" size="xl">
+                            <Button variant="secondary" size="sm">
                                <Link href="/services">View My Services</Link>
                             </Button>
-                        </div>
-
-                        {/* Trust Indicators */}
-                        <div
-                            className="mt-12 flex flex-col sm:flex-row items-center gap-6 lg:gap-8 justify-center lg:justify-start animate-fade-in"
-                            style={{ animationDelay: "0.4s" }}
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="text-3xl font-serif font-bold text-primary">18+</div>
-                                <div className="text-sm text-muted-foreground leading-tight">years</div>
-                            </div>
-                            <div className="w-px h-10 bg-border hidden sm:block" />
-                            <div className="flex items-center gap-3">
-                                <div className="text-3xl font-serif font-bold text-primary">220+</div>
-                                <div className="text-sm text-muted-foreground leading-tight">Assignments</div>
-                            </div>
-                            <div className="w-px h-10 bg-border hidden sm:block" />
-                            <div className="flex items-center gap-3">
-                                <div className="text-3xl font-serif font-bold text-primary">$200K+</div>
-                                <div className="text-sm text-muted-foreground leading-tight">Annual Project Value</div>
-                            </div>
                         </div>
                     </div>
 
@@ -103,7 +78,7 @@ export function HeroSection() {
                             <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary/20 to-accent/20 blur-xl" />
 
                             {/* Image container */}
-                            <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden shadow-medium">
+                            <div className="relative w-80 sm:w-[420px] lg:w-[520px] aspect-[16/9] rounded-3xl overflow-hidden shadow-medium">
                                 <Image
                                     src={img}
                                     alt="Sundar - Business Consultant"
@@ -112,19 +87,6 @@ export function HeroSection() {
                                     sizes="(max-width: 768px) 288px, (max-width: 1024px) 320px, 384px"
                                     priority
                                 />
-                            </div>
-
-                            {/* Floating card */}
-                            <div className="absolute -bottom-6 -left-6 bg-card rounded-2xl shadow-medium p-4 animate-float">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 rounded-xl bg-primary-light flex items-center justify-center">
-                                        <span className="text-2xl">✨</span>
-                                    </div>
-                                    <div>
-                                        <div className="font-serif font-semibold text-foreground">Top Consultant</div>
-                                        <div className="text-sm text-muted-foreground">Forbes 2024</div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

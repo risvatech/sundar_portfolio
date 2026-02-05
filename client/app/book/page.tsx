@@ -5,7 +5,7 @@ import { Button } from "../components/ui/button";
 import { ArrowRight, Calendar, Clock, CheckCircle2, Users, Star, Target, Phone, Mail } from "lucide-react";
 import BookConsultationForm from "../pages/BookConsultationForm";
 import Link from "next/link";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useToast } from "../components/ui/use-toast"; // Import your toast hook
 import api from "../service/api";
 
@@ -181,12 +181,11 @@ export default function BookConsultationPage() {
                             Free Consultation
                         </span>
                         <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-foreground mb-6">
-                            Let&apos;s Transform Your{" "}
-                            <span className="text-primary">Business Together</span>
+                            Let’s Have a Strategic Conversation
+                            {/*<span className="text-primary">Business Together</span>*/}
                         </h1>
                         <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-                            Book your free 30-minute strategy session. We&apos;ll discuss your challenges,
-                            explore opportunities, and create a clear path forward.
+                            If you’re evaluating growth opportunities, entering a new market, or trying to solve a complex business challenge—and want clarity before committing time or capital—I’d be happy to help
                         </p>
                     </div>
 
@@ -217,7 +216,7 @@ export default function BookConsultationPage() {
                                 <Users className="w-5 h-5 text-primary" />
                             </div>
                             <div className="text-left">
-                                <div className="font-semibold text-foreground">200+ Businesses</div>
+                                <div className="font-semibold text-foreground">250+ Businesses</div>
                                 <div className="text-sm text-muted-foreground">Successfully Helped</div>
                             </div>
                         </div>
@@ -292,7 +291,7 @@ export default function BookConsultationPage() {
                                     <div className="space-y-4">
                                         <div className="flex items-start gap-3">
                                             <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                                                <span className="text-primary font-semibold text-sm">15+</span>
+                                                <span className="text-primary font-semibold text-sm">18+</span>
                                             </div>
                                             <div>
                                                 <div className="font-medium text-foreground">Years Experience</div>
@@ -331,51 +330,34 @@ export default function BookConsultationPage() {
                                     <div className="space-y-3">
                                         <div className="flex items-center gap-2">
                                             <Mail className="w-4 h-4" />
-                                            <span className="text-sm">hello@sundarconsulting.com</span>
+                                            <span className="text-sm"> <a
+                                                href="mailto:sundaramoorthy.s15@gmail.com"
+                                                className="text-lg hover:text-amber-400 transition-colors"
+                                            >
+                                        sundaramoorthy.s15@gmail.com
+                                    </a> </span>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <Phone className="w-4 h-4" />
-                                            <span className="text-sm">+1 (555) 123-4567</span>
+                                            <a
+                                                href="tel:+917020166785"
+                                                className="text-sm hover:underline"
+                                            >
+                                                +91-7020166785
+                                            </a>
                                         </div>
                                     </div>
+
                                     <Button
                                         variant="secondary"
                                         className="w-full mt-6"
                                         asChild
                                     >
-                                        <Link href="/contact">
-                                            Contact Us Directly
-                                            <ArrowRight className="ml-2" size={16} />
-                                        </Link>
+                                        <Link href="/services">View My Services</Link>
                                     </Button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="section-padding bg-secondary">
-                <div className="container-narrow text-center">
-                    <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-foreground mb-6">
-                        Not Ready to Book Yet?
-                    </h2>
-                    <p className="text-muted-foreground max-w-xl mx-auto mb-8">
-                        Explore our services first to understand how we can help your specific business needs.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Button variant="hero" size="xl" asChild>
-                            <Link href="/services">
-                                View Our Services
-                                <ArrowRight className="ml-2" size={20} />
-                            </Link>
-                        </Button>
-                        <Button variant="hero-outline" size="xl" asChild>
-                            <Link href="/articles">
-                                Read Our Insights
-                            </Link>
-                        </Button>
                     </div>
                 </div>
             </section>

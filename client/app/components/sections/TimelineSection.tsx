@@ -1,37 +1,86 @@
 "use client";
+import { ExternalLink } from 'lucide-react';
+
 
 interface TimelineItem {
     year: string;
     title: string;
     description: string;
+    link?:string;
 }
 
 const timelineItems: TimelineItem[] = [
     {
-        year: "2009",
-        title: "Started My Journey",
-        description: "Began consulting for small businesses while completing my MBA at Harvard Business School.",
+        year: "Dec 2022 – till date ",
+        title: "Head- Market Research \n" +
+            "Kepler Consulting, Chennai ",
+        description: "Responsible for smooth running of independent market research & \n" +
+            "sourcing assignments  \n" +
+            "Cross functional collaboration with Innovation, Operations and Sourcing & \n" +
+            "Procurement consulting teams for their internal market research \n" +
+            "requirements ",
+        link: "https://www.kepler-consulting.com/",
     },
     {
-        year: "2012",
-        title: "Founded Mitchell Consulting",
-        description: "Launched my independent practice, focusing on startup growth and digital transformation.",
+        year: "Jul 2019 – Dec 2022 ",
+        title: " Asst Vice President-Business Advisory Services \n" +
+            "MITCON Consultancy & Engineering Services \n" +
+            "Limited",
+        description: "Business & Technology Consulting and Sales Transformation strategist \n" +
+            "Responsible for P&L for Business Advisory Services Department \n" +
+            "Driving key account management and business development activities ",
     },
     {
-        year: "2016",
-        title: "Expanded Globally",
-        description: "Grew the practice to serve clients across North America, Europe, and Asia-Pacific.",
+        year: "April 2013 – Jun 2019",
+        title: " Senior Manager – Projects & Head- Healthcare \n" +
+            "Consulting Division, BDB India Private Limited ",
+        description: "Responsible for B2B Business Consulting & Market Research Division \n" +
+            "Heading the “Knowledge Center” which develop periodic industry analysis \n" +
+            "& reports ",
     },
     {
-        year: "2020",
-        title: "Published 'Growth Mindset'",
-        description: "Authored my bestselling book on sustainable business growth strategies.",
+        year: "Aug 2010 - March 2013",
+        title: "Regional Manager – South, BDB India \n" +
+            "Private Limited",
+        description: "Responsible for P&L for South – Tamilnadu, Karnataka, Andhra & Kerala \n + Driving key account management and business development activities ",
     },
     {
-        year: "2024",
-        title: "200+ Businesses Transformed",
-        description: "Reached a milestone of helping over 200 companies achieve their growth goals.",
+        year: "Jan 2009 – Jul 2010",
+        title: "Sales Executive - Institutional, Pune & \n" +
+            "Coimbatore, Roche Diagnostics India Pvt Ltd (Diabetes Care Division) ",
+        description: "Transformed minimally producing territory into one of the company’s most \n" +
+            "lucrative revenue generators. Built trust, salvaged damaged relationships and \n" +
+            "won back product loyalty..",
     },
+    {
+        year: "\n" +
+            "Jul 2007 – Dec 2008",
+        title: "Business Development Executive, Pune \n" +
+            "GenxBio Health Sciences Private Limited '",
+        description: "Recruited to build the presence of the company in Pune territory, with \n" +
+            "responsibility for creating awareness about company among the customers \n" +
+            "through cold calling and aggressive sales meeting.",
+    },
+    {
+        year: "2006-08",
+        title: "Masters in Business Administration",
+        description: "Masters in Business Administration in Indian Institute of Management \n" +
+            "Training, Pune specialized in Marketing.",
+    },
+
+    {
+        year: "2006-07",
+        title: "Post graduate Diploma in Marketing Management",
+        description: "Post graduate Diploma in Marketing Management from University of Pune.",
+    },
+
+    {
+        year: "2003-06",
+        title: "B.Sc. in Industrial Microbiology",
+        description: "B.Sc. in Industrial Microbiology in Thiagarajar College of Arts & \n" +
+            "Science, Madurai.",
+    },
+
 ];
 
 export function TimelineSection() {
@@ -43,7 +92,7 @@ export function TimelineSection() {
             My Journey
           </span>
                     <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-foreground mb-4">
-                        15 Years of Excellence
+                        18+ Years of Excellence
                     </h2>
                     <p className="text-muted-foreground max-w-2xl mx-auto">
                         From corporate strategy to helping entrepreneurs build their dreams, here&apos;s my story.
@@ -76,6 +125,26 @@ export function TimelineSection() {
                                         <p className="text-muted-foreground leading-relaxed">
                                             {item.description}
                                         </p>
+                                        {item.link ? (
+                                            <p className="text-muted-foreground mb-3">
+                                                <a
+                                                    href={item.link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-primary hover:text-primary/80 font-medium hover:underline inline-flex items-center gap-1"
+                                                >
+
+                                                    https://www.kepler-consulting.com
+                                                    <ExternalLink className="w-3.5 h-3.5" />
+                                                </a>
+                                            </p>
+                                        ) : (
+                                            <p className="text-muted-foreground mb-3">
+
+                                            </p>
+                                        )}
+
+
                                     </div>
 
                                     {/* Dot */}
