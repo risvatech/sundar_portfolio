@@ -64,13 +64,12 @@ export const register = async (req, res) => {
 
         res.status(201).json(newUser);
     } catch (err) {
-        console.error("❌ Register error:", err);
         res.status(500).json({ message: "Server error" });
     }
 };
 
 // ✅ LOGIN
-    export async function login(req, res, next) {
+export async function login(req, res, next) {
     try {
         const { username, password } = req.body;
 
@@ -139,7 +138,6 @@ export const logoutUser = (req, res) => {
         res.clearCookie("auth_token");
         res.json({ message: "Logged out successfully" });
     } catch (err) {
-        console.error("❌ Logout error:", err);
         res.status(500).json({ message: "Server error" });
     }
 };
@@ -148,7 +146,7 @@ export const logoutUser = (req, res) => {
 export const userDetails = async (req, res) => {
     try {
         const token = req.cookies.auth_token;
-        if (!token) return res.status(401).json({ message: "Not authenticated" });
+        if (!token) return res.json(null);
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -161,10 +159,9 @@ export const userDetails = async (req, res) => {
         const user = result.rows[0];
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        res.json(user);   // ✅ plain user object
+        res.json(user);
     } catch (err) {
-        console.error("❌ User details error:", err);
-        res.status(401).json({ message: "Invalid or expired token" });
+        res.json(null);
     }
 };
 
@@ -190,14 +187,28 @@ export const changePassword = async (req, res) => {
 
         res.json({ message: "Password updated successfully" });
     } catch (err) {
-        console.error("❌ Change password error:", err);
         res.status(500).json({ message: "Server error" });
     }
 };
 
-// ✅ ADMIN: GET ALL USERS
+// ✅ ADMIN: GET ALL USERS (WITH TOKEN CHECK - NO CONSOLE LOG)
 export const getAllUsers = async (req, res) => {
     try {
+        // Check for token in cookies or Authorization header
+        const token = req.cookies.auth_token || req.headers.authorization?.split(' ')[1];
+
+        if (!token) {
+            return res.json(null);
+        }
+
+        // Verify the token silently (no console.log on error)
+        try {
+            jwt.verify(token, process.env.JWT_SECRET);
+        } catch {
+            return res.json(null);
+        }
+
+        // If token is valid, proceed to get users
         const result = await db
             .select({
                 id: users.id,
@@ -212,14 +223,27 @@ export const getAllUsers = async (req, res) => {
 
         res.json(result);
     } catch (err) {
-        console.error("❌ Get users error:", err);
         res.status(500).json({ message: "Server error" });
     }
 };
 
-// ✅ ADMIN: GET SINGLE USER
+// ✅ ADMIN: GET SINGLE USER (WITH TOKEN CHECK - NO CONSOLE LOG)
 export const getUserDetails = async (req, res) => {
     try {
+        // Check for token in cookies or Authorization header
+        const token = req.cookies.auth_token || req.headers.authorization?.split(' ')[1];
+
+        if (!token) {
+            return res.json(null);
+        }
+
+        // Verify the token silently (no console.log on error)
+        try {
+            jwt.verify(token, process.env.JWT_SECRET);
+        } catch {
+            return res.json(null);
+        }
+
         const { id } = req.params;
         const result = await client.query(
             `SELECT id, username, email, first_name, last_name, role_id, status FROM users WHERE id = $1`,
@@ -230,7 +254,6 @@ export const getUserDetails = async (req, res) => {
 
         res.json(result.rows[0]);
     } catch (err) {
-        console.error("❌ Get user error:", err);
         res.status(500).json({ message: "Server error" });
     }
 };

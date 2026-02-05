@@ -7,7 +7,7 @@ import {
     GitBranch,
     CheckCircle2,
     HelpCircle,
-    UserCheck, Brain, BicepsFlexed, ShieldPlus
+    UserCheck, Brain, BicepsFlexed, ShieldPlus, ChartNoAxesCombined
 } from 'lucide-react';
 
 const ExperienceSection = () => {
@@ -124,7 +124,7 @@ const ExperienceSection = () => {
                     {/* Engagement Context Card */}
                     <div className="group flex flex-col rounded-2xl bg-[#2E5C8A] p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
                         <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 transition-all duration-300 group-hover:bg-white/20 group-hover:scale-110">
-                            <Brain className="h-6 w-6 text-white"/>
+                           <ChartNoAxesCombined className="h-6 w-6 text-white"/>
                         </div>
 
                         <p className="mb-3 text-sm font-bold uppercase tracking-wider text-white">

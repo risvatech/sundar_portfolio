@@ -6,7 +6,7 @@ const nextConfig = {
 
     images: {
         unoptimized: true,
-        domains: ['localhost', '127.0.0.1', 'www.risva.app', 'risva.app'],
+        domains: ['localhost', '127.0.0.1', 'www.risva.app', 'sundar.risva.app'],
         remotePatterns: [
             {
                 protocol: 'http',
@@ -27,7 +27,7 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'risva.app',
+                hostname: 'sundar.risva.app',
                 pathname: '/api/uploads/**',
             },
             {

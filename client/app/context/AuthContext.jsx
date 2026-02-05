@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import api from "../service/api";
 import { useApiMutation } from "../hooks/useApiMutation.jsx";
 import toast from "react-hot-toast";
@@ -15,14 +16,15 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
     const [users, setUsers] = useState([]);
-
     const [userPermission, setUserPermission] = useState({});
     const [allowedModules, setAllowedModules] = useState([]);
-
     const [loading, setLoading] = useState(true);
     const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const [showPermissionsModal, setShowPermissionsModal] = useState(false);
+
+    // Get current path
+    const pathname = usePathname();
 
     const modules = [
         "leads",
@@ -68,14 +70,20 @@ export function AuthProvider({ children }) {
     });
 
     // -------------------
-    // Fetch current user
+    // Fetch current user only when in /cms
     // -------------------
     useEffect(() => {
+        // Only fetch if we're in /cms route
+        if (!pathname?.startsWith('/cms')) {
+            setLoading(false);
+            return;
+        }
+
         let isMounted = true;
         setLoading(true);
 
         api
-            .get("/auth/user") // cookie sent automatically
+            .get("/auth/user")
             .then((res) => {
                 if (isMounted) setUser(res.data);
             })
@@ -89,7 +97,7 @@ export function AuthProvider({ children }) {
         return () => {
             isMounted = false;
         };
-    }, []);
+    }, [pathname]); // Add pathname as dependency
 
     // -------------------
     // Mutations
@@ -100,7 +108,8 @@ export function AuthProvider({ children }) {
         successMsg: "Login successful!",
         onSuccessExtra: (data) => {
             setCurrentUser(data);
-            window.location.reload();
+            // Redirect to CMS after login
+            window.location.href = "/cms";
         },
         onErrorExtra: (error) => {
             toast.error(error.response?.data?.message || "Login failed");
@@ -140,6 +149,7 @@ export function AuthProvider({ children }) {
         },
     });
 
+    // Fetch all users only when in CMS
     const getAllUsersMutation = useApiMutation({
         url: "/auth/users",
         method: "get",
@@ -150,8 +160,11 @@ export function AuthProvider({ children }) {
     });
 
     useEffect(() => {
-        getAllUsersMutation.mutate();
-    }, []);
+        // Only fetch users if we're in /cms
+        if (pathname?.startsWith('/cms')) {
+            getAllUsersMutation.mutate();
+        }
+    }, [pathname]);
 
     const createUserMutation = useApiMutation({
         url: "/users/create",
@@ -244,10 +257,11 @@ export function AuthProvider({ children }) {
     });
 
     useEffect(() => {
-        if (user?.id) {
+        // Only fetch permissions if we're in /cms and have a user
+        if (pathname?.startsWith('/cms') && user?.id) {
             getUserPermissionMutation.mutate({ id: user.id });
         }
-    }, [user]);
+    }, [user, pathname]);
 
     const updateUserPermissionMutation = useApiMutation({
         url: (userId) => `/users/permission/${userId}`,
@@ -299,6 +313,7 @@ export function AuthProvider({ children }) {
                 changePwdForm,
                 allowedModules,
                 setAllowedModules,
+                isInCms: pathname?.startsWith('/cms'),
             }}
         >
             {children}
