@@ -63,7 +63,7 @@ export function HeroSection() {
                             style={{ animationDelay: "0.3s" }}
                         >
                             <Button variant="secondary" size="sm">
-                               <Link href="/services">View My Services</Link>
+                               <Link href="/portfolio">View My Portfolio</Link>
                             </Button>
                         </div>
                     </div>

@@ -61,25 +61,25 @@ const timelineItems: TimelineItem[] = [
             "responsibility for creating awareness about company among the customers \n" +
             "through cold calling and aggressive sales meeting.",
     },
-    {
-        year: "2006-08",
-        title: "Masters in Business Administration",
-        description: "Masters in Business Administration in Indian Institute of Management \n" +
-            "Training, Pune specialized in Marketing.",
-    },
+    // {
+    //     year: "2006-08",
+    //     title: "Masters in Business Administration",
+    //     description: "Masters in Business Administration in Indian Institute of Management \n" +
+    //         "Training, Pune specialized in Marketing.",
+    // },
 
-    {
-        year: "2006-07",
-        title: "Post graduate Diploma in Marketing Management",
-        description: "Post graduate Diploma in Marketing Management from University of Pune.",
-    },
+    // {
+    //     year: "2006-07",
+    //     title: "Post graduate Diploma in Marketing Management",
+    //     description: "Post graduate Diploma in Marketing Management from University of Pune.",
+    // },
 
-    {
-        year: "2003-06",
-        title: "B.Sc. in Industrial Microbiology",
-        description: "B.Sc. in Industrial Microbiology in Thiagarajar College of Arts & \n" +
-            "Science, Madurai.",
-    },
+    // {
+    //     year: "2003-06",
+    //     title: "B.Sc. in Industrial Microbiology",
+    //     description: "B.Sc. in Industrial Microbiology in Thiagarajar College of Arts & \n" +
+    //         "Science, Madurai.",
+    // },
 
 ];
 

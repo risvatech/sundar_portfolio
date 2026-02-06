@@ -2,7 +2,8 @@
 import { ReactNode } from "react";
 import "./globals.css";
 import ClientProviders from "./components/ClientProviders";
-import GoogleAnalytics from "./components/GoogleAnalytics"; // Add this import
+import GoogleAnalytics from "./components/GoogleAnalytics";
+import FloatingWhatsApp from "@/app/components/FloatingWhatsApp"; // Add this import
 
 interface RootLayoutProps {
     children: ReactNode;
@@ -72,7 +73,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {/* Add Google Analytics here */}
         <GoogleAnalytics />
 
-        <ClientProviders>{children}</ClientProviders>
+        <ClientProviders>
+            {children}
+            <FloatingWhatsApp />
+        </ClientProviders>
         </body>
         </html>
     );

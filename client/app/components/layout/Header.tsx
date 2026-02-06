@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import {Menu, X} from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
+import Logo from "../../../public/sundar-logo-big.png";
+import Image from "next/image";
 
 interface NavItem {
     name: string;
@@ -15,10 +17,11 @@ interface NavItem {
 const navItems: NavItem[] = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Services", path: "/services" },
-    { name: "Impact", path: "/experience" },
-    { name: "Events", path: "/events" },
-    { name: "Social", path: "/social" },
+    { name: "What I Do", path: "/what-i-do" },
+    { name: "Portfolio", path: "/portfolio" },
+    // { name: "Impact", path: "/experience" },
+    // { name: "Events", path: "/events" },
+    // { name: "Social", path: "/social" },
     { name: "Articles",  path: "/articles" },
 
 ];
@@ -75,14 +78,26 @@ export function Header() {
         >
             <nav className="container-wide flex items-center justify-between">
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                        <span className="text-primary-foreground font-serif font-bold text-lg">S</span>
-                    </div>
-                    <span className="font-serif text-xl font-semibold text-foreground">
-                        Sundar
+                {/*<Link href="/" className="flex items-center gap-2">*/}
+                {/*    <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">*/}
+                {/*        <span className="text-primary-foreground font-serif font-bold text-lg">S</span>*/}
+                {/*    </div>*/}
+
+                {/*</Link>*/}
+                <Link href="/" className="flex items-center gap-2 group">
+                    <Image
+                        src={Logo}
+                        alt="Risva Technologies Logo"
+                        width={50}
+                        height={10}
+                        className={`object-contain transition-all duration-300 group-hover:scale-110`}
+                        priority
+                    />
+                    <span className="font-serif text-md font-semibold text-foreground">
+                        Sundara Moorthy
                     </span>
                 </Link>
+
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center gap-8">
@@ -108,7 +123,7 @@ export function Header() {
                 {/* CTA Button */}
                 <div className="hidden md:block">
                     <Button variant="warm" size="lg" className="text-white">
-                        <Link href="/book">Let’s Talk Strategy</Link>
+                        <Link href="/contact">Let’s Talk Strategy</Link>
                     </Button>
                 </div>
 
@@ -150,7 +165,7 @@ export function Header() {
                         </Link>
                     ))}
                     <Button variant="secondary" size="lg" className="mt-4 w-full text-white">
-                        <Link href="/book">Book a Consultation</Link>
+                        <Link href="/contact">Book a Consultation</Link>
                     </Button>
                 </div>
             </div>

@@ -1,5 +1,8 @@
 import React from 'react';
 import { Mail, Globe, Linkedin, ArrowRight, Facebook, Twitter } from 'lucide-react';
+import Link from "next/link";
+import Image from "next/image";
+import Logo from "@/public/sundar-logo-big.png";
 
 const Footer = () => {
     return (
@@ -81,13 +84,14 @@ const Footer = () => {
                             </div>
                         </div>
 
-                        <button
-                            onClick={() => window.open("tel:+917020166785", "_self")}
+                        <Link href="/contact">
+                            <button
                             className="mt-8 flex items-center gap-3 bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-lg font-bold transition-all duration-300 group shadow-lg hover:shadow-xl"
                         >
-                            Book a 20-Minute Discovery Call
+                            Contact
                             <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-300" />
                         </button>
+                        </Link>
                     </div>
 
                     {/* Right Column: Card */}
@@ -100,16 +104,15 @@ const Footer = () => {
                         <p className="text-gray-300 text-lg max-w-lg leading-relaxed pt-5 py-5">
                             Strategy & Growth Advisor based in Chennai, working with startups, MSMEs, and leadership teams across India and global markets. Expertise in strategy, design thinking, market research, and go-to-market advisory.
                         </p>
-                        <div className="bg-primary backdrop-blur-md border border-gray-700 p-3 rounded-2xl max-w-md shadow-2xl">
-                            <div className="mb-6">
+                        <div className="bg-primary backdrop-blur-md border border-gray-700 p-4 rounded-2xl max-w-md shadow-2xl">
+                            <div className="mb-6 flex items-center gap-4">
                                 <div className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-amber-500/30 bg-amber-500/10 text-amber-500">
                                     <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
                                         <path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2 22l5-1.338C8.47 21.513 10.179 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.477 0-2.863-.404-4.053-1.106l-.291-.173-2.968.792.792-2.968-.173-.291C4.404 14.863 4 13.477 4 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/>
                                     </svg>
                                 </div>
+                                <h3 className="text-2xl text-white font-bold">What to Expect</h3>
                             </div>
-
-                            <h3 className="text-2xl text-white font-bold mb-6">What to Expect</h3>
 
                             <ul className="space-y-6">
                                 {[
@@ -127,10 +130,6 @@ const Footer = () => {
                                     </li>
                                 ))}
                             </ul>
-
-                            <p className="mt-8 text-sm text-gray-400 italic">
-                                No commitment. Confidential conversation.
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -140,21 +139,33 @@ const Footer = () => {
             <div className="border-t border-white/20 bg-gray-900/50 py-8">
                 <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
                     <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-white font-bold">
-                            SM
-                        </div>
-                        <p className="text-sm text-gray-400">
-                            © 2026 S Sundara Moorthy. Powered by{" "}
-                            <a
-                                href="https://www.risva.app/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-amber-400"
-                            >
-                                risva.app
-                            </a>
-                        </p>
+                        <Link href="/" className="flex items-center gap-2 group">
+                            <Image
+                                src={Logo}
+                                alt="Risva Technologies Logo"
+                                width={30}
+                                height={10}
+                                className={`object-contain transition-all duration-300 group-hover:scale-110`}
+                                priority
+                            />
+                    {/*        <span className="font-serif text-md font-semibold text-foreground">*/}
+                    {/*    Sundara Moorthy*/}
+                    {/*</span>*/}
+                        </Link>
+                        <p className="text-sm text-gray-400">© 2026 S Sundara Moorthy.</p>
                     </div>
+
+                    <p className="text-sm text-gray-400">
+                         Powered by{" "}
+                        <a
+                            href="https://www.risva.app/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-amber-400"
+                        >
+                            risva.app
+                        </a>
+                    </p>
 
                     <div className="flex items-center gap-8">
                         <a href="/privacy-policy" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">Privacy Policy</a>

@@ -10,6 +10,8 @@ import img from "../../public/IMG-20260205-WA0012.jpg";
 import img2 from "../../public/IMG-20260205-WA0011.jpg";
 import ExperienceSection from "@/app/components/sections/ExperienceSection";
 import ValuePropositionSection from "@/app/components/sections/Valuepropositionsection";
+import PhotoGallery from "@/app/components/PhotoGallery";
+import PhotoSection from "@/app/components/PhotoSection";
 
 interface Category {
     id: number;
@@ -277,57 +279,19 @@ export default function HomePage() {
                             </div>
                         </div>
 
-                        {/* Right Image Slider */}
+                        {/* Right Image */}
                         <div className="relative">
                             <div className="w-full flex flex-col items-center justify-center p-8">
-                                {/* Image Slider Container */}
-                                <div
-                                    className="relative w-full max-w-[28rem] sm:max-w-[32rem] lg:max-w-[40rem] aspect-[3/2] rounded-3xl overflow-hidden shadow-2xl"
-                                    onMouseEnter={() => {
-                                        if (autoSlideTimer.current) clearInterval(autoSlideTimer.current);
-                                    }}
-                                    onMouseLeave={() => resetAutoSlide()}
-                                >
-                                    {/* Slide 1 */}
-                                    <div className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${currentSlide === 0 ? 'opacity-100' : 'opacity-0'}`}>
-                                        <Image
-                                            src={img2}
-                                            alt="Sundar - Business Consultant"
-                                            fill
-                                            className="object-cover object-top"
-                                            sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, 448px"
-                                            priority
-                                        />
-                                    </div>
-                                    {/* Slide 2 */}
-                                    <div className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${currentSlide === 1 ? 'opacity-100' : 'opacity-0'}`}>
-                                        <Image
-                                            src={img}
-                                            alt="Sundar - Business Consultant"
-                                            fill
-                                            className="object-cover object-top"
-                                            sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, 448px"
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* Slider Dots */}
-                                <div className="flex justify-center gap-2 mt-6">
-                                    {[0, 1].map((index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => {
-                                                setCurrentSlide(index);
-                                                resetAutoSlide(); // Reset timer on manual interaction
-                                            }}
-                                            className={`w-2 h-2 rounded-full transition-all ${
-                                                currentSlide === index
-                                                    ? "bg-primary w-3"
-                                                    : "bg-gray-300 hover:bg-gray-400"
-                                            }`}
-                                            aria-label={`Go to slide ${index + 1}`}
-                                        />
-                                    ))}
+                                {/* Single Image Container */}
+                                <div className="relative w-full max-w-[28rem] sm:max-w-[32rem] lg:max-w-[40rem] aspect-[3/2] rounded-3xl overflow-hidden shadow-2xl">
+                                    <Image
+                                        src={img2} // You can change this to img if you prefer the other image
+                                        alt="Sundar - Business Consultant"
+                                        fill
+                                        className="object-cover object-top"
+                                        sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, 448px"
+                                        priority
+                                    />
                                 </div>
 
                                 {/* Consultant Name and Title */}
@@ -360,6 +324,119 @@ export default function HomePage() {
             <div>
                 <ExperienceSection/>
             </div>
+
+
+            {/* Latest Galleries Section */}
+            {/*<section className="py-12 md:py-20 bg-primary">*/}
+            {/*    <div className="container mx-auto px-4">*/}
+            {/*        /!* Section Header *!/*/}
+            {/*        <div className="text-center mb-12 md:mb-16">*/}
+            {/*            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">*/}
+            {/*                Latest Events & Insights*/}
+            {/*            </h2>*/}
+            {/*            <p className="text-white/80 max-w-2xl mx-auto">*/}
+            {/*                Recent strategic assignments and business transformations*/}
+            {/*            </p>*/}
+            {/*        </div>*/}
+
+            {/*        {galleryLoading ? (*/}
+            {/*            // Loading State*/}
+            {/*            <div className="py-12 text-center">*/}
+            {/*                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>*/}
+            {/*                <p className="mt-4 text-white/80">Loading latest Events...</p>*/}
+            {/*            </div>*/}
+            {/*        ) : latestGalleries.length === 0 ? (*/}
+            {/*            // Empty State*/}
+            {/*            <div className="text-center py-12">*/}
+            {/*                <div className="w-24 h-24 mx-auto mb-6 bg-white/10 rounded-full flex items-center justify-center">*/}
+            {/*                    <Briefcase className="w-12 h-12 text-white" />*/}
+            {/*                </div>*/}
+            {/*                <h3 className="text-xl font-semibold text-white mb-2">No projects yet</h3>*/}
+            {/*                <p className="text-white/80">Check back soon for updates</p>*/}
+            {/*            </div>*/}
+            {/*        ) : (*/}
+            {/*            // Gallery Grid*/}
+            {/*            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">*/}
+            {/*                {latestGalleries.map((item) => (*/}
+            {/*                    <div*/}
+            {/*                        key={item.id}*/}
+            {/*                        className="group bg-white rounded-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"*/}
+            {/*                    >*/}
+            {/*                        /!* Image *!/*/}
+            {/*                        <div className="aspect-[4/3] bg-gray-100 overflow-hidden">*/}
+            {/*                            {item.thumbnailUrl || item.imageUrls[0] ? (*/}
+            {/*                                <img*/}
+            {/*                                    src={item.thumbnailUrl || item.imageUrls[0]}*/}
+            {/*                                    alt={item.title}*/}
+            {/*                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"*/}
+            {/*                                />*/}
+            {/*                            ) : (*/}
+            {/*                                <div className="w-full h-full flex items-center justify-center bg-primary/5">*/}
+            {/*                                    <Briefcase className="w-16 h-16 text-primary/30" />*/}
+            {/*                                </div>*/}
+            {/*                            )}*/}
+            {/*                        </div>*/}
+
+            {/*                        /!* Content *!/*/}
+            {/*                        <div className="p-6">*/}
+            {/*                            /!* Category *!/*/}
+            {/*                            {item.category && (*/}
+            {/*                                <div className="inline-flex items-center gap-1 mb-3">*/}
+            {/*                                    <Tag className="w-4 h-4 text-primary" />*/}
+            {/*                                    <span className="text-sm font-medium text-primary">*/}
+            {/*                                        {item.category.name}*/}
+            {/*                                    </span>*/}
+            {/*                                </div>*/}
+            {/*                            )}*/}
+
+            {/*                            /!* Title *!/*/}
+            {/*                            <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">*/}
+            {/*                                {item.title}*/}
+            {/*                            </h3>*/}
+
+            {/*                            /!* Description *!/*/}
+            {/*                            {item.description && (*/}
+            {/*                                <p className="text-gray-600 mb-4 line-clamp-2">*/}
+            {/*                                    {item.description}*/}
+            {/*                                </p>*/}
+            {/*                            )}*/}
+
+            {/*                            /!* Date & Images Count *!/*/}
+            {/*                            <div className="flex items-center justify-between text-sm text-gray-500">*/}
+            {/*                                <div className="flex items-center gap-2">*/}
+            {/*                                    <Calendar className="w-4 h-4" />*/}
+            {/*                                    <span>*/}
+            {/*                                        {new Date(item.createdAt).toLocaleDateString('en-US', {*/}
+            {/*                                            month: 'short',*/}
+            {/*                                            day: 'numeric',*/}
+            {/*                                            year: 'numeric'*/}
+            {/*                                        })}*/}
+            {/*                                    </span>*/}
+            {/*                                </div>*/}
+            {/*                                {item.imageUrls.length > 0 && (*/}
+            {/*                                    <div className="flex items-center gap-1">*/}
+            {/*                                        <span>{item.imageUrls.length} image{item.imageUrls.length !== 1 ? 's' : ''}</span>*/}
+            {/*                                    </div>*/}
+            {/*                                )}*/}
+            {/*                            </div>*/}
+            {/*                        </div>*/}
+            {/*                    </div>*/}
+            {/*                ))}*/}
+            {/*            </div>*/}
+            {/*        )}*/}
+
+            {/*        /!* View All Button *!/*/}
+            {/*        <div className="text-center mt-12">*/}
+            {/*            <a*/}
+            {/*                href="/events"*/}
+            {/*                className="inline-flex items-center gap-2 px-8 py-3 bg-white text-primary rounded-lg font-medium hover:bg-gray-50 transition-colors"*/}
+            {/*            >*/}
+            {/*                <span>View All Events</span>*/}
+            {/*                <ArrowUpRight className="w-5 h-5" />*/}
+            {/*            </a>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</section>*/}
 
             {/* Latest Articles Section */}
             {latestArticles.length > 0 && (
@@ -495,165 +572,56 @@ export default function HomePage() {
                 </section>
             )}
 
-            {/* Latest Galleries Section */}
-            <section className="py-12 md:py-20 bg-primary">
-                <div className="container mx-auto px-4">
-                    {/* Section Header */}
-                    <div className="text-center mb-12 md:mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                            Latest Events & Insights
-                        </h2>
-                        <p className="text-white/80 max-w-2xl mx-auto">
-                            Recent strategic assignments and business transformations
-                        </p>
-                    </div>
 
-                    {galleryLoading ? (
-                        // Loading State
-                        <div className="py-12 text-center">
-                            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>
-                            <p className="mt-4 text-white/80">Loading latest Events...</p>
-                        </div>
-                    ) : latestGalleries.length === 0 ? (
-                        // Empty State
-                        <div className="text-center py-12">
-                            <div className="w-24 h-24 mx-auto mb-6 bg-white/10 rounded-full flex items-center justify-center">
-                                <Briefcase className="w-12 h-12 text-white" />
-                            </div>
-                            <h3 className="text-xl font-semibold text-white mb-2">No projects yet</h3>
-                            <p className="text-white/80">Check back soon for updates</p>
-                        </div>
-                    ) : (
-                        // Gallery Grid
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {latestGalleries.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="group bg-white rounded-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
-                                >
-                                    {/* Image */}
-                                    <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
-                                        {item.thumbnailUrl || item.imageUrls[0] ? (
-                                            <img
-                                                src={item.thumbnailUrl || item.imageUrls[0]}
-                                                alt={item.title}
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                            />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center bg-primary/5">
-                                                <Briefcase className="w-16 h-16 text-primary/30" />
-                                            </div>
-                                        )}
-                                    </div>
+            {/*/!* Expertise Section *!/*/}
+            {/*<section className="py-12 md:py-20 bg-white">*/}
+            {/*    <div className="container mx-auto px-4">*/}
+            {/*        <div className="max-w-4xl mx-auto">*/}
+            {/*            <div className="text-center mb-12">*/}
+            {/*                <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">*/}
+            {/*                    Strategic Business Consulting*/}
+            {/*                </h2>*/}
+            {/*                <p className="text-gray-700 text-lg">*/}
+            {/*                    Driving sustainable growth through data-driven strategies and market insights*/}
+            {/*                </p>*/}
+            {/*            </div>*/}
 
-                                    {/* Content */}
-                                    <div className="p-6">
-                                        {/* Category */}
-                                        {item.category && (
-                                            <div className="inline-flex items-center gap-1 mb-3">
-                                                <Tag className="w-4 h-4 text-primary" />
-                                                <span className="text-sm font-medium text-primary">
-                                                    {item.category.name}
-                                                </span>
-                                            </div>
-                                        )}
+            {/*            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">*/}
+            {/*                <div className="text-center p-6 rounded-xl border border-primary/10 hover:border-primary/30 transition-colors">*/}
+            {/*                    <div className="w-16 h-16 mx-auto mb-6 bg-primary/10 rounded-full flex items-center justify-center">*/}
+            {/*                        <Target className="w-8 h-8 text-primary" />*/}
+            {/*                    </div>*/}
+            {/*                    <h3 className="text-xl font-semibold text-primary mb-3">Market Analysis</h3>*/}
+            {/*                    <p className="text-gray-600">*/}
+            {/*                        Comprehensive market research and competitive analysis to identify growth opportunities*/}
+            {/*                    </p>*/}
+            {/*                </div>*/}
 
-                                        {/* Title */}
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">
-                                            {item.title}
-                                        </h3>
+            {/*                <div className="text-center p-6 rounded-xl border border-primary/10 hover:border-primary/30 transition-colors">*/}
+            {/*                    <div className="w-16 h-16 mx-auto mb-6 bg-primary/10 rounded-full flex items-center justify-center">*/}
+            {/*                        <Briefcase className="w-8 h-8 text-primary" />*/}
+            {/*                    </div>*/}
+            {/*                    <h3 className="text-xl font-semibold text-primary mb-3">Strategy Development</h3>*/}
+            {/*                    <p className="text-gray-600">*/}
+            {/*                        Creating actionable business strategies that drive competitive advantage and growth*/}
+            {/*                    </p>*/}
+            {/*                </div>*/}
 
-                                        {/* Description */}
-                                        {item.description && (
-                                            <p className="text-gray-600 mb-4 line-clamp-2">
-                                                {item.description}
-                                            </p>
-                                        )}
+            {/*                <div className="text-center p-6 rounded-xl border border-primary/10 hover:border-primary/30 transition-colors">*/}
+            {/*                    <div className="w-16 h-16 mx-auto mb-6 bg-primary/10 rounded-full flex items-center justify-center">*/}
+            {/*                        <Globe className="w-8 h-8 text-primary" />*/}
+            {/*                    </div>*/}
+            {/*                    <h3 className="text-xl font-semibold text-primary mb-3">Global Expansion</h3>*/}
+            {/*                    <p className="text-gray-600">*/}
+            {/*                        Strategic planning for international market entry and global business optimization*/}
+            {/*                    </p>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</section>*/}
 
-                                        {/* Date & Images Count */}
-                                        <div className="flex items-center justify-between text-sm text-gray-500">
-                                            <div className="flex items-center gap-2">
-                                                <Calendar className="w-4 h-4" />
-                                                <span>
-                                                    {new Date(item.createdAt).toLocaleDateString('en-US', {
-                                                        month: 'short',
-                                                        day: 'numeric',
-                                                        year: 'numeric'
-                                                    })}
-                                                </span>
-                                            </div>
-                                            {item.imageUrls.length > 0 && (
-                                                <div className="flex items-center gap-1">
-                                                    <span>{item.imageUrls.length} image{item.imageUrls.length !== 1 ? 's' : ''}</span>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* View All Button */}
-                    <div className="text-center mt-12">
-                        <a
-                            href="/events"
-                            className="inline-flex items-center gap-2 px-8 py-3 bg-white text-primary rounded-lg font-medium hover:bg-gray-50 transition-colors"
-                        >
-                            <span>View All Events</span>
-                            <ArrowUpRight className="w-5 h-5" />
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            {/* Expertise Section */}
-            <section className="py-12 md:py-20 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="text-center mb-12">
-                            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                                Strategic Business Consulting
-                            </h2>
-                            <p className="text-gray-700 text-lg">
-                                Driving sustainable growth through data-driven strategies and market insights
-                            </p>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div className="text-center p-6 rounded-xl border border-primary/10 hover:border-primary/30 transition-colors">
-                                <div className="w-16 h-16 mx-auto mb-6 bg-primary/10 rounded-full flex items-center justify-center">
-                                    <Target className="w-8 h-8 text-primary" />
-                                </div>
-                                <h3 className="text-xl font-semibold text-primary mb-3">Market Analysis</h3>
-                                <p className="text-gray-600">
-                                    Comprehensive market research and competitive analysis to identify growth opportunities
-                                </p>
-                            </div>
-
-                            <div className="text-center p-6 rounded-xl border border-primary/10 hover:border-primary/30 transition-colors">
-                                <div className="w-16 h-16 mx-auto mb-6 bg-primary/10 rounded-full flex items-center justify-center">
-                                    <Briefcase className="w-8 h-8 text-primary" />
-                                </div>
-                                <h3 className="text-xl font-semibold text-primary mb-3">Strategy Development</h3>
-                                <p className="text-gray-600">
-                                    Creating actionable business strategies that drive competitive advantage and growth
-                                </p>
-                            </div>
-
-                            <div className="text-center p-6 rounded-xl border border-primary/10 hover:border-primary/30 transition-colors">
-                                <div className="w-16 h-16 mx-auto mb-6 bg-primary/10 rounded-full flex items-center justify-center">
-                                    <Globe className="w-8 h-8 text-primary" />
-                                </div>
-                                <h3 className="text-xl font-semibold text-primary mb-3">Global Expansion</h3>
-                                <p className="text-gray-600">
-                                    Strategic planning for international market entry and global business optimization
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <PhotoSection/>
 
         </div>
     );

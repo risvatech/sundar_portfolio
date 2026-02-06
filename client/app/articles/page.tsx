@@ -280,7 +280,7 @@ const Blog = () => {
 
     return (
         <>
-            <SEOHead page="blog" />
+            <SEOHead page="home" />
             <Layout>
                 {/* Hero */}
                 <section className="pt-32 pb-8 bg-primary/5 dark:from-gray-900 dark:to-gray-800">

@@ -89,7 +89,7 @@ const ServiceDetail = ({ params }: ServiceDetailProps) => {
 
                             <Button variant="hero" size="xl">
                                 <Calendar className="mr-2" size={20} />
-                                <Link href="/book">Book a Consultation</Link>
+                                <Link href="/contact">Book a Consultation</Link>
                             </Button>
                         </div>
 

@@ -18,7 +18,7 @@ import {
     Box
 } from "lucide-react";
 import Image from "next/image"
-import Logo from "@/.next/standalone/public/assets/risva.png";
+import Logo from "../../../public/sundar-logo-big.png";
 
 interface SubMenuItem {
     name: string;
@@ -60,7 +60,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
     const navigationItems: NavigationItem[] = [
         { name: "Booking Enquiry", href: "/cms/bookings", icon: Mail, module: "project-enquiry" },
-        { name: "Events", href: "/cms/events", icon: Mail, module: "gallery" },
+        // { name: "Events", href: "/cms/events", icon: Mail, module: "gallery" },
         {
             name: "Article",
             href: "#", // Added required href property
@@ -161,16 +161,16 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             >
                 <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
                     <div className="flex items-center">
-                        {/*<div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">*/}
-                        {/*    <Image*/}
-                        {/*        src={Logo}*/}
-                        {/*        alt="IGrow Logo"*/}
-                        {/*        className="rounded-lg"*/}
-                        {/*        width={32}*/}
-                        {/*        height={32}*/}
-                        {/*    />*/}
-                        {/*</div>*/}
-                        <span className="ml-2 text-xl text-primary font-medium">Sundar</span>
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
+                            <Image
+                                src={Logo}
+                                alt="sundar"
+                                className="rounded-lg"
+                                width={32}
+                                height={32}
+                            />
+                        </div>
+                        <span className="font-serif text-md font-semibold text-foreground">Sundara Moorthy</span>
                     </div>
                     <button onClick={onClose} className="lg:hidden text-gray-400 hover:text-gray-600">
                         <X className="w-5 h-5" />

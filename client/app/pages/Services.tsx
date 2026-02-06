@@ -7,6 +7,7 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { services } from "../data/services";
 import ProvenImpact from "@/app/components/sections/ProvenImpact";
+import {AboutCards} from "@/app/components/AboutCards";
 
 interface CaseStudy {
     company: string;
@@ -65,46 +66,8 @@ const Services = () => {
 
             <ProvenImpact/>
 
-            {/* Services Grid */}
-            <section className="section-padding">
-                <div className="container-wide">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {services.map((service) => (
-                            <Card
-                                key={service.id}
-                                variant="warm"
-                                className="group hover:-translate-y-1 transition-all duration-300"
-                            >
-                                <CardHeader>
-                                    <div className="w-14 h-14 rounded-2xl bg-primary-light flex items-center justify-center mb-4 group-hover:bg-primary transition-colors duration-300">
-                                        <service.icon className="w-7 h-7 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
-                                    </div>
-                                    <CardTitle className="text-xl">{service.title}</CardTitle>
-                                    <CardDescription className="text-base">
-                                        {service.description}
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <ul className="space-y-2">
-                                        {service.features.map((feature, i) => (
-                                            <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                                                <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
-                                                {feature}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    {/*<Link href={`/services/${service.id}`}>*/}
-                                    {/*    <Button variant="outline" className="w-full mt-6">*/}
-                                    {/*        Learn More*/}
-                                    {/*        <ArrowRight className="ml-2" size={16} />*/}
-                                    {/*    </Button>*/}
-                                    {/*</Link>*/}
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            <AboutCards />
+
         </Layout>
     );
 };

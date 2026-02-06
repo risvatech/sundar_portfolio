@@ -1,11 +1,13 @@
 "use client"
 
 import Services from "@/app/pages/Services";
+import SEOHead from "@/app/components/SEOHead";
 
 export default function Service() {
     return (
         <>
-        <Services/>
+            <SEOHead page="home" />
+            <Services/>
         </>
     )
 }

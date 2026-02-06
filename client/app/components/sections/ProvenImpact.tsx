@@ -66,14 +66,14 @@ export default function ProvenImpact() {
 
                     <div className="flex flex-col sm:flex-row gap-4">
                         <Link
-                            href="/services"
+                            href="/what-i-do"
                             className="inline-flex items-center justify-center bg-white text-primary px-8 py-4 rounded-xl font-semibold hover:border hover:bg-primary hover:text-white transition-all duration-300 hover:shadow-lg text-center"
                         >
                             Explore All Services
                             <ArrowRight className="ml-2" size={20} />
                         </Link>
                         <Link
-                            href="/book"
+                            href="/contact"
                             className="inline-flex items-center justify-center border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/10 transition-all duration-300 text-center"
                         >
                             Schedule a Consultation

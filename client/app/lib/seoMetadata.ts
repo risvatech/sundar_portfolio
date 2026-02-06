@@ -16,8 +16,8 @@ export interface PageMetadata {
 
 export const SEO_CONFIG: Record<string, PageMetadata> = {
     home: {
-        title: 'Risva Technologies – Web,Mobile,AI Solutions in India',
-        description: 'Risva Technologies provides web, mobile & AI solutions for business automation, using modern technologies for global clients.',
+        title: 'Sundara Moorthy - Strategy & Growth Advisor | Design Thinking Practitioner',
+        description: 'Sundara Moorthy, Strategy & Growth Advisor | Design Thinking Practitioner',
         keywords: 'Risva Technologies, global software company, web development, mobile app development, AI solutions, React, Next.js, Node.js, Laravel, Express, PostgreSQL, MySQL, affordable development, rapid development, IT services India',
         ogTitle: 'Risva Technologies – Web, Mobile & AI Solutions',
         ogDescription: 'Affordable, fast and modern web, mobile & AI development services for global clients.',

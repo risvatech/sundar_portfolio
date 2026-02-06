@@ -8,6 +8,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useToast } from "../components/ui/use-toast"; // Import your toast hook
 import api from "../service/api";
+import SEOHead from "@/app/components/SEOHead";
 
 // Type for the form data
 interface ConsultationFormData {
@@ -173,6 +174,7 @@ export default function BookConsultationPage() {
 
     return (
         <Layout>
+            <SEOHead page="home" />
             {/* Hero Section */}
             <section className="pt-32 pb-16 bg-warm-gradient">
                 <div className="container-wide">
@@ -353,7 +355,7 @@ export default function BookConsultationPage() {
                                         className="w-full mt-6"
                                         asChild
                                     >
-                                        <Link href="/services">View My Services</Link>
+                                        <Link href="/portfolio">View My Portfolio</Link>
                                     </Button>
                                 </div>
                             </div>

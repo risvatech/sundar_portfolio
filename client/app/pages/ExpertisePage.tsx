@@ -296,7 +296,7 @@ export default function ExpertisePage() {
                 Book Strategy Call
               </Button>
             </Link>
-            <Link href="/services">
+            <Link href="/what-i-do">
               <Button size="lg" variant="outline" className="px-8">
                 View Services
               </Button>

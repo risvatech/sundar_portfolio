@@ -642,68 +642,6 @@ const PrivacyPolicyPage = () => {
                 </section>
 
             </div>
-
-            {/* Footer Section */}
-            <section className="py-16 bg-muted border-t border-border">
-                <div className="container-wide">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="grid md:grid-cols-2 gap-8 mb-12">
-                            <div className="card">
-                                <h3 className="font-semibold text-xl text-primary mb-3 font-sans">Updates to This Policy</h3>
-                                <p className="text-sm text-muted-foreground mb-4">
-                                    We review and update this Privacy Policy annually or when our practices change materially.
-                                    Significant changes will be communicated via email to active clients.
-                                </p>
-                                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                    <Clock className="w-4 h-4" />
-                                    <span>Current Version: 2.0 | Effective: January 1, 2026</span>
-                                </div>
-                            </div>
-
-                            <div className="card bg-accent-light">
-                                <h3 className="font-semibold text-xl text-accent-foreground mb-3 font-sans">
-                                    Related Policies
-                                </h3>
-                                <div className="space-y-2">
-                                    <Link
-                                        href="/terms"
-                                        className="block text-sm text-accent-foreground/80 hover:text-accent-foreground transition-colors"
-                                    >
-                                        → Terms of Engagement
-                                    </Link>
-                                    <Link
-                                        href="/confidentiality"
-                                        className="block text-sm text-accent-foreground/80 hover:text-accent-foreground transition-colors"
-                                    >
-                                        → Confidentiality Agreement
-                                    </Link>
-                                    <Link
-                                        href="/data-processing"
-                                        className="block text-sm text-accent-foreground/80 hover:text-accent-foreground transition-colors"
-                                    >
-                                        → Data Processing Addendum
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="text-center">
-                            <h3 className="font-serif text-3xl mb-4 text-primary">Questions About Your Privacy?</h3>
-                            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                                We're committed to transparency and protecting your confidential business information.
-                                Our team is here to address any concerns.
-                            </p>
-                            <Link
-                                href="/book"
-                                className="btn-accent inline-flex items-center gap-2"
-                            >
-                                <Mail className="w-5 h-5" />
-                                Book a Consultation
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
     );
 };
