@@ -27,11 +27,19 @@ export default function ProvenImpact() {
                         Results That Matter
                     </div>
                     <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-white mb-4">
-                        Proven Impact
+                        Advisory Impact
                     </h2>
                     <p className="text-white/80 mb-8 text-lg leading-relaxed">
-                        Our case studies highlight how strategic consulting creates real, measurable impact
-                        that drives sustainable growth and transformation.
+                        My work focuses on helping leaders make clear,
+                        confident decisions in moments that shape business
+                        outcomes, growth, investment, market entry, and
+                        transformation.
+                    </p>
+                    <p>
+                        Rather than generic consulting outputs, I deliver
+                        decision-ready insights grounded in market reality,
+                        customer understanding, and execution feasibility.
+
                     </p>
 
                     <ul className="space-y-5 mb-10">
@@ -40,8 +48,9 @@ export default function ProvenImpact() {
                                 <CheckCircle2 className="w-5 h-5 text-white" />
                             </div>
                             <div>
-                                <span className="font-semibold text-white text-lg">120+</span>
-                                <span className="text-white/90"> successful consulting projects across industries</span>
+                                <span className="font-semibold text-white text-lg">18+</span>
+                                <span className="text-white/90"> years in strategy, market research,
+and advisory</span>
                             </div>
                         </li>
                         <li className="flex items-start gap-4">
@@ -49,8 +58,8 @@ export default function ProvenImpact() {
                                 <CheckCircle2 className="w-5 h-5 text-white" />
                             </div>
                             <div>
-                                <span className="font-semibold text-white text-lg">30%</span>
-                                <span className="text-white/90"> average efficiency improvement for clients</span>
+                                <span className="font-semibold text-white text-lg">250+</span>
+                                <span className="text-white/90"> strategy & advisory engagements</span>
                             </div>
                         </li>
                         <li className="flex items-start gap-4">
@@ -58,8 +67,30 @@ export default function ProvenImpact() {
                                 <CheckCircle2 className="w-5 h-5 text-white" />
                             </div>
                             <div>
-                                <span className="font-semibold text-white text-lg">98%</span>
+                                <span className="font-semibold text-white text-lg">95%</span>
                                 <span className="text-white/90"> client satisfaction and retention rate</span>
+                            </div>
+                        </li>
+                        <li className="flex items-start gap-4">
+                            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <CheckCircle2 className="w-5 h-5 text-white" />
+                            </div>
+                            <div>
+                                <span className="font-semibold text-white text-lg">10+</span>
+                                <span className="text-white/90"> industries advised across
+manufacturing, healthcare, EV, energy,
+and services</span>
+                            </div>
+                        </li>
+                        <li className="flex items-start gap-4">
+                            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <CheckCircle2 className="w-5 h-5 text-white" />
+                            </div>
+                            <div>
+                                <span className="font-semibold text-white text-lg">20+</span>
+                                <span className="text-white/90"> countries covered across India,
+Europe, the US, and Southeast Asia
+</span>
                             </div>
                         </li>
                     </ul>
@@ -80,12 +111,6 @@ export default function ProvenImpact() {
                         </Link>
                     </div>
 
-                    {/* Trust indicator */}
-                    <div className="mt-10 pt-8 border-t border-white/20">
-                        <p className="text-white/70 text-sm">
-                            Trusted by 50+ enterprises and growing startups across North America
-                        </p>
-                    </div>
                 </div>
             </div>
         </section>

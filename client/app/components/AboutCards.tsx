@@ -1,6 +1,6 @@
 "use client";
 
-import { abouts } from "../../app/data/abouts";
+import { abouts } from "@/app/data/abouts";
 
 export function AboutCards() {
     return (

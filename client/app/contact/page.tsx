@@ -342,10 +342,10 @@ export default function BookConsultationPage() {
                                         <div className="flex items-center gap-2">
                                             <Phone className="w-4 h-4" />
                                             <a
-                                                href="tel:+917020166785"
+                                                href="tel:+919994715658"
                                                 className="text-sm hover:underline"
                                             >
-                                                +91-7020166785
+                                                +91-9994715658
                                             </a>
                                         </div>
                                     </div>

@@ -15,23 +15,23 @@ interface Achievement {
 const achievements: Achievement[] = [
     {
         icon: Trophy,
-        title: "IIM - MBA",
-        description: "Masters in Business Administration from IIM Pune (2006-2008)",
+        title: "IIM Alumnus",
+        description: "PGCSMP, IIM Trichy",
     },
     {
         icon: BookOpen,
-        title: "Panelist",
-        description: "Smart Healthcare India Summit 2015",
+        title: "Independent Director",
+        description: "Governance & Board Advisory",
     },
     {
         icon: Users,
         title: "Speaker",
-        description: "Conference on Medical Textiles by ITTA 2015",
+        description: "Industry Conferences & Business Forums",
     },
     {
         icon: Award,
-        title: "Expertise",
-        description: "Market Research & Sourcing strategies",
+        title: "Guest Lecturer",
+        description: "Strategy, Consulting & Design Thinking",
     },
 ];
 

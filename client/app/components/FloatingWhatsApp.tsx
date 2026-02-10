@@ -24,7 +24,7 @@ const FloatingWhatsApp: React.FC = () => {
 
     // You can customize these props
     const whatsAppProps = {
-        phoneNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '+917020166785', // Using your number
+        phoneNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '+919994715658', // Using your number
         message: process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE || "Hello Sundar, Let's Talk Strategy",
         position: 'bottom-right' as const,
     };

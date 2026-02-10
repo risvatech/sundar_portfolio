@@ -139,9 +139,11 @@ export const services: Service[] = [
   {
     id: "leadership-coaching",
     icon: Users,
-    title: "Leadership Coaching",
-    description: "Develop the leadership skills and mindset needed to guide your team through challenges and opportunities.",
-    features: ["Executive Coaching", "Team Development", "Culture Building", "Succession Planning"],
+    title: "Executive Learning & Knowledge Sharing",
+    description: "Practical learning sessions that translate strategy,\n" +
+        "design thinking, and market insights into real-world\n" +
+        "decision skills.",
+    features: ["Guest lectures & executive sessions", "Strategy & consulting frameworks", "Design thinking for business leaders", "Learning grounded in real cases"],
     longDescription: "Great organizations are built by great leaders. My leadership coaching helps executives and emerging leaders develop the skills, mindset, and presence needed to inspire teams and drive results. Through personalized coaching and practical frameworks, we'll accelerate your leadership journey.",
     benefits: [
       "Enhanced leadership presence and influence",

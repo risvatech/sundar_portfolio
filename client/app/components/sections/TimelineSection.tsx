@@ -5,6 +5,7 @@ import { ExternalLink } from 'lucide-react';
 interface TimelineItem {
     year: string;
     title: string;
+    tag: string;
     description: string;
     link?:string;
 }
@@ -12,8 +13,8 @@ interface TimelineItem {
 const timelineItems: TimelineItem[] = [
     {
         year: "Dec 2022 – till date ",
-        title: "Head- Market Research \n" +
-            "Kepler Consulting, Chennai ",
+        title: "Head - Strategy & Advisory Services",
+        tag: "Kepler Consulting, Chennai",
         description: "Responsible for smooth running of independent market research & \n" +
             "sourcing assignments  \n" +
             "Cross functional collaboration with Innovation, Operations and Sourcing & \n" +
@@ -23,6 +24,7 @@ const timelineItems: TimelineItem[] = [
     },
     {
         year: "Jul 2019 – Dec 2022 ",
+        tag: "",
         title: " Asst Vice President-Business Advisory Services \n" +
             "MITCON Consultancy & Engineering Services \n" +
             "Limited",
@@ -32,6 +34,7 @@ const timelineItems: TimelineItem[] = [
     },
     {
         year: "April 2013 – Jun 2019",
+        tag: "",
         title: " Senior Manager – Projects & Head- Healthcare \n" +
             "Consulting Division, BDB India Private Limited ",
         description: "Responsible for B2B Business Consulting & Market Research Division \n" +
@@ -40,12 +43,14 @@ const timelineItems: TimelineItem[] = [
     },
     {
         year: "Aug 2010 - March 2013",
+        tag: "",
         title: "Regional Manager – South, BDB India \n" +
             "Private Limited",
         description: "Responsible for P&L for South – Tamilnadu, Karnataka, Andhra & Kerala \n + Driving key account management and business development activities ",
     },
     {
         year: "Jan 2009 – Jul 2010",
+        tag: "",
         title: "Sales Executive - Institutional, Pune & \n" +
             "Coimbatore, Roche Diagnostics India Pvt Ltd (Diabetes Care Division) ",
         description: "Transformed minimally producing territory into one of the company’s most \n" +
@@ -55,32 +60,13 @@ const timelineItems: TimelineItem[] = [
     {
         year: "\n" +
             "Jul 2007 – Dec 2008",
+        tag: "",
         title: "Business Development Executive, Pune \n" +
             "GenxBio Health Sciences Private Limited '",
         description: "Recruited to build the presence of the company in Pune territory, with \n" +
             "responsibility for creating awareness about company among the customers \n" +
             "through cold calling and aggressive sales meeting.",
     },
-    // {
-    //     year: "2006-08",
-    //     title: "Masters in Business Administration",
-    //     description: "Masters in Business Administration in Indian Institute of Management \n" +
-    //         "Training, Pune specialized in Marketing.",
-    // },
-
-    // {
-    //     year: "2006-07",
-    //     title: "Post graduate Diploma in Marketing Management",
-    //     description: "Post graduate Diploma in Marketing Management from University of Pune.",
-    // },
-
-    // {
-    //     year: "2003-06",
-    //     title: "B.Sc. in Industrial Microbiology",
-    //     description: "B.Sc. in Industrial Microbiology in Thiagarajar College of Arts & \n" +
-    //         "Science, Madurai.",
-    // },
-
 ];
 
 export function TimelineSection() {
@@ -119,31 +105,13 @@ export function TimelineSection() {
                                         <div className="inline-block px-3 py-1 rounded-lg bg-primary/10 text-primary text-sm font-semibold mb-2">
                                             {item.year}
                                         </div>
-                                        <h3 className="font-serif text-xl font-semibold text-foreground mb-2">
+                                        <h3 className="font-serif text-xl font-bold text-foreground mb-2">
                                             {item.title}
                                         </h3>
+                                        <p className="leading-relaxed">{item.tag}</p>
                                         <p className="text-muted-foreground leading-relaxed">
                                             {item.description}
                                         </p>
-                                        {item.link ? (
-                                            <p className="text-muted-foreground mb-3">
-                                                <a
-                                                    href={item.link}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-primary hover:text-primary/80 font-medium hover:underline inline-flex items-center gap-1"
-                                                >
-
-                                                    https://www.kepler-consulting.com
-                                                    <ExternalLink className="w-3.5 h-3.5" />
-                                                </a>
-                                            </p>
-                                        ) : (
-                                            <p className="text-muted-foreground mb-3">
-
-                                            </p>
-                                        )}
-
 
                                     </div>
 

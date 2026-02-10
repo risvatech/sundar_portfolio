@@ -5,6 +5,7 @@ import {
     Rocket,
     Monitor,
     Users,
+    IndianRupee,
     LucideIcon, BarChart3, Truck
 } from "lucide-react";
 
@@ -75,6 +76,18 @@ export const abouts: about[] = [
             "Global sourcing and localization strategy",
             "Cost optimization and make-vs-buy decisions",
             "Procurement risk assessment and resilience planning"
+        ],
+    },
+    {
+        id: "digital-transformation",
+        icon: IndianRupee, // 🚚 Supply chain, logistics, procurement
+        title: "Investment, Board & Decision Advisory",
+        description: [
+            "Investment readiness and decision validation",
+            "Board-level perspective on growth and risk",
+            "Strategic due diligence and market validation",
+            "Capital allocation and expansion decisions",
+            "Independent, data-backed go / no-go support"
         ],
     },
 ];

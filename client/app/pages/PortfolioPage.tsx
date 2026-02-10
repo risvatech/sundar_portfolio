@@ -21,70 +21,75 @@ const PortfolioPage = () => {
 
     const experienceSections = [
         {
-            title: 'Global Market Entry & Category Expansion',
+            title: 'Global Market Entry & Expansion',
             icon: <Globe className="w-5 h-5" />,
             items: [
-                'Developed market entry blueprints for industrial, construction equipment, and home appliance categories across India, USA, and South Asia.',
-                'Designed product-mix, pricing, channel, and service network strategies for excavators, road construction equipment, and premium kitchen appliances.',
-                'Created regulatory, compliance & standards mapping covering emission norms, fuel standards, and safety regulations across Southeast Asia, Latin America & Africa.'
+                'Market entry and expansion strategies across India, the US, and Asia',
+                'Product mix, pricing, channel, and service network planning',
+                'Regulatory and compliance mapping across multiple regions'
             ]
         },
         {
             title: 'Industrial Manufacturing & Supply Chain Strategy',
             icon: <Briefcase className="w-5 h-5" />,
             items: [
-                'Evaluated carbon-based particle manufacturing ecosystems and identified global strategic partners.',
-                'Mapped the plastic processing, marine pumps, vacuum pumps, and industrial bearings markets to size opportunities and benchmark competitive landscapes.',
-                'Delivered global contract manufacturing ecosystem mapping for Nutri-cosmetics and oral supplements for European clients.'
+                'Manufacturing ecosystem and supplier landscape mapping',
+                'Market sizing and competitive benchmarking for industrial products',
+                'Global sourcing and contract manufacturing strategy'
             ]
         },
         {
             title: 'Healthcare & MedTech Commercial Intelligence',
             icon: <Target className="w-5 h-5" />,
             items: [
-                'Built market entry & adoption strategies for Continuous Glucose Monitoring Systems (CGMS) and IV fluid administration systems.',
-                'Conducted commercial due diligence and feasibility assessments for syringes, sutures, medical gloves, and medical rubber products across India, Africa, and the Middle East.',
-                'Designed service line expansion strategies for multi-specialty hospitals (Pune, Solapur, Colombo) and assessed heart, organ transplant & surgery demand.'
+                'Market entry and adoption strategies for medical devices',
+                'Commercial due diligence and feasibility assessments',
+                'Hospital expansion and service-line strategy'
             ]
         },
         {
             title: 'Customer Insight, UX & Product Validation',
             icon: <Users className="w-5 h-5" />,
             items: [
-                'Moderated Product Clinics & Focus Group Discussions for automotive and industrial brands covering medium-duty trucks, automation systems, and premium consumer products.',
-                'Led customer experience (CX) and user behaviour studies across industrial automation, retail, and B2B segments.'
+                'Customer research, product clinics, and focus groups',
+                'Customer experience (CX) and user behavior analysis',
+                'Product and concept validation before scale-up'
             ]
         },
         {
             title: 'Automation, Robotics & Technology Transformation',
             icon: <Cpu className="w-5 h-5" />,
             items: [
-                'Conducted a national-level assessment of automation & robotics adoption potential within the Indian SME sector.',
-                'Identified global technology partners for public sector diversification, mapping the right product mixes and institutional opportunities.'
+                'Automation and robotics adoption assessment for MSMEs',
+                'Technology partner identification and product mix evaluation',
+                'Strategy for technology-led productivity improvement'
             ]
         },
         {
             title: 'Strategic Sourcing & Procurement Intelligence',
             icon: <ShoppingCart className="w-5 h-5" />,
             items: [
-                'Developed sourcing strategies for Agri-commodities (lemons for a US biomedicine client), medical consumables, and industrial components.',
-                'Conducted cross-border scrap steel sourcing evaluations from Bangladesh and South Asia.'
+                'Global sourcing and procurement strategy',
+                'Supplier evaluation and cost-risk analysis',
+                'Cross-border sourcing and localization decisions'
             ]
         },
         {
             title: 'Feasibility Studies & Investment Decision Support',
             icon: <ClipboardCheck className="w-5 h-5" />,
             items: [
-                'Delivered techno-commercial feasibility studies for automobile scrap parks, green ship recycling yards, and healthcare infrastructure (hospitals, MRI centers, medical colleges).',
-                'Supported investment and funding decisions through market sizing, unit economics, business modelling & risk analysis.'
+                'Techno-commercial feasibility studies',
+                'Market sizing, unit economics, and business case development',
+                'Go / no-go support for investment and expansion decisions'
             ]
         },
         {
-            title: 'Sustainability, Circular Economy & Environmental Studies',
+            title: 'Sustainability, Circular Economy & ESG',
             icon: <Leaf className="w-5 h-5" />,
             items: [
-                'Led environmental impact and industry trend studies for the global ship breaking industry and assessed green, compliant, and circular industrial models.',
-                'Evaluated ESG compliance, safety standards, and sustainability trends across sectors.'
+                'Sustainability and circular economy assessments',
+                'ESG compliance and regulatory evaluation',
+                'Environment-led strategy and risk analysis'
             ]
         }
     ];
@@ -210,21 +215,24 @@ const PortfolioPage = () => {
                                         className="grid grid-cols-2 sm:grid-cols-4 gap-3"
                                     >
                                         {['Europe', 'USA', 'Southeast Asia', 'Middle East', 'India', 'Latin America', 'Africa', 'South Asia'].map((region, index) => (
-                                            <motion.span
+                                            <motion.div
                                                 key={region}
                                                 variants={itemVariants}
                                                 whileHover={{ scale: 1.05 }}
-                                                className="bg-primary-light text-primary px-3 py-1.5 rounded-full text-sm font-medium text-center"
+                                                className="bg-primary-light text-primary rounded-full text-sm font-medium"
                                             >
-                                                {region}
-                                            </motion.span>
+                                                <div className="px-3 py-2 text-center h-full flex items-center justify-center">
+                                                    <span className="leading-tight">
+                                                        {region}
+                                                    </span>
+                                                </div>
+                                            </motion.div>
                                         ))}
                                     </motion.div>
                                 </div>
 
                                 {/* Right Column - Image */}
                                 <div className="relative h-64 lg:h-auto">
-                                    {/* Optional: Add a gradient overlay for better text contrast */}
                                     <div className="absolute inset-0 bg-gradient-to-l from-primary/5 to-transparent z-10"></div>
 
                                     <motion.img
@@ -237,7 +245,6 @@ const PortfolioPage = () => {
                                         className="w-full h-full object-cover"
                                     />
 
-                                    {/* Optional decorative element */}
                                     <motion.div
                                         initial={{ width: 0 }}
                                         whileInView={{ width: "100%" }}
@@ -262,14 +269,19 @@ const PortfolioPage = () => {
             >
                 <div className="container-wide">
                     <div className="max-w-6xl mx-auto">
-                        <motion.h2
+                        <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="text-2xl sm:text-3xl font-serif font-bold text-primary mb-8 text-center"
+                            className="text-center mb-10"
                         >
-                            Strategic Expertise & Capabilities
-                        </motion.h2>
+                            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-primary mb-4">
+                                Strategic Expertise & Capabilities
+                            </h2>
+                            <p className="text-foreground max-w-3xl mx-auto text-lg leading-relaxed">
+                                A selection of strategic capabilities built through hands-on advisory engagements across growth, investment, market entry, and transformation decisions.
+                            </p>
+                        </motion.div>
 
                         <motion.div
                             variants={staggerContainer}
@@ -337,8 +349,6 @@ const PortfolioPage = () => {
                             whileHover={{ scale: 1.02 }}
                             className="bg-[#2E5C8A] text-accent-foreground rounded-xl shadow-soft p-6 relative overflow-hidden"
                         >
-
-
                             <div className="relative z-10">
                                 <motion.div
                                     initial={{ y: 20, opacity: 0 }}
@@ -381,7 +391,7 @@ const PortfolioPage = () => {
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                         href="/contact"
-                                        className="inline-flex items-center gap-2 bg-white/20 text-white hover:bg-white/30  font-medium px-5 py-2.5 rounded-lg transition-all border border-white/20"
+                                        className="inline-flex items-center gap-2 bg-white/20 text-white hover:bg-white/30 font-medium px-5 py-2.5 rounded-lg transition-all border border-white/20"
                                     >
                                         <Phone className="w-4 h-4" />
                                         Contact Now

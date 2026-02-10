@@ -7,34 +7,44 @@ import {
     GitBranch,
     CheckCircle2,
     HelpCircle,
-    UserCheck, Brain, BicepsFlexed, ShieldPlus, ChartNoAxesCombined
+    UserCheck,
+    Brain,
+    BicepsFlexed,
+    ShieldPlus,
+    ChartNoAxesCombined
 } from 'lucide-react';
 
 const ExperienceSection = () => {
     const experienceHighlights = [
         {
             icon: Target,
-            text: "Led 250+ consulting and research engagements"
+            title: "250+ Strategy & Research Engagements",
+            description: "Strategy, market research, feasibility, and sourcing projects"
         },
         {
-            icon: Users,
-            text: "Worked closely with CXOs, founders, investors, and policy stakeholders"
+            icon: UserCheck,
+            title: "Founder & CXO Advisor",
+            description: "Worked closely with startup founders, MSME promoters, and senior leaders"
         },
         {
             icon: TrendingUp,
-            text: "Supported decisions related to growth, investment, sourcing, and transformation"
+            title: "Growth & Investment Decisions",
+            description: "Supported market entry, expansion, investment, and procurement decisions"
         },
         {
             icon: Building2,
-            text: "Built and scaled consulting verticals and advisory practices"
+            title: "Built & Scaled Advisory Practices",
+            description: "Set up and scaled consulting and advisory teams"
         },
         {
-            icon: Lightbulb,
-            text: "Delivered projects across Healthcare, EV & Auto Components, Green Energy, Industrial Manufacturing, Agri Equipment, and E-commerce"
+            icon: ShieldPlus,
+            title: "Multi-Sector Experience",
+            description: "Healthcare, EV & Auto, Green Energy, Manufacturing, Agri, and E-commerce"
         },
         {
             icon: GitBranch,
-            text: "Bridged boardroom strategy with on-ground execution realities"
+            title: "Strategy to Execution",
+            description: "Turned strategy into practical, on-ground action"
         }
     ];
 
@@ -42,10 +52,8 @@ const ExperienceSection = () => {
         <section className="w-full bg-white py-20 ">
             <div className="container-wide relative px-4">
 
-
-            {/* Section Header */}
+                {/* Section Header */}
                 <div className="mb-16 max-w-3xl">
-
                     <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
                         Experience
                     </h2>
@@ -63,21 +71,27 @@ const ExperienceSection = () => {
                         return (
                             <div
                                 key={index}
-                                className="relative rounded-xl border border-gray-200  p-6 transition-shadow hover:shadow-md"
+                                className="relative rounded-xl border border-gray-200 p-6 transition-shadow hover:shadow-md"
                             >
                                 <div className="absolute right-6 top-6">
                                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
                                         <IconComponent className="h-6 w-6 text-[#0B1F32]" />
                                     </div>
                                 </div>
-                                <p className="pr-12 text-base leading-relaxed text-gray-700">
-                                    {item.text}
+
+                                {/* Title */}
+                                <h3 className="pr-16 text-lg font-semibold text-gray-900 mb-3">
+                                    {item.title}
+                                </h3>
+
+                                {/* Description */}
+                                <p className="text-base leading-relaxed text-gray-600">
+                                    {item.description}
                                 </p>
                             </div>
                         );
                     })}
                 </div>
-
 
             </div>
         </section>

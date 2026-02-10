@@ -11,21 +11,19 @@ import portfolio5 from "../../public/assets/sundar-moorthy-4.jpeg";
 import portfolio6 from "../../public/assets/sundar-moorthy-6.jpg";
 import heroWedding from "../../public/assets/sundar-moorthy-7.jpg";
 import heroFashion from "../../public/assets/sundar-moorthy-8.jpg";
-// import heroEvent from "../../public/assets/sundar-moorthy-9.jpg";
-import heroPortrait from "../../public/assets/sundar-moorthy-10.jpg";
 
 
 // Create separate arrays for each row to ensure equal distribution
 const row1Images = [
-    portfolio1, portfolio3, portfolio5, heroWedding,  heroPortrait,
-     heroFashion, portfolio2, portfolio4, portfolio6, heroFashion,
+    portfolio1, portfolio3, heroFashion, portfolio5, heroWedding,
+      portfolio2, portfolio4, portfolio6, heroFashion,
 ];
 
 const row2Images = [
     portfolio2, portfolio4, portfolio6, heroFashion, portfolio1, portfolio3,
-    portfolio5, heroWedding,  heroPortrait, portfolio2, portfolio4, portfolio6,
+    portfolio5, heroWedding,  portfolio2, portfolio4, portfolio6,
     heroFashion, portfolio1, portfolio3, portfolio5, heroWedding,
-    heroPortrait, portfolio2,
+     portfolio2,
     portfolio4, portfolio6, heroFashion
 ];
 
