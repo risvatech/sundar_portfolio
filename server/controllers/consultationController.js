@@ -21,29 +21,14 @@ export const consultationController = {
             // Insert consultation request
             const [consultation] = await db.insert(consultationRequests)
                 .values({
-                    firstName: value.firstName,
-                    lastName: value.lastName,
+                    name: value.name,
                     email: value.email,
-                    phone: value.phone || null,
-                    company: value.company || null,
-                    jobTitle: value.jobTitle || null,
-                    businessType: value.businessType || null,
-                    industry: value.industry || null,
-                    businessSize: value.businessSize || null,
-                    annualRevenue: value.annualRevenue || null,
-                    consultationType: value.consultationType,
-                    preferredDate: value.preferredDate || null,
-                    preferredTime: value.preferredTime || null,
-                    timezone: value.timezone || null,
-                    projectDescription: value.projectDescription || null,
-                    mainChallenges: value.mainChallenges || null,
-                    goals: value.goals || null,
-                    budgetRange: value.budgetRange || null,
-                    timeline: value.timeline || null,
-                    referralSource: value.referralSource || null,
-                    referralDetails: value.referralDetails || null,
-                    additionalInfo: value.additionalInfo || null,
-                    hearAboutUs: value.hearAboutUs || null,
+                    phone: value.phone,
+                    company: value.company,
+                    title: value.title,
+                    location: value.location,
+                    serviceType: value.serviceType,
+                    description: value.description,
                     status: 'pending'
                 })
                 .returning();
@@ -53,9 +38,9 @@ export const consultationController = {
                 message: 'Consultation request submitted successfully!',
                 data: {
                     id: consultation.id,
-                    name: `${consultation.firstName} ${consultation.lastName}`,
+                    name: consultation.name,
                     email: consultation.email,
-                    consultationType: consultation.consultationType,
+                    serviceType: consultation.serviceType,
                     status: consultation.status,
                     createdAt: consultation.createdAt
                 }

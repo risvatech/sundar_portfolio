@@ -22,7 +22,7 @@ const navItems: NavItem[] = [
     // { name: "Impact", path: "/experience" },
     // { name: "Events", path: "/events" },
     // { name: "Social", path: "/social" },
-    { name: "Articles",  path: "/articles" },
+    { name: "Insights",  path: "/insights" },
 
 ];
 

@@ -1,7 +1,7 @@
 "use client"
-import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import Image from "next/image"
+import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import portfolio1 from "../../public/assets/sundar-moorthy-1.jpeg";
 import portfolio2 from "../../public/assets/sundar-moorthy-2.jpg";
@@ -12,141 +12,159 @@ import portfolio6 from "../../public/assets/sundar-moorthy-6.jpg";
 import heroWedding from "../../public/assets/sundar-moorthy-7.jpg";
 import heroFashion from "../../public/assets/sundar-moorthy-8.jpg";
 
-
-// Create separate arrays for each row to ensure equal distribution
-const row1Images = [
+// Single row of images
+const rowImages = [
     portfolio1, portfolio3, heroFashion, portfolio5, heroWedding,
-      portfolio2, portfolio4, portfolio6, heroFashion,
+    portfolio2, portfolio4, portfolio6, heroFashion,
 ];
 
-const row2Images = [
-    portfolio2, portfolio4, portfolio6, heroFashion, portfolio1, portfolio3,
-    portfolio5, heroWedding,  portfolio2, portfolio4, portfolio6,
-    heroFashion, portfolio1, portfolio3, portfolio5, heroWedding,
-     portfolio2,
-    portfolio4, portfolio6, heroFashion
-];
-
-// Ensure both arrays have the same length
-const maxLength = Math.max(row1Images.length, row2Images.length);
-const row1 = row1Images.slice(0, maxLength);
-row2Images.slice(0, maxLength);
 const PhotoSection = () => {
-    const sectionRef = useRef<HTMLElement>(null);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [visibleCount, setVisibleCount] = useState(3);
     const containerRef = useRef<HTMLDivElement>(null);
-    const headerRef = useRef(null);
-    const isInView = useInView(headerRef, { once: true });
-    const [galleryWidth, setGalleryWidth] = useState(0);
-    const [windowWidth, setWindowWidth] = useState(0);
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
-    // Get window width on mount
+    // Number of images to show based on screen size
     useEffect(() => {
-        setWindowWidth(window.innerWidth);
-        const handleResize = () => setWindowWidth(window.innerWidth);
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        const updateVisibleCount = () => {
+            if (window.innerWidth < 640) setVisibleCount(1);
+            else if (window.innerWidth < 1024) setVisibleCount(2);
+            else setVisibleCount(3);
+        };
+
+        updateVisibleCount();
+        window.addEventListener('resize', updateVisibleCount);
+        return () => window.removeEventListener('resize', updateVisibleCount);
     }, []);
 
-    // Calculate gallery width - BASED ON EQUAL ROWS
+    // Calculate total slides based on visible count
+    const totalSlides = Math.ceil(rowImages.length / visibleCount);
+
+    // Calculate how much to move for each slide
+    const slideMovement = 100 / visibleCount;
+
+    const goToPrevious = () => {
+        if (isTransitioning) return;
+
+        setIsTransitioning(true);
+        setCurrentSlide(prev => {
+            const newSlide = prev - 1;
+            if (newSlide < 0) {
+                // Go to the last slide
+                return totalSlides - 1;
+            }
+            return newSlide;
+        });
+
+        setTimeout(() => setIsTransitioning(false), 500);
+    };
+
+    const goToNext = () => {
+        if (isTransitioning) return;
+
+        setIsTransitioning(true);
+        setCurrentSlide(prev => {
+            const newSlide = prev + 1;
+            if (newSlide >= totalSlides) {
+                // Go back to the first slide
+                return 0;
+            }
+            return newSlide;
+        });
+
+        setTimeout(() => setIsTransitioning(false), 500);
+    };
+
+    // Auto-play functionality (optional - remove if not needed)
     useEffect(() => {
-        if (windowWidth === 0) return;
+        const interval = setInterval(() => {
+            goToNext();
+        }, 5000);
 
-        const imageWidth = 320; // w-80 = 320px
-        const gap = 16; // gap-4 = 16px
-        const totalWidth = (imageWidth + gap) * row1.length;
-        setGalleryWidth(totalWidth);
-    }, [windowWidth]);
+        return () => clearInterval(interval);
+    }, [totalSlides]);
 
-    // Use scroll progress for this section only
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start start", "end end"]
-    });
-
-    // Gallery progress - make it slower
-    const galleryProgress = useTransform(
-        scrollYProgress,
-        [0, 1],
-        [0, 1]
-    );
-
-    // Calculate visible width - how many images can fit on screen
-    const visibleImages = Math.floor(windowWidth / 336); // 320px image + 16px gap
-    const visibleWidth = visibleImages * 336;
-
-    // ROW 1: Comes from RIGHT side, moves LEFT, STOPS when first image reaches left edge
-    const row1X = useTransform(
-        galleryProgress,
-        [0, 1],
-        [windowWidth * 0.1, -(galleryWidth - visibleWidth)]
-    );
-
-
-
-    // SECTION HEIGHT: Adjusted for better scrolling
-    const sectionHeight = galleryWidth > 0
-        ? Math.max(window.innerHeight * 3, galleryWidth * 0.5)
-        : '40vh';
-
-
-
+    // Calculate the width for each image based on visible count
+    const imageWidth = 100 / visibleCount;
 
     return (
-        <section
-            ref={sectionRef}
-            className="relative "
-            style={{
-                height: typeof sectionHeight === 'number' ? `${sectionHeight}px` : sectionHeight
-            }}
-        >
-            {/* Fixed container that stays in viewport */}
-            <div
-                ref={containerRef}
-                className="sticky top-0 h-screen flex flex-col justify-center items-center overflow-hidden"
-            >
-                {/* Gallery Container with boundaries */}
-                <div className="relative w-full">
-                    {/* Row 1: Comes from RIGHT, moves LEFT, STOPS */}
-                    <motion.div
-                        className="flex gap-4 mb-4"
-                        style={{ x: row1X }}
-                    >
-                        {row1.map((image, index) => (
-                            <div
-                                key={`row1-${index}`}
-                                className="flex-shrink-0 w-64 h-48 lg:w-80 lg:h-60 overflow-hidden group cursor-pointer relative rounded-lg"
-                            >
-                                <Image
-                                    src={image}
-                                    alt={`Gallery Row 1 - ${index + 1}`}
-                                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                                    placeholder="blur"
-                                    fill // Add this if using absolute dimensions
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                            </div>
-                        ))}
-                    </motion.div>
+        <section className="relative py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+                <div className="flex flex-col items-center">
+                    {/* Carousel Container */}
+                    <div className="relative w-full overflow-hidden">
+                        {/* Arrow Navigation */}
+                        {totalSlides > 1 && (
+                            <>
+                                <button
+                                    onClick={goToPrevious}
+                                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all"
+                                >
+                                    <ChevronLeft className="w-6 h-6" />
+                                </button>
 
+                                <button
+                                    onClick={goToNext}
+                                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all"
+                                >
+                                    <ChevronRight className="w-6 h-6" />
+                                </button>
+                            </>
+                        )}
 
-
-                </div>
-
-                {/* Progress Indicator */}
-                <motion.div
-                    className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-                    style={{
-                        opacity: useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0])
-                    }}
-                >
-                    <div className="w-48 h-2 bg-gray-200/50 rounded-full overflow-hidden">
-                        <motion.div
-                            className="h-full bg-primary"
-                            style={{ scaleX: galleryProgress }}
-                        />
+                        {/* Images Container */}
+                        <div
+                            ref={containerRef}
+                            className={`flex ${isTransitioning ? 'transition-transform duration-500 ease-out' : ''}`}
+                            style={{
+                                transform: `translateX(-${currentSlide * slideMovement}%)`,
+                                width: `${rowImages.length * (100 / visibleCount)}%`
+                            }}
+                        >
+                            {rowImages.map((image, index) => (
+                                <div
+                                    key={`carousel-${index}`}
+                                    className="px-2"
+                                    style={{ width: `${imageWidth}%` }}
+                                >
+                                    <div className="relative overflow-hidden group cursor-pointer rounded-lg aspect-[4/3]">
+                                        <Image
+                                            src={image}
+                                            alt={`Gallery Image - ${index + 1}`}
+                                            className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                            placeholder="blur"
+                                            fill
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </motion.div>
 
+                    {/* Dots Indicator - only show if there are multiple slides */}
+                    {totalSlides > 1 && (
+                        <div className="flex justify-center items-center mt-8 space-x-2">
+                            {Array.from({ length: totalSlides }).map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => {
+                                        setIsTransitioning(true);
+                                        setCurrentSlide(index);
+                                        setTimeout(() => setIsTransitioning(false), 500);
+                                    }}
+                                    className={`w-2 h-2 rounded-full transition-all ${
+                                        index === currentSlide
+                                            ? 'bg-primary scale-125'
+                                            : 'bg-gray-300 hover:bg-gray-400'
+                                    }`}
+                                    aria-label={`Go to slide ${index + 1}`}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
         </section>
     );

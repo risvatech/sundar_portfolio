@@ -6,7 +6,7 @@ import {
     userDetails,
     changePassword,
     getAllUsers,
-    getUserDetails,
+    getUserDetails, adminChangePassword,
     // add/update/delete user
 } from "../controllers/authController.js";
 
@@ -18,7 +18,8 @@ router.post("/register", register);       // POST /api/auth/register
 router.post("/logout", logoutUser);       // POST /api/auth/logout
 router.get("/user", userDetails);         // GET  /api/auth/user (current user via cookie/JWT)
 router.post("/change-password", changePassword); // POST /api/auth/change-password
-
+// Add this route (anywhere after the imports)
+router.post("/admin/change-password/:userId", adminChangePassword);
 // Users
 router.get("/users", getAllUsers);         // GET /api/auth/users
 router.get("/users/:id", getUserDetails);  // GET /api/auth/users/:id

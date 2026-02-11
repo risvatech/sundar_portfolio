@@ -115,7 +115,7 @@ export const SEO_CONFIG: Record<string, PageMetadata> = {
     },
     blog: {
         title: 'Tech Blog – Web, Mobile & AI Insights – Risva Technologies',
-        description: 'Latest articles on web development, mobile apps, AI tools, React, Next.js, Node.js, software trends and business technology.',
+        description: 'Latest Insights on web development, mobile apps, AI tools, React, Next.js, Node.js, software trends and business technology.',
         keywords: 'tech blog, web development blog, AI blog, React tutorials, Node.js articles, technology news, Risva Technologies blog',
         ogTitle: 'Tech Blog – Risva Technologies',
         ogDescription: 'Insights on AI, web and mobile development.',

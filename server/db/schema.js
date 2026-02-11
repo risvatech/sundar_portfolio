@@ -114,50 +114,20 @@ export const quotes = pgTable('quotes', {
 });
 
 // Consultation Request Table
+// In your schema.js
 export const consultationRequests = pgTable('consultation_requests', {
     id: serial('id').primaryKey(),
-
-    // Contact Information
-    firstName: varchar('first_name', { length: 100 }).notNull(),
-    lastName: varchar('last_name', { length: 100 }).notNull(),
-    email: varchar('email', { length: 255 }).notNull(),
-    phone: varchar('phone', { length: 20 }),
-    company: varchar('company', { length: 255 }),
-    jobTitle: varchar('job_title', { length: 100 }),
-
-    // Business Information
-    businessType: varchar('business_type', { length: 100 }),
-    industry: varchar('industry', { length: 100 }),
-    businessSize: varchar('business_size', { length: 50 }),
-    annualRevenue: varchar('annual_revenue', { length: 100 }),
-
-    // Consultation Details
-    consultationType: varchar('consultation_type', { length: 100 }).notNull(),
-    preferredDate: timestamp('preferred_date'),
-    preferredTime: varchar('preferred_time', { length: 50 }),
-    timezone: varchar('timezone', { length: 50 }),
-
-    // Project Information
-    projectDescription: text('project_description'),
-    mainChallenges: text('main_challenges'),
-    goals: text('goals'),
-    budgetRange: varchar('budget_range', { length: 100 }),
-    timeline: varchar('timeline', { length: 100 }),
-
-    // How did you hear about us
-    referralSource: varchar('referral_source', { length: 100 }),
-    referralDetails: text('referral_details'),
-
-    // Additional Information
-    additionalInfo: text('additional_info'),
-    hearAboutUs: text('hear_about_us'),
-
-    // Status & Metadata
-    status: varchar('status', { length: 50 }).default('pending'),
-    isFollowedUp: boolean('is_followed_up').default(false),
+    name: varchar('name', { length: 100 }).notNull(),
+    email: varchar('email', { length: 100 }).notNull(),
+    phone: varchar('phone', { length: 20 }).notNull(),
+    company: varchar('company', { length: 100 }).notNull(),
+    title: varchar('title', { length: 100 }).notNull(),
+    location: varchar('location', { length: 100 }).notNull(),
+    serviceType: varchar('service_type', { length: 50 }).notNull(),
+    description: text('description').notNull(),
+    status: varchar('status', { length: 20 }).default('pending'),
     notes: text('notes'),
-
-    // Timestamps
+    isFollowedUp: boolean('is_followed_up').default(false),
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at').defaultNow(),
 });

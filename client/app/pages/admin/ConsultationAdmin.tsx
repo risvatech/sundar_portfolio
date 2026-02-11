@@ -13,7 +13,6 @@ import {
     RefreshCw,
     Eye,
     Trash2,
-    Calendar,
     Mail,
     Phone,
     CheckCircle,
@@ -23,39 +22,28 @@ import {
     Building,
     FileText,
     ChevronLeft,
-    ChevronRight
+    ChevronRight,
+    MapPin,
+    Briefcase,
+    MoreVertical,
+    Calendar
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/app/hooks/use-toast";
 import api from "../../service/api";
 import { format } from "date-fns";
 
-// Types - Complete interface matching your schema
+// Types - Updated interface matching the simplified schema
 interface ConsultationRequest {
     id: number;
-    firstName: string;
-    lastName: string;
+    name: string;
     email: string;
-    phone?: string;
-    company?: string;
-    jobTitle?: string;
-    businessType?: string;
-    industry?: string;
-    businessSize?: string;
-    annualRevenue?: string;
-    consultationType: string;
-    preferredDate?: string;
-    preferredTime?: string;
-    timezone?: string;
-    projectDescription?: string;
-    mainChallenges?: string;
-    goals?: string;
-    budgetRange?: string;
-    timeline?: string;
-    referralSource?: string;
-    referralDetails?: string;
-    additionalInfo?: string;
-    hearAboutUs?: string;
+    phone: string;
+    company: string;
+    title: string;
+    location: string;
+    serviceType: string;
+    description: string;
     status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
     isFollowedUp: boolean;
     notes?: string;
@@ -120,19 +108,17 @@ export default function ConsultationAdmin() {
     const [updateStatus, setUpdateStatus] = useState("");
     const [updateNotes, setUpdateNotes] = useState("");
 
+    // Mobile menu state
+    const [mobileActionMenu, setMobileActionMenu] = useState<number | null>(null);
+
     // Helper function to handle API responses
     const handleApiResponse = <T,>(response: any): T => {
-        // If response is already in our ApiResponse format, return it
         if (response && typeof response === 'object' && 'success' in response) {
             return response as T;
         }
-
-        // If response is Axios response, extract data
         if (response && response.data) {
             return response.data as T;
         }
-
-        // Fallback
         return response as T;
     };
 
@@ -148,8 +134,6 @@ export default function ConsultationAdmin() {
 
             const response = await api.get(`/admin/consultations?${params.toString()}`);
             const result: ConsultationsResponse = handleApiResponse<ConsultationsResponse>(response);
-
-            console.log('Consultations API Response:', result);
 
             if (result.success && result.data) {
                 setConsultations(result.data);
@@ -182,8 +166,6 @@ export default function ConsultationAdmin() {
         try {
             const response = await api.get('/admin/consultations/stats');
             const result: StatsResponse = handleApiResponse<StatsResponse>(response);
-
-            console.log('Stats API Response:', result);
 
             if (result.success && result.data) {
                 setStats(result.data.stats);
@@ -227,6 +209,7 @@ export default function ConsultationAdmin() {
         setUpdateStatus(consultation.status);
         setUpdateNotes(consultation.notes || "");
         setViewMode('detail');
+        setMobileActionMenu(null);
     };
 
     // Update consultation status
@@ -247,7 +230,6 @@ export default function ConsultationAdmin() {
                     description: result.message || "Consultation updated successfully"
                 });
 
-                // Update local state
                 const updatedConsultations = consultations.map(c =>
                     c.id === selectedConsultation.id
                         ? { ...c, status: updateStatus as any, notes: updateNotes }
@@ -255,14 +237,12 @@ export default function ConsultationAdmin() {
                 );
                 setConsultations(updatedConsultations);
 
-                // Update selected consultation
                 setSelectedConsultation({
                     ...selectedConsultation,
                     status: updateStatus as any,
                     notes: updateNotes
                 });
 
-                // Refresh stats
                 fetchStats();
             } else {
                 toast({
@@ -294,10 +274,7 @@ export default function ConsultationAdmin() {
                     description: result.message || "Consultation deleted successfully"
                 });
 
-                // Remove from local state
                 setConsultations(consultations.filter(c => c.id !== id));
-
-                // Refresh stats
                 fetchStats();
             } else {
                 toast({
@@ -325,7 +302,6 @@ export default function ConsultationAdmin() {
             const result: ApiResponse<ConsultationRequest> = handleApiResponse<ApiResponse<ConsultationRequest>>(response);
 
             if (result.success) {
-                // Update local state
                 const updatedConsultations = consultations.map(c =>
                     c.id === id ? { ...c, isFollowedUp: !currentStatus } : c
                 );
@@ -356,9 +332,9 @@ export default function ConsultationAdmin() {
 
         try {
             const csvContent = "data:text/csv;charset=utf-8,"
-                + "ID,Name,Email,Phone,Company,Consultation Type,Status,Created At\n"
+                + "ID,Name,Email,Phone,Company,Title,Location,Service Type,Status,Created At\n"
                 + consultations.map(c =>
-                    `${c.id},"${c.firstName} ${c.lastName}",${c.email},${c.phone || ''},"${c.company || ''}",${c.consultationType},${c.status},${new Date(c.createdAt).toLocaleDateString()}`
+                    `${c.id},"${c.name}",${c.email},${c.phone},"${c.company}","${c.title}","${c.location}",${c.serviceType},${c.status},${new Date(c.createdAt).toLocaleDateString()}`
                 ).join("\n");
 
             const encodedUri = encodeURI(csvContent);
@@ -394,73 +370,141 @@ export default function ConsultationAdmin() {
         const { variant, icon: Icon } = config[status] || { variant: "outline", icon: Clock };
 
         return (
-            <Badge variant={variant} className="gap-1">
-                <Icon size={12} />
-                {status.charAt(0).toUpperCase() + status.slice(1)}
+            <Badge variant={variant} className="gap-1 text-xs md:text-sm">
+                <Icon size={10} className="md:size-3" />
+                <span className="hidden sm:inline">{status.charAt(0).toUpperCase() + status.slice(1)}</span>
+                <span className="sm:hidden">{status.charAt(0).toUpperCase()}</span>
             </Badge>
         );
     };
 
+    // Format service type for display
+    const formatServiceType = (type: string) => {
+        return type
+            .replace(/-/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    };
+
+    // Mobile responsive table row
+    const MobileTableRow = ({ consultation }: { consultation: ConsultationRequest }) => (
+        <div className="p-4 border-b space-y-3">
+            <div className="flex justify-between items-start">
+                <div>
+                    <div className="font-medium">{consultation.name}</div>
+                    <div className="text-xs text-muted-foreground">
+                        {format(new Date(consultation.createdAt), 'MMM d, yyyy')}
+                    </div>
+                </div>
+                <div className="flex items-center gap-2">
+                    <StatusBadge status={consultation.status} />
+                    <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => setMobileActionMenu(mobileActionMenu === consultation.id ? null : consultation.id)}
+                    >
+                        <MoreVertical size={16} />
+                    </Button>
+                </div>
+            </div>
+
+            <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                    <Mail size={12} className="text-muted-foreground" />
+                    <span className="text-sm truncate">{consultation.email}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Phone size={12} className="text-muted-foreground" />
+                    <span className="text-sm">{consultation.phone}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Building size={12} className="text-muted-foreground" />
+                    <span className="text-sm truncate">{consultation.company}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <MapPin size={12} className="text-muted-foreground" />
+                    <span className="text-sm truncate">{consultation.location}</span>
+                </div>
+            </div>
+
+            {mobileActionMenu === consultation.id && (
+                <div className="flex gap-2 pt-2 border-t">
+                    <Button
+                        size="sm"
+                        variant="ghost"
+                        className="flex-1"
+                        onClick={() => viewConsultation(consultation)}
+                    >
+                        <Eye size={14} className="mr-1" />
+                        View
+                    </Button>
+                    <Button
+                        size="sm"
+                        variant="ghost"
+                        className="flex-1"
+                        onClick={() => toggleFollowUp(consultation.id, consultation.isFollowedUp)}
+                    >
+                        {consultation.isFollowedUp ? 'Followed ✓' : 'Follow Up'}
+                    </Button>
+                    <Button
+                        size="sm"
+                        variant="ghost"
+                        className="flex-1 text-destructive"
+                        onClick={() => handleDelete(consultation.id)}
+                    >
+                        <Trash2 size={14} className="mr-1" />
+                        Delete
+                    </Button>
+                </div>
+            )}
+        </div>
+    );
+
     // Main content - List view
     const renderListView = () => (
         <>
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-2xl">{stats.total}</CardTitle>
-                        <CardDescription>Total Requests</CardDescription>
-                    </CardHeader>
-                </Card>
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-2xl">{stats.pending}</CardTitle>
-                        <CardDescription>Pending</CardDescription>
-                    </CardHeader>
-                </Card>
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-2xl">{stats.confirmed}</CardTitle>
-                        <CardDescription>Confirmed</CardDescription>
-                    </CardHeader>
-                </Card>
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-2xl">{stats.completed}</CardTitle>
-                        <CardDescription>Completed</CardDescription>
-                    </CardHeader>
-                </Card>
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-2xl">{stats.cancelled}</CardTitle>
-                        <CardDescription>Cancelled</CardDescription>
-                    </CardHeader>
-                </Card>
+            {/* Stats Cards - Responsive */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-6">
+                {[
+                    { value: stats.total, label: "Total", color: "bg-blue-100 dark:bg-blue-900/20" },
+                    { value: stats.pending, label: "Pending", color: "bg-yellow-100 dark:bg-yellow-900/20" },
+                    { value: stats.confirmed, label: "Confirmed", color: "bg-green-100 dark:bg-green-900/20" },
+                    { value: stats.completed, label: "Completed", color: "bg-purple-100 dark:bg-purple-900/20" },
+                    { value: stats.cancelled, label: "Cancelled", color: "bg-red-100 dark:bg-red-900/20" }
+                ].map((stat, index) => (
+                    <Card key={index} className={`${stat.color} border-0`}>
+                        <CardHeader className="pb-2 p-4">
+                            <CardTitle className="text-xl md:text-2xl">{stat.value}</CardTitle>
+                            <CardDescription className="text-xs md:text-sm">{stat.label}</CardDescription>
+                        </CardHeader>
+                    </Card>
+                ))}
             </div>
 
-            {/* Filters */}
+            {/* Filters - Responsive */}
             <Card className="mb-6">
-                <CardHeader>
-                    <CardTitle>Filters</CardTitle>
+                <CardHeader className="p-4 md:p-6">
+                    <CardTitle className="text-lg md:text-xl">Filters</CardTitle>
                 </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col md:flex-row gap-4">
+                <CardContent className="p-4 md:p-6 pt-0">
+                    <div className="flex flex-col md:flex-row gap-3 md:gap-4">
                         <div className="flex-1">
                             <div className="relative">
-                                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                 <Input
-                                    placeholder="Search by name, email, or company..."
+                                    placeholder="Search..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="pl-9"
+                                    className="pl-9 text-sm md:text-base"
                                 />
                             </div>
                         </div>
                         <div className="flex gap-2">
                             <Select value={statusFilter} onValueChange={setStatusFilter}>
-                                <SelectTrigger className="w-[180px]">
+                                <SelectTrigger className="w-[130px] md:w-[180px] text-sm">
                                     <Filter className="mr-2 h-4 w-4" />
-                                    <SelectValue placeholder="Filter by status" />
+                                    <SelectValue placeholder="Status" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Status</SelectItem>
@@ -470,11 +514,14 @@ export default function ConsultationAdmin() {
                                     <SelectItem value="cancelled">Cancelled</SelectItem>
                                 </SelectContent>
                             </Select>
-                            <Button variant="outline" onClick={handleExport}>
+                            <Button variant="outline" size="icon" onClick={handleExport} className="md:hidden">
+                                <Download className="h-4 w-4" />
+                            </Button>
+                            <Button variant="outline" onClick={handleExport} className="hidden md:flex">
                                 <Download className="mr-2 h-4 w-4" />
                                 Export
                             </Button>
-                            <Button variant="outline" onClick={fetchConsultations}>
+                            <Button variant="outline" size="icon" onClick={fetchConsultations}>
                                 <RefreshCw className="h-4 w-4" />
                             </Button>
                         </div>
@@ -482,15 +529,15 @@ export default function ConsultationAdmin() {
                 </CardContent>
             </Card>
 
-            {/* Consultation Table */}
+            {/* Consultation Table - Responsive */}
             <Card>
-                <CardHeader>
+                <CardHeader className="p-4 md:p-6">
                     <CardTitle>Consultation Requests</CardTitle>
                     <CardDescription>
                         Showing {consultations.length} of {pagination.total} requests
                     </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-0 md:p-6">
                     {loading ? (
                         <div className="text-center py-8">
                             <RefreshCw className="h-8 w-8 animate-spin mx-auto text-muted-foreground" />
@@ -504,61 +551,57 @@ export default function ConsultationAdmin() {
                         </div>
                     ) : (
                         <>
-                            <div className="rounded-md border">
-                                <div className="grid grid-cols-12 gap-4 p-4 font-medium border-b">
+                            {/* Desktop Table */}
+                            <div className="hidden md:block rounded-md border">
+                                <div className="grid grid-cols-12 gap-4 p-4 font-medium border-b text-sm">
                                     <div className="col-span-2">Name</div>
                                     <div className="col-span-3">Contact</div>
-                                    <div className="col-span-2">Company</div>
-                                    <div className="col-span-2">Type</div>
+                                    <div className="col-span-2">Company & Title</div>
+                                    <div className="col-span-2">Location & Service</div>
                                     <div className="col-span-1">Status</div>
                                     <div className="col-span-2">Actions</div>
                                 </div>
                                 <div className="divide-y">
                                     {consultations.map((consultation) => (
-                                        <div key={consultation.id} className="grid grid-cols-12 gap-4 p-4 items-center hover:bg-muted/50">
+                                        <div key={consultation.id} className="grid grid-cols-12 gap-4 p-4 items-center hover:bg-muted/50 text-sm">
                                             <div className="col-span-2">
-                                                <div className="font-medium">{consultation.firstName} {consultation.lastName}</div>
-                                                <div className="text-sm text-muted-foreground">
+                                                <div className="font-medium truncate">{consultation.name}</div>
+                                                <div className="text-xs text-muted-foreground">
                                                     {format(new Date(consultation.createdAt), 'MMM d, yyyy')}
                                                 </div>
                                             </div>
                                             <div className="col-span-3">
                                                 <div className="flex items-center gap-2">
-                                                    <Mail size={12} className="text-muted-foreground" />
-                                                    <span className="text-sm">{consultation.email}</span>
+                                                    <Mail size={12} className="text-muted-foreground flex-shrink-0" />
+                                                    <span className="truncate">{consultation.email}</span>
                                                 </div>
-                                                {consultation.phone && (
-                                                    <div className="flex items-center gap-2 mt-1">
-                                                        <Phone size={12} className="text-muted-foreground" />
-                                                        <span className="text-sm">{consultation.phone}</span>
-                                                    </div>
-                                                )}
+                                                <div className="flex items-center gap-2 mt-1">
+                                                    <Phone size={12} className="text-muted-foreground flex-shrink-0" />
+                                                    <span>{consultation.phone}</span>
+                                                </div>
                                             </div>
                                             <div className="col-span-2">
                                                 <div className="flex items-center gap-2">
-                                                    <Building size={12} className="text-muted-foreground" />
-                                                    <span className="text-sm">{consultation.company || 'N/A'}</span>
+                                                    <Building size={12} className="text-muted-foreground flex-shrink-0" />
+                                                    <span className="truncate">{consultation.company}</span>
                                                 </div>
-                                                <div className="text-sm text-muted-foreground mt-1">
-                                                    {consultation.jobTitle || 'N/A'}
+                                                <div className="text-xs text-muted-foreground mt-1 truncate">
+                                                    {consultation.title}
                                                 </div>
                                             </div>
                                             <div className="col-span-2">
-                                                <div className="text-sm">{consultation.consultationType}</div>
-                                                {consultation.preferredDate && (
-                                                    <div className="flex items-center gap-1 mt-1">
-                                                        <Calendar size={10} className="text-muted-foreground" />
-                                                        <span className="text-xs text-muted-foreground">
-                                                            {format(new Date(consultation.preferredDate), 'MMM d')}
-                                                            {consultation.preferredTime && `, ${consultation.preferredTime}`}
-                                                        </span>
-                                                    </div>
-                                                )}
+                                                <div className="flex items-center gap-2">
+                                                    <MapPin size={12} className="text-muted-foreground flex-shrink-0" />
+                                                    <span className="truncate">{consultation.location}</span>
+                                                </div>
+                                                <div className="text-xs text-muted-foreground mt-1 truncate">
+                                                    {formatServiceType(consultation.serviceType)}
+                                                </div>
                                             </div>
                                             <div className="col-span-1">
                                                 <StatusBadge status={consultation.status} />
                                                 {consultation.isFollowedUp && (
-                                                    <Badge variant="outline" className="mt-1 text-xs">Followed Up</Badge>
+                                                    <Badge variant="outline" className="mt-1 text-xs">Followed</Badge>
                                                 )}
                                             </div>
                                             <div className="col-span-2">
@@ -592,9 +635,16 @@ export default function ConsultationAdmin() {
                                 </div>
                             </div>
 
-                            {/* Pagination */}
+                            {/* Mobile List */}
+                            <div className="md:hidden divide-y">
+                                {consultations.map((consultation) => (
+                                    <MobileTableRow key={consultation.id} consultation={consultation} />
+                                ))}
+                            </div>
+
+                            {/* Pagination - Responsive */}
                             {pagination.totalPages > 1 && (
-                                <div className="flex items-center justify-between mt-4">
+                                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 p-4 md:p-0 md:mt-4">
                                     <div className="text-sm text-muted-foreground">
                                         Page {pagination.page} of {pagination.totalPages}
                                     </div>
@@ -604,18 +654,20 @@ export default function ConsultationAdmin() {
                                             size="sm"
                                             onClick={() => setPagination(prev => ({ ...prev, page: Math.max(1, prev.page - 1) }))}
                                             disabled={pagination.page === 1}
+                                            className="text-xs"
                                         >
-                                            <ChevronLeft size={16} />
-                                            Previous
+                                            <ChevronLeft size={14} className="mr-1" />
+                                            Prev
                                         </Button>
                                         <Button
                                             variant="outline"
                                             size="sm"
                                             onClick={() => setPagination(prev => ({ ...prev, page: Math.min(pagination.totalPages, prev.page + 1) }))}
                                             disabled={pagination.page === pagination.totalPages}
+                                            className="text-xs"
                                         >
                                             Next
-                                            <ChevronRight size={16} />
+                                            <ChevronRight size={14} className="ml-1" />
                                         </Button>
                                     </div>
                                 </div>
@@ -627,160 +679,126 @@ export default function ConsultationAdmin() {
         </>
     );
 
-    // Detail view
+    // Detail view - Responsive
     const renderDetailView = () => {
         if (!selectedConsultation) return null;
 
         return (
             <>
                 {/* Back button */}
-                <div className="mb-6">
-                    <Button variant="ghost" onClick={() => setViewMode('list')}>
-                        <ChevronLeft size={16} />
+                <div className="mb-4 md:mb-6">
+                    <Button variant="ghost" onClick={() => setViewMode('list')} className="text-sm">
+                        <ChevronLeft size={14} className="mr-1" />
                         Back to List
                     </Button>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
                     {/* Left column - Details */}
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="lg:col-span-2 space-y-4 md:space-y-6">
                         {/* Contact Info */}
                         <Card>
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <User size={20} />
+                            <CardHeader className="p-4 md:p-6">
+                                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+                                    <User size={18} className="md:size-5" />
                                     Contact Information
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="text-sm font-medium text-muted-foreground">First Name</label>
-                                        <p className="font-medium">{selectedConsultation.firstName}</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Last Name</label>
-                                        <p className="font-medium">{selectedConsultation.lastName}</p>
-                                    </div>
+                            <CardContent className="p-4 md:p-6 pt-0 space-y-3 md:space-y-4">
+                                <div>
+                                    <label className="text-sm font-medium text-muted-foreground">Name</label>
+                                    <p className="font-medium text-sm md:text-base">{selectedConsultation.name}</p>
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                                     <div>
                                         <label className="text-sm font-medium text-muted-foreground">Email</label>
-                                        <p className="font-medium">{selectedConsultation.email}</p>
+                                        <p className="font-medium text-sm md:text-base truncate">{selectedConsultation.email}</p>
                                     </div>
                                     <div>
                                         <label className="text-sm font-medium text-muted-foreground">Phone</label>
-                                        <p className="font-medium">{selectedConsultation.phone || 'N/A'}</p>
+                                        <p className="font-medium text-sm md:text-base">{selectedConsultation.phone}</p>
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                                     <div>
                                         <label className="text-sm font-medium text-muted-foreground">Company</label>
-                                        <p className="font-medium">{selectedConsultation.company || 'N/A'}</p>
+                                        <p className="font-medium text-sm md:text-base">{selectedConsultation.company}</p>
                                     </div>
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Job Title</label>
-                                        <p className="font-medium">{selectedConsultation.jobTitle || 'N/A'}</p>
+                                        <label className="text-sm font-medium text-muted-foreground">Title</label>
+                                        <p className="font-medium text-sm md:text-base">{selectedConsultation.title}</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="text-sm font-medium text-muted-foreground">Location</label>
+                                    <p className="font-medium text-sm md:text-base">{selectedConsultation.location}</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Service Information */}
+                        <Card>
+                            <CardHeader className="p-4 md:p-6">
+                                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+                                    <Briefcase size={18} className="md:size-5" />
+                                    Service Information
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="p-4 md:p-6 pt-0 space-y-3 md:space-y-4">
+                                <div>
+                                    <label className="text-sm font-medium text-muted-foreground">Service Type</label>
+                                    <p className="font-medium text-sm md:text-base">{formatServiceType(selectedConsultation.serviceType)}</p>
+                                </div>
+                                <div>
+                                    <label className="text-sm font-medium text-muted-foreground">Brief Description</label>
+                                    <div className="mt-2 p-3 bg-muted rounded-lg whitespace-pre-line text-sm md:text-base max-h-60 overflow-y-auto">
+                                        {selectedConsultation.description}
                                     </div>
                                 </div>
                             </CardContent>
                         </Card>
 
-                        {/* Business Info */}
+                        {/* Timeline */}
                         <Card>
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <Building size={20} />
-                                    Business Information
+                            <CardHeader className="p-4 md:p-6">
+                                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+                                    <Calendar size={18} className="md:size-5" />
+                                    Timeline
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
+                            <CardContent className="p-4 md:p-6 pt-0">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Business Type</label>
-                                        <p className="font-medium">{selectedConsultation.businessType || 'N/A'}</p>
+                                        <label className="text-sm font-medium text-muted-foreground">Submitted On</label>
+                                        <p className="font-medium text-sm md:text-base">
+                                            {format(new Date(selectedConsultation.createdAt), 'PPp')}
+                                        </p>
                                     </div>
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Industry</label>
-                                        <p className="font-medium">{selectedConsultation.industry || 'N/A'}</p>
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Business Size</label>
-                                        <p className="font-medium">{selectedConsultation.businessSize || 'N/A'}</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Annual Revenue</label>
-                                        <p className="font-medium">{selectedConsultation.annualRevenue || 'N/A'}</p>
+                                        <label className="text-sm font-medium text-muted-foreground">Last Updated</label>
+                                        <p className="font-medium text-sm md:text-base">
+                                            {format(new Date(selectedConsultation.updatedAt), 'PPp')}
+                                        </p>
                                     </div>
                                 </div>
-                            </CardContent>
-                        </Card>
-
-                        {/* Project Details - Now includes all fields */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <FileText size={20} />
-                                    Project Details
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                {selectedConsultation.projectDescription && (
-                                    <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Project Description</label>
-                                        <p className="mt-1 whitespace-pre-line">{selectedConsultation.projectDescription}</p>
-                                    </div>
-                                )}
-                                {selectedConsultation.mainChallenges && (
-                                    <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Main Challenges</label>
-                                        <p className="mt-1 whitespace-pre-line">{selectedConsultation.mainChallenges}</p>
-                                    </div>
-                                )}
-                                {selectedConsultation.goals && (
-                                    <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Goals</label>
-                                        <p className="mt-1 whitespace-pre-line">{selectedConsultation.goals}</p>
-                                    </div>
-                                )}
-                                {selectedConsultation.budgetRange && (
-                                    <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Budget Range</label>
-                                        <p className="font-medium">{selectedConsultation.budgetRange}</p>
-                                    </div>
-                                )}
-                                {selectedConsultation.timeline && (
-                                    <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Timeline</label>
-                                        <p className="font-medium">{selectedConsultation.timeline}</p>
-                                    </div>
-                                )}
-                                {selectedConsultation.hearAboutUs && (
-                                    <div>
-                                        <label className="text-sm font-medium text-muted-foreground">How did you hear about us?</label>
-                                        <p className="mt-1 whitespace-pre-line">{selectedConsultation.hearAboutUs}</p>
-                                    </div>
-                                )}
                             </CardContent>
                         </Card>
                     </div>
 
                     {/* Right column - Actions & Status */}
-                    <div className="space-y-6">
+                    <div className="space-y-4 md:space-y-6">
                         {/* Status Card */}
                         <Card>
-                            <CardHeader>
-                                <CardTitle>Status & Actions</CardTitle>
+                            <CardHeader className="p-4 md:p-6">
+                                <CardTitle className="text-lg md:text-xl">Status & Actions</CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
+                            <CardContent className="p-4 md:p-6 pt-0 space-y-3 md:space-y-4">
                                 <div>
                                     <label className="text-sm font-medium mb-2 block">Current Status</label>
-                                    <div className="flex items-center gap-2 mb-4">
+                                    <div className="flex flex-wrap items-center gap-2 mb-4">
                                         <StatusBadge status={selectedConsultation.status} />
                                         {selectedConsultation.isFollowedUp && (
-                                            <Badge variant="outline">Followed Up</Badge>
+                                            <Badge variant="outline" className="text-xs">Followed Up</Badge>
                                         )}
                                     </div>
                                 </div>
@@ -788,7 +806,7 @@ export default function ConsultationAdmin() {
                                 <div>
                                     <label className="text-sm font-medium mb-2 block">Update Status</label>
                                     <Select value={updateStatus} onValueChange={setUpdateStatus}>
-                                        <SelectTrigger>
+                                        <SelectTrigger className="text-sm md:text-base">
                                             <SelectValue placeholder="Select status" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -803,75 +821,52 @@ export default function ConsultationAdmin() {
                                 <div>
                                     <label className="text-sm font-medium mb-2 block">Notes</label>
                                     <textarea
-                                        className="w-full min-h-[100px] p-2 border rounded"
+                                        className="w-full min-h-[80px] md:min-h-[100px] p-2 border rounded text-sm md:text-base"
                                         value={updateNotes}
                                         onChange={(e) => setUpdateNotes(e.target.value)}
                                         placeholder="Add notes about this consultation..."
                                     />
                                 </div>
 
-                                <div className="flex gap-2">
-                                    <Button onClick={handleUpdateStatus} className="flex-1">
+                                <div className="flex flex-col sm:flex-row gap-2">
+                                    <Button onClick={handleUpdateStatus} className="flex-1 text-sm md:text-base">
                                         Update Status
                                     </Button>
                                     <Button
                                         variant={selectedConsultation.isFollowedUp ? "default" : "outline"}
                                         onClick={() => toggleFollowUp(selectedConsultation.id, selectedConsultation.isFollowedUp)}
+                                        className="text-sm md:text-base"
                                     >
                                         {selectedConsultation.isFollowedUp ? 'Followed Up ✓' : 'Mark as Followed Up'}
                                     </Button>
                                 </div>
 
-                                <div className="pt-4 border-t">
+                                <div className="pt-3 md:pt-4 border-t">
                                     <Button
                                         variant="destructive"
-                                        className="w-full"
+                                        className="w-full text-sm md:text-base"
                                         onClick={() => handleDelete(selectedConsultation.id)}
                                     >
-                                        <Trash2 size={16} className="mr-2" />
+                                        <Trash2 size={14} className="mr-2" />
                                         Delete Consultation
                                     </Button>
                                 </div>
                             </CardContent>
                         </Card>
 
-                        {/* Consultation Details */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Consultation Details</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Consultation Type</label>
-                                    <p className="font-medium">{selectedConsultation.consultationType}</p>
-                                </div>
-
-                                {selectedConsultation.preferredDate && (
-                                    <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Preferred Date & Time</label>
-                                        <p className="font-medium">
-                                            {format(new Date(selectedConsultation.preferredDate), 'PPP')}
-                                            {selectedConsultation.preferredTime && ` at ${selectedConsultation.preferredTime}`}
-                                        </p>
+                        {/* Admin Notes */}
+                        {selectedConsultation.notes && (
+                            <Card>
+                                <CardHeader className="p-4 md:p-6">
+                                    <CardTitle className="text-lg md:text-xl">Admin Notes</CardTitle>
+                                </CardHeader>
+                                <CardContent className="p-4 md:p-6 pt-0">
+                                    <div className="p-3 bg-muted rounded-lg whitespace-pre-line text-sm md:text-base">
+                                        {selectedConsultation.notes}
                                     </div>
-                                )}
-
-                                <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Timezone</label>
-                                    <p className="font-medium">{selectedConsultation.timezone || 'Not specified'}</p>
-                                </div>
-
-                                <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Submitted On</label>
-                                    <p className="font-medium">{format(new Date(selectedConsultation.createdAt), 'PPP p')}</p>
-                                </div>
-
-                                <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Last Updated</label>
-                                    <p className="font-medium">{format(new Date(selectedConsultation.updatedAt), 'PPP p')}</p>
-                                </div>
-                            </CardContent>
-                        </Card>
+                                </CardContent>
+                            </Card>
+                        )}
                     </div>
                 </div>
             </>
@@ -879,15 +874,14 @@ export default function ConsultationAdmin() {
     };
 
     return (
-            <div className="container-wide py-8">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold tracking-tight">Consultation Requests Admin</h1>
-                    <p className="text-muted-foreground mt-2">
-                        Manage and track all consultation requests
-                    </p>
-                </div>
-
-                {viewMode === 'list' ? renderListView() : renderDetailView()}
+        <div className="container-wide py-4 md:py-8">
+            <div className="mb-4 md:mb-8">
+                <h1 className="text-xl md:text-3xl font-bold tracking-tight">Consultation Requests</h1>
+                <p className="text-muted-foreground mt-1 md:mt-2 text-sm md:text-base">
+                    Manage and track all consultation requests
+                </p>
             </div>
+            {viewMode === 'list' ? renderListView() : renderDetailView()}
+        </div>
     );
 }

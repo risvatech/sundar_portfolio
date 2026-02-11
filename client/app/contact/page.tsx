@@ -6,35 +6,20 @@ import { ArrowRight, Calendar, Clock, CheckCircle2, Users, Star, Target, Phone, 
 import BookConsultationForm from "../pages/BookConsultationForm";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useToast } from "../components/ui/use-toast"; // Import your toast hook
+import { useToast } from "@/app/hooks/use-toast"; // Import your toast hook
 import api from "../service/api";
 import SEOHead from "@/app/components/SEOHead";
 
-// Type for the form data
+// Type for the form data - Updated with only 8 fields
 interface ConsultationFormData {
-    firstName: string;
-    lastName: string;
+    name: string;
     email: string;
-    phone?: string;
-    company?: string;
-    jobTitle?: string;
-    businessType?: string;
-    industry?: string;
-    businessSize?: string;
-    annualRevenue?: string;
-    consultationType: string;
-    preferredDate?: Date | string;
-    preferredTime?: string;
-    timezone?: string;
-    projectDescription?: string;
-    mainChallenges?: string;
-    goals?: string;
-    budgetRange?: string;
-    timeline?: string;
-    referralSource?: string;
-    referralDetails?: string;
-    additionalInfo?: string;
-    hearAboutUs?: string;
+    phone: string;
+    company: string;
+    title: string;
+    location: string;
+    serviceType: string;
+    description: string;
 }
 
 // Type for API response
@@ -55,19 +40,9 @@ export default function BookConsultationPage() {
         setIsSubmitting(true);
 
         try {
-            // Prepare data for API
-            const apiData = {
-                ...formData,
-                preferredDate: formData.preferredDate
-                    ? (formData.preferredDate instanceof Date
-                        ? formData.preferredDate.toISOString()
-                        : formData.preferredDate)
-                    : undefined,
-            };
+            console.log('Submitting form data:', formData); // Debug log
 
-            console.log('Submitting form data:', apiData); // Debug log
-
-            const response = await api.post('/consultations', apiData);
+            const response = await api.post('/consultations', formData);
 
             // Handle different response formats
             let result: ApiResponse;
@@ -180,14 +155,13 @@ export default function BookConsultationPage() {
                 <div className="container-wide">
                     <div className="text-center">
                         <span className="inline-block px-4 py-1.5 rounded-full bg-primary-light text-primary text-sm font-medium mb-4">
-                            Free Consultation
+                             Consultation
                         </span>
                         <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-foreground mb-6">
-                            Let’s Have a Strategic Conversation
-                            {/*<span className="text-primary">Business Together</span>*/}
+                            Let's Have a Strategic Conversation
                         </h1>
                         <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-                            If you’re evaluating growth opportunities, entering a new market, or trying to solve a complex business challenge—and want clarity before committing time or capital—I’d be happy to help
+                            If you're evaluating growth opportunities, entering a new market, or trying to solve a complex business challenge—and want clarity before committing time or capital—I'd be happy to help
                         </p>
                     </div>
 
@@ -199,7 +173,7 @@ export default function BookConsultationPage() {
                             </div>
                             <div className="text-left">
                                 <div className="font-semibold text-foreground">30 Minutes</div>
-                                <div className="text-sm text-muted-foreground">Free Discovery Call</div>
+                                <div className="text-sm text-muted-foreground">Discovery Call</div>
                             </div>
                         </div>
 
@@ -311,7 +285,7 @@ export default function BookConsultationPage() {
                                         </div>
                                         <div className="flex items-start gap-3">
                                             <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                                                <span className="text-primary font-semibold text-sm">98%</span>
+                                                <span className="text-primary font-semibold text-sm">95%</span>
                                             </div>
                                             <div>
                                                 <div className="font-medium text-foreground">Client Satisfaction</div>
@@ -333,10 +307,10 @@ export default function BookConsultationPage() {
                                         <div className="flex items-center gap-2">
                                             <Mail className="w-4 h-4" />
                                             <span className="text-sm"> <a
-                                                href="mailto:sundaramoorthy.s15@gmail.com"
+                                                href="mailto:reach@sundara-moorthy.com"
                                                 className="text-lg hover:text-amber-400 transition-colors"
                                             >
-                                        sundaramoorthy.s15@gmail.com
+                                        reach@sundara-moorthy.com
                                     </a> </span>
                                         </div>
                                         <div className="flex items-center gap-2">

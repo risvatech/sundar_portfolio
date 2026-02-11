@@ -64,6 +64,7 @@ export const register = async (req, res) => {
 
         res.status(201).json(newUser);
     } catch (err) {
+        console.error("❌ Register error:", err);
         res.status(500).json({ message: "Server error" });
     }
 };
@@ -138,6 +139,7 @@ export const logoutUser = (req, res) => {
         res.clearCookie("auth_token");
         res.json({ message: "Logged out successfully" });
     } catch (err) {
+        console.error("❌ Logout error:", err);
         res.status(500).json({ message: "Server error" });
     }
 };
@@ -146,7 +148,7 @@ export const logoutUser = (req, res) => {
 export const userDetails = async (req, res) => {
     try {
         const token = req.cookies.auth_token;
-        if (!token) return res.json(null);
+        if (!token) return res.status(401).json({ message: "Not authenticated" });
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -159,9 +161,10 @@ export const userDetails = async (req, res) => {
         const user = result.rows[0];
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        res.json(user);
+        res.json(user);   // ✅ plain user object
     } catch (err) {
-        res.json(null);
+        console.error("❌ User details error:", err);
+        res.status(401).json({ message: "Invalid or expired token" });
     }
 };
 
@@ -187,28 +190,21 @@ export const changePassword = async (req, res) => {
 
         res.json({ message: "Password updated successfully" });
     } catch (err) {
+        console.error("❌ Change password error:", err);
         res.status(500).json({ message: "Server error" });
     }
 };
 
-// ✅ ADMIN: GET ALL USERS (WITH TOKEN CHECK - NO CONSOLE LOG)
+// ✅ ADMIN: GET ALL USERS
 export const getAllUsers = async (req, res) => {
+    // Set timeout to prevent hanging requests
+    req.setTimeout(10000, () => {
+        if (!res.headersSent) {
+            res.status(504).json({ message: "Request timeout" });
+        }
+    });
+
     try {
-        // Check for token in cookies or Authorization header
-        const token = req.cookies.auth_token || req.headers.authorization?.split(' ')[1];
-
-        if (!token) {
-            return res.json(null);
-        }
-
-        // Verify the token silently (no console.log on error)
-        try {
-            jwt.verify(token, process.env.JWT_SECRET);
-        } catch {
-            return res.json(null);
-        }
-
-        // If token is valid, proceed to get users
         const result = await db
             .select({
                 id: users.id,
@@ -223,27 +219,18 @@ export const getAllUsers = async (req, res) => {
 
         res.json(result);
     } catch (err) {
-        res.status(500).json({ message: "Server error" });
+        console.error("❌ Get users error:", err);
+
+        // Clean up response
+        if (!res.headersSent) {
+            res.status(500).json({ message: "Server error" });
+        }
     }
 };
 
-// ✅ ADMIN: GET SINGLE USER (WITH TOKEN CHECK - NO CONSOLE LOG)
+// ✅ ADMIN: GET SINGLE USER
 export const getUserDetails = async (req, res) => {
     try {
-        // Check for token in cookies or Authorization header
-        const token = req.cookies.auth_token || req.headers.authorization?.split(' ')[1];
-
-        if (!token) {
-            return res.json(null);
-        }
-
-        // Verify the token silently (no console.log on error)
-        try {
-            jwt.verify(token, process.env.JWT_SECRET);
-        } catch {
-            return res.json(null);
-        }
-
         const { id } = req.params;
         const result = await client.query(
             `SELECT id, username, email, first_name, last_name, role_id, status FROM users WHERE id = $1`,
@@ -254,6 +241,50 @@ export const getUserDetails = async (req, res) => {
 
         res.json(result.rows[0]);
     } catch (err) {
+        console.error("❌ Get user error:", err);
         res.status(500).json({ message: "Server error" });
+    }
+};
+
+// ✅ ADMIN: CHANGE USER PASSWORD
+export const adminChangePassword = async (req, res) => {
+    const { userId } = req.params;
+    const { newPassword } = req.body;
+
+    try {
+        // Optional: Verify admin permissions (uncomment if needed)
+        // const token = req.cookies.auth_token;
+        // if (!token) return res.status(401).json({ message: "Not authenticated" });
+        // const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        // Check if user exists
+        const userResult = await client.query(
+            `SELECT id FROM users WHERE id = $1`,
+            [userId]
+        );
+
+        if (userResult.rows.length === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Hash and update password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        await client.query(
+            `UPDATE users SET password = $1 WHERE id = $2`,
+            [hashedPassword, userId]
+        );
+
+        res.json({
+            success: true,
+            message: "Password updated successfully",
+            userId: userId
+        });
+    } catch (err) {
+        console.error("❌ Admin change password error:", err);
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
     }
 };

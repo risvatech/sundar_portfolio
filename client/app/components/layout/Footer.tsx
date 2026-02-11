@@ -39,10 +39,10 @@ const Footer = () => {
                                 <div>
                                     <p className="text-xs text-gray-400 uppercase font-semibold">Email</p>
                                     <a
-                                        href="mailto:sundaramoorthy.s15@gmail.com"
+                                        href="mailto:reach@sundara-moorthy.com"
                                         className="text-lg hover:text-amber-400 transition-colors"
                                     >
-                                        sundaramoorthy.s15@gmail.com
+                                        reach@sundara-moorthy.com
                                     </a>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@ const Footer = () => {
                                 <div>
                                     <p className="text-xs text-gray-400 uppercase font-semibold">LinkedIn</p>
                                     <a
-                                        href="https://www.linkedin.com/in/s-sundara-moorthy/"
+                                        href="https://www.linkedin.com/in/sundaramoorthy15/"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-lg font-medium hover:text-amber-400 transition-colors"
@@ -172,7 +172,7 @@ const Footer = () => {
                         <a href="#" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">Terms of Service</a>
 
                         <a
-                            href="https://www.linkedin.com/in/s-sundara-moorthy/"
+                            href="https://www.linkedin.com/in/sundaramoorthy15/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-gray-400 hover:text-amber-400 transition-colors"

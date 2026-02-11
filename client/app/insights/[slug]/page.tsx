@@ -114,8 +114,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
             };
         }
 
-        const siteUrl = 'https://www.futureindias.com';
-        const pageUrl = `${siteUrl}/articles/${post.slug}`;
+        const siteUrl = 'https://sundar.risva.app';
+        const pageUrl = `${siteUrl}/insights/${post.slug}`;
 
         const title = post.metaTitle || post.title || "Blog Post";
         const description = post.metaDescription || post.description || post.excerpt || "Read this interesting blog post";

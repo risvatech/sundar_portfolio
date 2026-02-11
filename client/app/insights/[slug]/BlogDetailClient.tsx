@@ -215,10 +215,10 @@ export default function BlogDetailClient({
                     <div className="py-6 px-4 sm:px-6 lg:px-8">
                         <div className="max-w-7xl mx-auto">
                             <div className="md:hidden flex items-center justify-between">
-                                <Link href="/articles">
+                                <Link href="/insights">
                                     <Button variant="ghost" className="gap-2 hover:bg-purple-500/10">
                                         <ArrowLeft className="w-4 h-4" />
-                                        Back to Articles
+                                        Back to Insights
                                     </Button>
                                 </Link>
                             </div>
@@ -229,10 +229,10 @@ export default function BlogDetailClient({
                             <div className="flex flex-col md:flex-row gap-6">
                                 <div className="flex-1 md:pl-4">
                                     <div className="hidden md:block mb-4">
-                                        <Link href="/articles">
+                                        <Link href="/insights">
                                             <Button variant="ghost" className="gap-2 hover:bg-purple-500/10 hover:text-black">
                                                 <ArrowLeft className="w-4 h-4" />
-                                                Back to Articles
+                                                Back to Insights
                                             </Button>
                                         </Link>
                                     </div>
@@ -602,9 +602,9 @@ export default function BlogDetailClient({
                                                         <div className="p-2 bg-primary">
                                                             <Sparkles className="w-6 h-6 text-white" />
                                                         </div>
-                                                        <h2 className="text-3xl font-bold">Related Articles</h2>
+                                                        <h2 className="text-3xl font-bold">Related Insights</h2>
                                                     </div>
-                                                    <Link href="/articles">
+                                                    <Link href="/insights">
                                                         <Button variant="ghost" className="gap-2 hover:bg-purple-500/10">
                                                             View All
                                                             <ChevronRight className="w-4 h-4" />
@@ -614,7 +614,7 @@ export default function BlogDetailClient({
 
                                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                                     {initialRelatedPosts.map((related) => (
-                                                        <Link href={`/articles/${related.slug}`} key={related.id}>
+                                                        <Link href={`/insights/${related.slug}`} key={related.id}>
                                                             <Card className="group hover:shadow-2xl transition-all duration-300 h-full border hover:border-purple-500/50">
                                                                 <CardContent className="p-6">
                                                                     <Badge
@@ -651,13 +651,13 @@ export default function BlogDetailClient({
                                         )}
 
                                         <div className="text-center mt-12">
-                                            <Link href="/articles">
+                                            <Link href="/insights">
                                                 <Button
                                                     variant="outline"
                                                     className="gap-3 px-8 py-6 rounded-xl bg-primary text-white transition-all duration-300"
                                                 >
                                                     <ArrowLeft className="w-5 h-5" />
-                                                    Back to All Articles
+                                                    Back to All Insights
                                                 </Button>
                                             </Link>
                                         </div>

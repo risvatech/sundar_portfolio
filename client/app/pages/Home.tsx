@@ -1,12 +1,26 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { ArrowUpRight, Calendar, Tag, CheckCircle, Briefcase, Globe, Target, Users, ChevronLeft, ChevronRight, Clock, ArrowRight } from "lucide-react";
+import {
+    ArrowUpRight,
+    Calendar,
+    Tag,
+    CheckCircle,
+    Briefcase,
+    Globe,
+    Target,
+    Users,
+    ChevronLeft,
+    ChevronRight,
+    Clock,
+    ArrowRight,
+    Linkedin, Facebook, Twitter
+} from "lucide-react";
 import api from "../service/api";
 import {Button} from "@/app/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import img2 from "../../public/IMG-20260205-WA0011.jpg";
+import img2 from "../../public/assets/SM BW 2026.png";
 import ExperienceSection from "@/app/components/sections/ExperienceSection";
 import ValuePropositionSection from "@/app/components/sections/Valuepropositionsection";
 import PhotoSection from "@/app/components/PhotoSection";
@@ -193,11 +207,11 @@ export default function HomePage() {
         if (article.coverImage) {
             return article.coverImage;
         }
-        return "/articles/default.jpg";
+        return "/Insights/default.jpg";
     };
 
     return (
-        <div className="min-h-screen bg-white pt-6 md:pt-0">
+        <div className="min-h-screen bg-white pt-6 md:pt-0 px-6">
             {/* Hero Section */}
             <section className="py-12 md:py-20 lg:py-28 bg-white ">
                 <div className="container mx-auto px-4">
@@ -281,7 +295,7 @@ export default function HomePage() {
                         <div className="relative">
                             <div className="w-full flex flex-col items-center justify-center p-8">
                                 {/* Single Image Container */}
-                                <div className="relative w-full max-w-[28rem] sm:max-w-[32rem] lg:max-w-[40rem] aspect-[3/2] rounded-3xl overflow-hidden shadow-2xl">
+                                <div className="relative w-full max-w-[28rem] sm:max-w-[32rem] lg:max-w-[40rem] aspect-[3/2] rounded-2xl overflow-hidden shadow-2xl">
                                     <Image
                                         src={img2} // You can change this to img if you prefer the other image
                                         alt="Sundar - Business Consultant"
@@ -296,6 +310,37 @@ export default function HomePage() {
                                 <div className="text-center mt-15 pt-8 w-full max-w-md">
                                     <h3 className="text-2xl font-bold text-primary">S. Sundara Moorthy</h3>
                                     <p className="text-md text-gray-600 mt-2">Strategy & Growth Advisor | Design Thinking Practitioner</p>
+
+                                    {/* Social Links */}
+                                    <div className="flex justify-center gap-4 mt-4">
+                                        <a
+                                            href="https://www.linkedin.com/in/sundaramoorthy15/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-primary hover:text-amber-400 transition-colors"
+                                        >
+                                            <Linkedin size={20} />
+                                        </a>
+
+                                        <a
+                                            href="https://www.facebook.com/profile.php?id=100064303444109"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-primary hover:text-amber-400 transition-colors"
+                                        >
+                                            <Facebook size={20} />
+                                        </a>
+
+                                        <a
+                                            href="https://x.com/sundara_sethu"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-primary hover:text-amber-400 transition-colors"
+                                        >
+                                            <Twitter size={20} />
+                                        </a>
+                                    </div>
+
                                     <div className="flex items-center justify-center gap-4 mt-4">
                                         <div className="flex items-center gap-2 text-gray-500">
                                             <Briefcase className="w-4 h-4" />
@@ -320,9 +365,8 @@ export default function HomePage() {
                 <ValuePropositionSection/>
             </div>
             <div>
-                <ExperienceSection/>
             </div>
-
+            <ExperienceSection/>
 
             {/* Latest Articles Section */}
             {latestArticles.length > 0 && (
@@ -330,7 +374,7 @@ export default function HomePage() {
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                                Latest Articles
+                                Latest Insights
                             </h2>
                             <p className="text-gray-700 max-w-2xl mx-auto">
                                 Strategic thinking and practical wisdom from business transformation experiences
@@ -396,9 +440,9 @@ export default function HomePage() {
                                                                 <Clock size={14} />
                                                                 {calculateReadTime(article.content)}
                                                             </span>
-                                                            <Link href={`/articles/${article.slug}`}>
+                                                            <Link href={`/Insights/${article.slug}`}>
                                                                 <Button variant="secondary" className="hover:bg-primary hover:text-white transition-colors">
-                                                                    Read Article
+                                                                    Read Insight
                                                                     <ArrowRight className="ml-2" size={16} />
                                                                 </Button>
                                                             </Link>
@@ -445,9 +489,9 @@ export default function HomePage() {
 
                                 {/* View All Articles Button */}
                                 <div className="text-center mt-12">
-                                    <Link href="/articles">
+                                    <Link href="/Insights">
                                         <Button size="lg" variant="secondary">
-                                            View All Articles
+                                            View All Insights
                                             <ArrowUpRight className="ml-2 w-5 h-5" />
                                         </Button>
                                     </Link>

@@ -98,7 +98,7 @@ const Blog = () => {
                                             </p>
                                             <Link href={`/blog/${post.slug}`}>
                                                 <Button variant="outline" className="self-start">
-                                                    Read Article
+                                                    Read Insight
                                                     <ArrowRight className="ml-2" size={16} />
                                                 </Button>
                                             </Link>
@@ -187,7 +187,7 @@ const Blog = () => {
                     {/* Load More */}
                     <div className="text-center mt-12">
                         <Button variant="outline" size="lg">
-                            Load More Articles
+                            Load More Insights
                         </Button>
                     </div>
                 </div>

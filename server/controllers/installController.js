@@ -156,69 +156,21 @@ export const runInstallation = async (req, res) => {
         await client.query(`
     CREATE TABLE IF NOT EXISTS consultation_requests (
         id SERIAL PRIMARY KEY,
-        
-        -- Contact Information
-        first_name VARCHAR(100) NOT NULL,
-        last_name VARCHAR(100) NOT NULL,
-        email VARCHAR(255) NOT NULL,
-        phone VARCHAR(20),
-        company VARCHAR(255),
-        job_title VARCHAR(100),
-        
-        -- Business Information
-        business_type VARCHAR(100),
-        industry VARCHAR(100),
-        business_size VARCHAR(50),
-        annual_revenue VARCHAR(100),
-        
-        -- Consultation Details
-        consultation_type VARCHAR(100) NOT NULL,
-        preferred_date TIMESTAMP,
-        preferred_time VARCHAR(50),
-        timezone VARCHAR(50),
-        
-        -- Project Information
-        project_description TEXT,
-        main_challenges TEXT,
-        goals TEXT,
-        budget_range VARCHAR(100),
-        timeline VARCHAR(100),
-        
-        -- How did you hear about us
-        referral_source VARCHAR(100),
-        referral_details TEXT,
-        
-        -- Additional Information
-        additional_info TEXT,
-        hear_about_us TEXT,
-        
-        -- Status & Metadata
-        status VARCHAR(50) DEFAULT 'pending',
-        is_followed_up BOOLEAN DEFAULT false,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(100) NOT NULL,
+        phone VARCHAR(20) NOT NULL,
+        company VARCHAR(100) NOT NULL,
+        title VARCHAR(100) NOT NULL,
+        location VARCHAR(100) NOT NULL,
+        service_type VARCHAR(50) NOT NULL,
+        description TEXT NOT NULL,
+        status VARCHAR(20) DEFAULT 'pending',
         notes TEXT,
-        
-        -- Timestamps
+        is_followed_up BOOLEAN DEFAULT false,
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
     );
 `);
-
-// Create indexes
-        await client.query(`
-    CREATE INDEX IF NOT EXISTS idx_consultation_requests_email 
-    ON consultation_requests(email);
-`);
-
-        await client.query(`
-    CREATE INDEX IF NOT EXISTS idx_consultation_requests_status 
-    ON consultation_requests(status);
-`);
-
-        await client.query(`
-    CREATE INDEX IF NOT EXISTS idx_consultation_requests_created_at 
-    ON consultation_requests(created_at DESC);
-`);
-
         // Create tables first
         await client.query(`
             CREATE TABLE IF NOT EXISTS gallery_categories (

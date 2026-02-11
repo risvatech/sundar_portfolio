@@ -42,30 +42,17 @@ const timelineItems: TimelineItem[] = [
             "& reports ",
     },
     {
-        year: "Aug 2010 - March 2013",
+        year: "2010 - 2013",
         tag: "",
-        title: "Regional Manager – South, BDB India \n" +
-            "Private Limited",
-        description: "Responsible for P&L for South – Tamilnadu, Karnataka, Andhra & Kerala \n + Driving key account management and business development activities ",
+        title: "Regional Leadership - South India",
+        description: "Established regional operations and expanded advisory footprint across industrial and B2B sectors",
     },
+
     {
-        year: "Jan 2009 – Jul 2010",
+        year:"2007 – 2010",
         tag: "",
-        title: "Sales Executive - Institutional, Pune & \n" +
-            "Coimbatore, Roche Diagnostics India Pvt Ltd (Diabetes Care Division) ",
-        description: "Transformed minimally producing territory into one of the company’s most \n" +
-            "lucrative revenue generators. Built trust, salvaged damaged relationships and \n" +
-            "won back product loyalty..",
-    },
-    {
-        year: "\n" +
-            "Jul 2007 – Dec 2008",
-        tag: "",
-        title: "Business Development Executive, Pune \n" +
-            "GenxBio Health Sciences Private Limited '",
-        description: "Recruited to build the presence of the company in Pune territory, with \n" +
-            "responsibility for creating awareness about company among the customers \n" +
-            "through cold calling and aggressive sales meeting.",
+        title: "Business Development & Institutional Sales",
+        description: "Built foundational experience in market development, stakeholder engagement and consultative selling.",
     },
 ];
 

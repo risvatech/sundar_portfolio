@@ -38,7 +38,7 @@ const achievements: Achievement[] = [
 export function AboutSection() {
 
     return (
-            <section className="section-padding bg-warm-gradient ">
+            <section className="section-padding bg-warm-gradient">
                 <div className="container-wide">
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         {/* Story */}
@@ -144,7 +144,7 @@ export function AboutSection() {
                 <div className="my-20 h-px w-full bg-gray-200"/>
 
                 {/* Three Column Grid with Dark Background */}
-                <div className="grid gap-6 lg:grid-cols-3 px-10">
+                <section className="grid gap-6 lg:grid-cols-3 px-14">
 
                     {/* Strengths Card */}
                     <div className="group flex flex-col rounded-2xl bg-[#2E5C8A] p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
@@ -250,7 +250,7 @@ export function AboutSection() {
                         </ul>
                     </div>
 
-                </div>
+                </section>
 
             </section>
 

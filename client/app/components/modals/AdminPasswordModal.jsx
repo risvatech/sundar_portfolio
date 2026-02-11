@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { apiRequest, queryClient } from "../../lib/queryClient";
+import { queryClient } from "../../lib/queryClient";
+import api from "../../service/api"; // Make sure this path is correct
 import {
     Dialog,
     DialogContent,
@@ -25,22 +26,23 @@ export default function AdminPasswordModal({ open, onClose, user }) {
         confirmPassword: "",
     });
 
+    // Working mutation using your api instance
     const changePasswordMutation = useMutation({
-        mutationFn: async (data) => {
-            await apiRequest(
-                `/api/admin/user/${user.id}/change-password`,
-                "POST",
-                data,
+        mutationFn: async (newPassword) => {
+            const response = await api.post(
+                `/auth/admin/change-password/${user.id}`,
+                { newPassword }
             );
+            return response.data;
         },
-        onSuccess: () => {
+        onSuccess: (data) => {
             toast.success(`Password changed successfully for ${user.username}`);
-            queryClient.invalidateQueries({ queryKey: ["/api/users"] });
+            queryClient.invalidateQueries({ queryKey: ["users"] });
             setPasswords({ newPassword: "", confirmPassword: "" });
             onClose();
         },
         onError: (error) => {
-            toast.error(error.message || "Failed to change user password");
+            toast.error(error.response?.data?.message || "Failed to change password");
         },
     });
 
@@ -62,9 +64,8 @@ export default function AdminPasswordModal({ open, onClose, user }) {
             return;
         }
 
-        changePasswordMutation.mutate({
-            newPassword: passwords.newPassword,
-        });
+        // Call mutation with just the new password
+        changePasswordMutation.mutate(passwords.newPassword);
     };
 
     const togglePasswordVisibility = (field) => {
@@ -175,6 +176,7 @@ export default function AdminPasswordModal({ open, onClose, user }) {
                             type="button"
                             variant="outline"
                             onClick={handleClose}
+                            disabled={changePasswordMutation.isPending}
                             data-testid="button-cancel-admin-password"
                         >
                             Cancel

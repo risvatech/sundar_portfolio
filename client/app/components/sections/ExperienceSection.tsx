@@ -50,8 +50,7 @@ const ExperienceSection = () => {
 
     return (
         <section className="w-full bg-white py-20 ">
-            <div className="container-wide relative px-4">
-
+            <div className=" relative px-6">
                 {/* Section Header */}
                 <div className="mb-16 max-w-3xl">
                     <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">

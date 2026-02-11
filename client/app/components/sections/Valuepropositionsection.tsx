@@ -1,7 +1,7 @@
 const ValuePropositionSection = () => {
     return (
         <section className="w-full bg-white py-20">
-            <div className="mx-auto max-w-7xl px-6">
+            <div className="mx-auto max-w-7xl ">
                 <div className="grid items-center gap-12 lg:grid-cols-2">
 
                     {/* Left Side - Text Content */}

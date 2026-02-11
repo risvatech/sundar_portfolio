@@ -219,7 +219,7 @@ const Blog = () => {
         if (post.coverImage) {
             return post.coverImage
         }
-        return "/articles/default.jpg"
+        return "/insights/default.jpg"
     }
 
     const formatDate = (dateString?: string) => {
@@ -303,7 +303,7 @@ const Blog = () => {
                         <div className="container mx-auto max-w-6xl">
                             <div className="flex items-center justify-between mb-8">
                                 <h2 className="text-2xl font-semibold text-foreground">
-                                    Latest Articles
+                                    Latest Insights
                                 </h2>
                                 <div className="flex gap-2">
                                     <Button variant="ghost" size="icon" onClick={prevSlide}>
@@ -358,9 +358,9 @@ const Blog = () => {
                                                             <Clock size={14} />
                                                             {calculateReadTime(post.content)}
                                                         </span>
-                                                        <Link href={`/articles/${post.slug}`}>
+                                                        <Link href={`/insights/${post.slug}`}>
                                                             <Button variant="secondary" className="hover:bg-primary hover:text-white transition-colors">
-                                                                Read Article
+                                                                Read Insight
                                                                 <ArrowRight className="ml-2" size={16} />
                                                             </Button>
                                                         </Link>
@@ -434,7 +434,7 @@ const Blog = () => {
                             <>
                                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                                     {filteredPosts.map((post) => (
-                                        <Link key={post.id} href={`/articles/${post.slug}`}>
+                                        <Link key={post.id} href={`/insights/${post.slug}`}>
                                             <Card className="group hover:-translate-y-1 h-full transition-all duration-300 border border-gray-200 dark:border-gray-800 hover:border-primary/50 hover:shadow-lg">
                                                 <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
                                                     <Image
@@ -480,7 +480,7 @@ const Blog = () => {
                                 {filteredPosts.length > 9 && (
                                     <div className="text-center mt-12">
                                         <Button variant="outline" size="lg" className="hover:bg-primary hover:text-white">
-                                            Load More Articles
+                                            Load More Insights
                                         </Button>
                                     </div>
                                 )}
