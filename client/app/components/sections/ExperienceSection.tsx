@@ -1,18 +1,11 @@
 import {
-    Users,
-    TrendingUp,
     Target,
-    Lightbulb,
+    TrendingUp,
     Building2,
     GitBranch,
-    CheckCircle2,
-    HelpCircle,
     UserCheck,
-    Brain,
-    BicepsFlexed,
     ShieldPlus,
-    ChartNoAxesCombined
-} from 'lucide-react';
+} from "lucide-react";
 
 const ExperienceSection = () => {
     const experienceHighlights = [
@@ -49,37 +42,45 @@ const ExperienceSection = () => {
     ];
 
     return (
-        <section className="w-full bg-white py-20 ">
-            <div className=" relative px-6">
+        <section className="w-full bg-white py-20 px-6">
+            <div className="mx-auto max-w-7xl ">
+
                 {/* Section Header */}
                 <div className="mb-16 max-w-3xl">
                     <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
                         Experience
                     </h2>
+
                     <p className="mt-5 text-lg leading-relaxed text-gray-600">
-                        With over <span className="font-semibold text-gray-900">18 years</span> in strategy,
-                        market research, and advisory roles, I help organizations make
-                        confident decisions in complex and high-stakes environments.
+                        With over{" "}
+                        <span className="font-semibold text-gray-900">
+                            18 years
+                        </span>{" "}
+                        in strategy, market research, and advisory roles, I help
+                        organizations make confident decisions in complex and
+                        high-stakes environments.
                     </p>
                 </div>
 
-                {/* Experience Highlights with Icons */}
-                <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+                {/* Experience Highlights */}
+                <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
                     {experienceHighlights.map((item, index) => {
                         const IconComponent = item.icon;
+
                         return (
                             <div
                                 key={index}
                                 className="relative rounded-xl border border-gray-200 p-6 transition-shadow hover:shadow-md"
                             >
-                                <div className="absolute right-6 top-6">
-                                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                                {/* Icon */}
+                                <div className="mb-4">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
                                         <IconComponent className="h-6 w-6 text-[#0B1F32]" />
                                     </div>
                                 </div>
 
                                 {/* Title */}
-                                <h3 className="pr-16 text-lg font-semibold text-gray-900 mb-3">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-3">
                                     {item.title}
                                 </h3>
 

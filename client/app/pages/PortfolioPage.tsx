@@ -361,7 +361,7 @@ const PortfolioPage = () => {
                                         <span className="text-sm font-medium">Let's Collaborate</span>
                                     </div>
                                     <h3 className="text-xl sm:text-2xl font-serif font-bold mb-3 text-white">
-                                        Ready to Transform Your Business Strategy?
+                                        Ready to Transform Your Business?
                                     </h3>
                                     <p className="text-white">
                                         Let's discuss how my expertise in market intelligence and strategic planning can drive your organization's growth.

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {Menu, X} from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
 import Logo from "../../../public/sundar-logo-big.png";
@@ -19,11 +19,7 @@ const navItems: NavItem[] = [
     { name: "About", path: "/about" },
     { name: "What I Do", path: "/what-i-do" },
     { name: "Portfolio", path: "/portfolio" },
-    // { name: "Impact", path: "/experience" },
-    // { name: "Events", path: "/events" },
-    // { name: "Social", path: "/social" },
-    { name: "Insights",  path: "/insights" },
-
+    { name: "Insights", path: "/insights" },
 ];
 
 export function Header() {
@@ -31,37 +27,19 @@ export function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    // Track the previous pathname to detect route changes
-    const [prevPathname, setPrevPathname] = useState(pathname);
-
-    useEffect(() => {
-        // Check if pathname has actually changed
-        if (pathname !== prevPathname) {
-            setIsMobileMenuOpen(false);
-            setPrevPathname(pathname);
-        }
-    }, [pathname, prevPathname]);
-
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
         };
 
-        // Check initial scroll position
         handleScroll();
-
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Prevent body scroll when mobile menu is open
+    // Prevent body scroll when menu open
     useEffect(() => {
-        if (isMobileMenuOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "unset";
-        }
-
+        document.body.style.overflow = isMobileMenuOpen ? "hidden" : "unset";
         return () => {
             document.body.style.overflow = "unset";
         };
@@ -71,33 +49,32 @@ export function Header() {
         <header
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+                // 📱 Mobile always background
+                "bg-card shadow-sm md:shadow-none",
+                // 💻 Desktop scroll effect
                 isScrolled
-                    ? "bg-card/95 backdrop-blur-md shadow-soft py-3"
-                    : "bg-transparent py-5"
+                    ? "md:bg-card/95 md:backdrop-blur-md md:shadow-soft md:py-3"
+                    : "md:bg-card/95 md:py-5 py-4"
             )}
         >
+            {/* NAV BAR */}
             <nav className="container-wide flex items-center justify-between">
+
                 {/* Logo */}
-                {/*<Link href="/" className="flex items-center gap-2">*/}
-                {/*    <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">*/}
-                {/*        <span className="text-primary-foreground font-serif font-bold text-lg">S</span>*/}
-                {/*    </div>*/}
-
-                {/*</Link>*/}
-                <Link href="/" className="flex items-center gap-2 group">
-                    <Image
-                        src={Logo}
-                        alt="Risva Technologies Logo"
-                        width={50}
-                        height={10}
-                        className={`object-contain transition-all duration-300 group-hover:scale-110`}
-                        priority
-                    />
-                    <span className="font-serif text-md font-semibold text-foreground">
-                        Sundara Moorthy
-                    </span>
+                <Link href="/" className="flex items-center gap-2 shrink-0">
+                    <div className="relative w-10 h-10 md:w-12 md:h-12">
+                        <Image
+                            src={Logo}
+                            alt="Sundara Moorthy Logo"
+                            fill
+                            className="object-contain"
+                            priority
+                        />
+                    </div>
+                    <span className="font-serif text-base md:text-lg font-semibold text-foreground whitespace-nowrap">
+            Sundara Moorthy
+          </span>
                 </Link>
-
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center gap-8">
@@ -120,7 +97,7 @@ export function Header() {
                     ))}
                 </div>
 
-                {/* CTA Button */}
+                {/* Desktop CTA */}
                 <div className="hidden md:block">
                     <Button variant="warm" size="lg" className="text-white">
                         <Link href="/contact">Let’s Talk Strategy</Link>
@@ -129,55 +106,82 @@ export function Header() {
 
                 {/* Mobile Menu Button */}
                 <button
-                    className="md:hidden p-2 text-foreground"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-                    aria-expanded={isMobileMenuOpen}
+                    className="md:hidden p-2"
+                    onClick={() => setIsMobileMenuOpen(true)}
+                    aria-label="Open menu"
                 >
-                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    <Menu size={24} />
                 </button>
             </nav>
 
-            {/* Mobile Menu */}
+            {/* ================= MOBILE MENU ================= */}
             <div
                 className={cn(
-                    "md:hidden fixed inset-0 top-[64px] bg-card/98 backdrop-blur-md transition-all duration-300 ease-in-out z-40",
-                    isMobileMenuOpen
-                        ? "opacity-100 translate-y-0 pointer-events-auto"
-                        : "opacity-0 -translate-y-4 pointer-events-none"
+                    "md:hidden fixed inset-0 bg-card z-50 transition-transform duration-300",
+                    isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
                 )}
-                aria-hidden={!isMobileMenuOpen}
             >
-                <div className="container-wide py-6 flex flex-col gap-4">
-                    {navItems.map((item) => (
+                <div className="flex flex-col h-full">
+
+                    {/* 🔥 Mobile Menu Header (Logo + Close) */}
+                    <div className="flex items-center justify-between px-6 py-4 border-b">
                         <Link
-                            key={item.path}
-                            href={item.path}
-                            className={cn(
-                                "text-base font-medium py-3 px-4 rounded-lg transition-colors hover:text-primary hover:bg-muted/50",
-                                pathname === item.path
-                                    ? "text-primary bg-primary/10"
-                                    : "text-muted-foreground"
-                            )}
+                            href="/"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="flex items-center gap-2"
+                        >
+                            <div className="relative w-10 h-10">
+                                <Image
+                                    src={Logo}
+                                    alt="Sundara Moorthy Logo"
+                                    fill
+                                    className="object-contain"
+                                    priority
+                                />
+                            </div>
+                            <span className="font-serif text-base font-semibold">
+                Sundara Moorthy
+              </span>
+                        </Link>
+
+                        <button
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="p-2"
+                            aria-label="Close menu"
+                        >
+                            <X size={24} />
+                        </button>
+                    </div>
+
+                    {/* Menu Items */}
+                    <div className="flex flex-col gap-4 px-6 py-6">
+                        {navItems.map((item) => (
+                            <Link
+                                key={item.path}
+                                href={item.path}
+                                className={cn(
+                                    "text-base font-medium py-3 px-4 rounded-lg transition-colors",
+                                    pathname === item.path
+                                        ? "text-primary bg-primary/10"
+                                        : "text-muted-foreground hover:text-primary hover:bg-muted/50"
+                                )}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                {item.name}
+                            </Link>
+                        ))}
+
+                        <Button
+                            variant="secondary"
+                            size="lg"
+                            className="mt-4 w-full text-white"
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
-                            {item.name}
-                        </Link>
-                    ))}
-                    <Button variant="secondary" size="lg" className="mt-4 w-full text-white">
-                        <Link href="/contact">Book a Consultation</Link>
-                    </Button>
+                            <Link href="/contact">Book a Consultation</Link>
+                        </Button>
+                    </div>
                 </div>
             </div>
-
-            {/* Mobile Menu Backdrop */}
-            {isMobileMenuOpen && (
-                <div
-                    className="md:hidden fixed inset-0 bg-background/80 backdrop-blur-sm z-30"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    aria-hidden="true"
-                />
-            )}
         </header>
     );
 }

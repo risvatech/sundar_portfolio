@@ -9,6 +9,11 @@ import React, { useState } from "react";
 import { useToast } from "@/app/hooks/use-toast"; // Import your toast hook
 import api from "../service/api";
 import SEOHead from "@/app/components/SEOHead";
+import Image from "next/image";
+import img2 from "../../public/IMG-20260205-WA0011.jpg";
+import bg from "../../public/assets/6975302_23833.jpg";
+import { Linkedin, Facebook, Twitter } from "lucide-react";
+
 
 // Type for the form data - Updated with only 8 fields
 interface ConsultationFormData {
@@ -151,49 +156,64 @@ export default function BookConsultationPage() {
         <Layout>
             <SEOHead page="home" />
             {/* Hero Section */}
-            <section className="pt-32 pb-16 bg-warm-gradient">
-                <div className="container-wide">
-                    <div className="text-center">
-                        <span className="inline-block px-4 py-1.5 rounded-full bg-primary-light text-primary text-sm font-medium mb-4">
-                             Consultation
-                        </span>
-                        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-foreground mb-6">
+            <section className="relative pt-32 overflow-hidden">
+            {/* Background Image */}
+                <div className="absolute inset-0 ">
+                    <Image
+                        src={bg}   // 🔥 change to your image path
+                        alt="Consultation Background"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                    {/* Dark Overlay */}
+                    {/*<div className="absolute inset-0 bg-black/50"></div>*/}
+                </div>
+
+                <div className="container-wide relative z-10">
+                    <div className="text-center text-black">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-sm text-black text-sm font-medium mb-4">
+                Consultation
+            </span>
+
+                        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold mb-6">
                             Let's Have a Strategic Conversation
                         </h1>
-                        <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+
+                        <p className="text-lg text-black/90 max-w-2xl mx-auto mb-8">
                             If you're evaluating growth opportunities, entering a new market, or trying to solve a complex business challenge—and want clarity before committing time or capital—I'd be happy to help
                         </p>
                     </div>
 
                     {/* Trust Indicators */}
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-10">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-10 text-black">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                <Clock className="w-5 h-5 text-primary" />
+                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                                <Clock className="w-5 h-5 text-black" />
                             </div>
                             <div className="text-left">
-                                <div className="font-semibold text-foreground">30 Minutes</div>
-                                <div className="text-sm text-muted-foreground">Discovery Call</div>
+                                <div className="font-semibold">30 Minutes</div>
+                                <div className="text-sm text-black/80">Discovery Call</div>
                             </div>
                         </div>
 
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                <CheckCircle2 className="w-5 h-5 text-primary" />
+                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                                <CheckCircle2 className="w-5 h-5 text-black" />
                             </div>
                             <div className="text-left">
-                                <div className="font-semibold text-foreground">No Commitment</div>
-                                <div className="text-sm text-muted-foreground">Zero Pressure</div>
+                                <div className="font-semibold">No Commitment</div>
+                                <div className="text-sm text-black/80">Zero Pressure</div>
                             </div>
                         </div>
 
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                <Users className="w-5 h-5 text-primary" />
+                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                                <Users className="w-5 h-5 text-black" />
                             </div>
                             <div className="text-left">
-                                <div className="font-semibold text-foreground">250+ Businesses</div>
-                                <div className="text-sm text-muted-foreground">Successfully Helped</div>
+                                <div className="font-semibold">250+ Businesses</div>
+                                <div className="text-sm text-black/80">Successfully Helped</div>
                             </div>
                         </div>
                     </div>
@@ -215,6 +235,101 @@ export default function BookConsultationPage() {
 
                         {/* Right Column - Benefits & Info */}
                         <div className="lg:col-span-1">
+
+                            {/* Inner Profile Card */}
+                            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-5">
+
+                                {/* Image */}
+                                <div className="relative w-full h-56 mb-4 rounded-lg overflow-hidden">
+                                    <Image
+                                        src={img2}
+                                        alt="Sundara Moorthy"
+                                        fill
+                                        className="object-cover object-top"
+                                        priority
+                                    />
+                                </div>
+
+                                {/* Consultant Name and Title */}
+                                <div className="text-center ">
+                                    <h3 className="text-xl font-bold text-black">
+                                        S. Sundara Moorthy
+                                    </h3>
+
+                                    <p className="text-sm text-black/80 mt-2">
+                                        Strategy & Growth Advisor | Design Thinking Practitioner
+                                    </p>
+
+                                    {/* Social Links */}
+                                    <div className="flex justify-center gap-4 mt-4">
+                                        <a
+                                            href="https://www.linkedin.com/in/sundaramoorthy15/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="hover:text-amber-400 transition-all duration-200 hover:scale-110"
+                                        >
+                                            <Linkedin size={20} />
+                                        </a>
+
+                                        <a
+                                            href="https://www.facebook.com/profile.php?id=100064303444109"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="hover:text-amber-400 transition-all duration-200 hover:scale-110"
+                                        >
+                                            <Facebook size={20} />
+                                        </a>
+
+                                        <a
+                                            href="https://x.com/sundara_sethu"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="hover:text-amber-400 transition-all duration-200 hover:scale-110"
+                                        >
+                                            <Twitter size={20} />
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            {/* Contact Info Card */}
+                            <div className="bg-primary rounded-2xl p-6 text-primary-foreground">
+                                <h3 className="font-serif text-xl font-semibold mb-4">
+                                    Have Questions?
+                                </h3>
+                                <p className="text-primary-foreground/80 text-sm mb-4">
+                                    Prefer to talk before booking? Reach out directly.
+                                </p>
+                                <div className="space-y-3">
+                                    <div className="flex items-center gap-2">
+                                        <Mail className="w-4 h-4" />
+                                        <span className="text-sm"> <a
+                                            href="mailto:reach@sundara-moorthy.com"
+                                            className="text-lg hover:text-amber-400 transition-colors"
+                                        >
+                                        reach@sundara-moorthy.com
+                                    </a> </span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Phone className="w-4 h-4" />
+                                        <a
+                                            href="tel:+919994715658"
+                                            className="text-sm hover:underline"
+                                        >
+                                            +91-9994715658
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <Button
+                                    variant="secondary"
+                                    className="w-full mt-6"
+                                    asChild
+                                >
+                                    <Link href="/portfolio">View My Portfolio</Link>
+                                </Button>
+                            </div>
                             <div className="lg:sticky lg:top-32 space-y-8">
                                 {/* What to Expect Card */}
                                 <div className="bg-card rounded-2xl p-6 shadow-soft">
@@ -258,80 +373,6 @@ export default function BookConsultationPage() {
                                     </ul>
                                 </div>
 
-                                {/* Why Choose Us Card */}
-                                <div className="bg-card rounded-2xl p-6 shadow-soft">
-                                    <h3 className="font-serif text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                                        <Star className="w-5 h-5 text-primary" />
-                                        Why Choose Sundar
-                                    </h3>
-                                    <div className="space-y-4">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                                                <span className="text-primary font-semibold text-sm">18+</span>
-                                            </div>
-                                            <div>
-                                                <div className="font-medium text-foreground">Years Experience</div>
-                                                <div className="text-sm text-muted-foreground">Helping businesses grow</div>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                                                <Target className="w-4 h-4 text-primary" />
-                                            </div>
-                                            <div>
-                                                <div className="font-medium text-foreground">Strategic Approach</div>
-                                                <div className="text-sm text-muted-foreground">Data-driven solutions</div>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                                                <span className="text-primary font-semibold text-sm">95%</span>
-                                            </div>
-                                            <div>
-                                                <div className="font-medium text-foreground">Client Satisfaction</div>
-                                                <div className="text-sm text-muted-foreground">Consistent results</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Contact Info Card */}
-                                <div className="bg-primary rounded-2xl p-6 text-primary-foreground">
-                                    <h3 className="font-serif text-xl font-semibold mb-4">
-                                        Have Questions?
-                                    </h3>
-                                    <p className="text-primary-foreground/80 text-sm mb-4">
-                                        Prefer to talk before booking? Reach out directly.
-                                    </p>
-                                    <div className="space-y-3">
-                                        <div className="flex items-center gap-2">
-                                            <Mail className="w-4 h-4" />
-                                            <span className="text-sm"> <a
-                                                href="mailto:reach@sundara-moorthy.com"
-                                                className="text-lg hover:text-amber-400 transition-colors"
-                                            >
-                                        reach@sundara-moorthy.com
-                                    </a> </span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <Phone className="w-4 h-4" />
-                                            <a
-                                                href="tel:+919994715658"
-                                                className="text-sm hover:underline"
-                                            >
-                                                +91-9994715658
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <Button
-                                        variant="secondary"
-                                        className="w-full mt-6"
-                                        asChild
-                                    >
-                                        <Link href="/portfolio">View My Portfolio</Link>
-                                    </Button>
-                                </div>
                             </div>
                         </div>
                     </div>

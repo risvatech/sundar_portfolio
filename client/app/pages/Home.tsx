@@ -211,9 +211,9 @@ export default function HomePage() {
     };
 
     return (
-        <div className="min-h-screen bg-white pt-6 md:pt-0 px-6">
+        <div className="min-h-screen bg-white pt-6 md:pt-0 px-12">
             {/* Hero Section */}
-            <section className="py-12 md:py-20 lg:py-28 bg-white ">
+            <section className="md:py-5 lg:py-8 bg-white ">
                 <div className="container mx-auto px-4">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                         {/* Left Content */}
@@ -241,20 +241,23 @@ export default function HomePage() {
                             </Button>
 
                             {/* Key Metrics */}
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pt-6">
+                            <div className="grid grid-cols-3 gap-6 pt-6">
                                 <div className="text-center">
                                     <div className="text-3xl md:text-4xl font-bold text-primary">18+</div>
                                     <div className="text-sm text-gray-600 mt-1">Years Experience</div>
                                 </div>
+
                                 <div className="text-center">
                                     <div className="text-3xl md:text-4xl font-bold text-primary">250+</div>
                                     <div className="text-sm text-gray-600 mt-1">Assignments</div>
                                 </div>
-                                <div className="text-center md:col-span-1 col-span-2">
+
+                                <div className="text-center">
                                     <div className="text-3xl md:text-4xl font-bold text-primary">25+</div>
                                     <div className="text-sm text-gray-600 mt-1">Countries Served</div>
                                 </div>
                             </div>
+
 
                             {/* Services */}
                             <div className="pt-8">
@@ -307,8 +310,8 @@ export default function HomePage() {
                                 </div>
 
                                 {/* Consultant Name and Title */}
-                                <div className="text-center mt-15 pt-8 w-full max-w-md">
-                                    <h3 className="text-2xl font-bold text-primary">S. Sundara Moorthy</h3>
+                                <div className="text-center mt-4 md:mt-12 pt-2 md:pt-8 w-full max-w-md">
+                                <h3 className="text-2xl font-bold text-primary">S. Sundara Moorthy</h3>
                                     <p className="text-md text-gray-600 mt-2">Strategy & Growth Advisor | Design Thinking Practitioner</p>
 
                                     {/* Social Links */}
@@ -341,16 +344,20 @@ export default function HomePage() {
                                         </a>
                                     </div>
 
-                                    <div className="flex items-center justify-center gap-4 mt-4">
-                                        <div className="flex items-center gap-2 text-gray-500">
+                                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mt-4">
+
+                                        <div className="flex items-center gap-2 text-gray-600">
                                             <Briefcase className="w-4 h-4" />
                                             <span className="text-sm">18+ Years Experience</span>
                                         </div>
-                                        <div className="flex items-center gap-2 text-gray-500">
+
+                                        <div className="flex items-center gap-2 text-gray-600">
                                             <CheckCircle className="w-4 h-4" />
                                             <span className="text-sm">250+ Assignments</span>
                                         </div>
+
                                     </div>
+
                                 </div>
                             </div>
 
@@ -489,7 +496,7 @@ export default function HomePage() {
 
                                 {/* View All Articles Button */}
                                 <div className="text-center mt-12">
-                                    <Link href="/Insights">
+                                    <Link href="/insights">
                                         <Button size="lg" variant="secondary">
                                             View All Insights
                                             <ArrowUpRight className="ml-2 w-5 h-5" />

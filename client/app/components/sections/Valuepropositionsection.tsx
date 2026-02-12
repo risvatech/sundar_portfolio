@@ -1,23 +1,23 @@
 const ValuePropositionSection = () => {
     return (
-        <section className="w-full bg-white py-20">
+        <section className="w-full bg-white py-20 px-6">
             <div className="mx-auto max-w-7xl ">
                 <div className="grid items-center gap-12 lg:grid-cols-2">
 
                     {/* Left Side - Text Content */}
                     <div className="space-y-6">
                         <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full">
-                            <p className="text-sm font-semibold uppercase tracking-wider text-[#0B1F32]">
+                            <p className="text-xs md:text-sm font-semibold uppercase tracking-wider text-[#0B1F32]">
                                 What I Do
                             </p>
                         </div>
 
-                        <h2 className="text-4xl font-bold leading-tight text-gray-900 md:text-3xl gap-30">
+                        <h2 className="text-2xl md:text-4xl font-bold leading-snug md:leading-tight text-gray-900">
                             I help MSMEs and startups align strategy, customers, and supply chains—so growth plans are realistic, scalable, and profitable.
                         </h2>
 
                         <div className="pt-4">
-                            <div className="h-1 w-12 rounded-full font-light bg-[#0B1F32]"></div>
+                            <div className="h-1 w-12 rounded-full bg-[#0B1F32]"></div>
                         </div>
                     </div>
 

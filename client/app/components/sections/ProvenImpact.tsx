@@ -29,13 +29,13 @@ export default function ProvenImpact() {
                     <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-white mb-4">
                         Advisory Impact
                     </h2>
-                    <p className="text-white/80 mb-8 text-lg leading-relaxed">
+                    <p className="text-white/80 mb-3 text-lg leading-relaxed">
                         My work focuses on helping leaders make clear,
                         confident decisions in moments that shape business
                         outcomes, growth, investment, market entry, and
                         transformation.
                     </p>
-                    <p>
+                    <p className="text-white/80 mb-8 text-lg leading-relaxed">
                         Rather than generic consulting outputs, I deliver
                         decision-ready insights grounded in market reality,
                         customer understanding, and execution feasibility.
@@ -97,10 +97,10 @@ Europe, the US, and Southeast Asia
 
                     <div className="flex flex-col sm:flex-row gap-4">
                         <Link
-                            href="/what-i-do"
+                            href="/portfolio"
                             className="inline-flex items-center justify-center bg-white text-primary px-8 py-4 rounded-xl font-semibold hover:border hover:bg-primary hover:text-white transition-all duration-300 hover:shadow-lg text-center"
                         >
-                            Explore All Services
+                            Explore My Portfolio
                             <ArrowRight className="ml-2" size={20} />
                         </Link>
                         <Link
