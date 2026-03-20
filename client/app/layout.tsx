@@ -37,8 +37,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
                         "@context": "https://schema.org",
                         "@type": "Organization",
                         "name": "Risva Technologies",
-                        "url": "https://www.risva.app/",
-                        "logo": "https://www.risva.app/assets/Logo.png",
+                        "url": "https://www.sundara-moorthy.com/",
+                        "logo": "https://www.sundara-moorthy.com/assets/Logo.png",
                         "description": "Risva Technologies delivers fast, affordable web app, mobile app & AI solutions using React, Next.js, Node.js, Laravel & PostgreSQL.",
                         "address": {
                             "@type": "PostalAddress",
@@ -58,8 +58,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
                         "publisher": {
                             "@type": "Organization",
                             "name": "Risva Technologies",
-                            "url": "https://www.risva.app/",
-                            "logo": "https://www.risva.app/assets/Logo.png",
+                            "url": "https://www.sundara-moorthy.com/",
+                            "logo": "https://www.sundara-moorthy.com/assets/Logo.png",
                             "description": "Risva Technologies delivers fast, affordable web app, mobile app & AI solutions using React, Next.js, Node.js, Laravel & PostgreSQL."
                         },
                         "sameAs": []

@@ -47,7 +47,7 @@ const Services = () => {
     return (
         <Layout>
             {/* Hero */}
-            <section className="pt-32 pb-16 bg-warm-gradient">
+            <section className="pt-32 pb-16 ">
                 <div className="container-wide text-center">
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary-light text-primary text-sm font-medium mb-4">
             Services

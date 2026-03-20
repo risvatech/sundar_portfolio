@@ -114,7 +114,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
             };
         }
 
-        const siteUrl = 'https://sundar.risva.app';
+        const siteUrl = 'https://www.sundara-moorthy.com';
         const pageUrl = `${siteUrl}/insights/${post.slug}`;
 
         const title = post.metaTitle || post.title || "Blog Post";

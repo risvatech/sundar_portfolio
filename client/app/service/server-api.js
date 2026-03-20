@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Server-side axios instance with different configuration
 const serverApi = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL || "https://sundar.risva.app/api",
+    baseURL: process.env.NEXT_PUBLIC_API_URL || "https://www.sundara-moorthy.com/api",
     headers: {
         "Content-Type": "application/json",
     },

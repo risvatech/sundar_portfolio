@@ -840,17 +840,6 @@ export default function ConsultationAdmin() {
                                         {selectedConsultation.isFollowedUp ? 'Followed Up ✓' : 'Mark as Followed Up'}
                                     </Button>
                                 </div>
-
-                                <div className="pt-3 md:pt-4 border-t">
-                                    <Button
-                                        variant="destructive"
-                                        className="w-full text-sm md:text-base"
-                                        onClick={() => handleDelete(selectedConsultation.id)}
-                                    >
-                                        <Trash2 size={14} className="mr-2" />
-                                        Delete Consultation
-                                    </Button>
-                                </div>
                             </CardContent>
                         </Card>
 

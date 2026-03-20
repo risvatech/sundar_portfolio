@@ -4,7 +4,7 @@ import { abouts } from "@/app/data/abouts";
 
 export function AboutCards() {
     return (
-        <section className="section-padding bg-background">
+        <section className="section-padding ">
             <div className="container-wide">
                 <div className="mb-12 text-center">
                     <h2 className="font-serif text-3xl sm:text-4xl text-foreground">

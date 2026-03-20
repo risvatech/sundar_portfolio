@@ -6,7 +6,7 @@ const nextConfig = {
 
     images: {
         unoptimized: true,
-        domains: ['localhost', '127.0.0.1', 'www.risva.app', 'sundar.risva.app'],
+        domains: ['localhost', '127.0.0.1', 'www.sundara-moorthy.com', 'sundara-moorthy.com'],
         remotePatterns: [
             {
                 protocol: 'http',
@@ -22,12 +22,12 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'www.risva.app',
+                hostname: 'sundara-moorthy.com',
                 pathname: '/api/uploads/**',
             },
             {
                 protocol: 'https',
-                hostname: 'sundar.risva.app',
+                hostname: 'www.sundara-moorthy.com',
                 pathname: '/api/uploads/**',
             },
             {

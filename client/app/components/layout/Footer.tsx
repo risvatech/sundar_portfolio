@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Globe, Linkedin, ArrowRight, Facebook, Twitter } from 'lucide-react';
+import {Mail, Globe, Linkedin, ArrowRight, Facebook, Twitter, MessageCircle} from 'lucide-react';
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/sundar-logo-big.png";
@@ -50,17 +50,17 @@ const Footer = () => {
                             {/* Website */}
                             <div className="flex items-center gap-4">
                                 <div className="p-3 bg-white/10 rounded-lg backdrop-blur-sm">
-                                    <Globe size={20} className="text-amber-500" />
+                                    <MessageCircle  size={20} className="text-amber-500" />
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-400 uppercase font-semibold">Website</p>
+                                    <p className="text-xs text-gray-400 uppercase font-semibold">Whatsapp Channel</p>
                                     <a
-                                        href="https://sundara-moorthy.com"
+                                        href="https://whatsapp.com/channel/0029VbBzqZV3AzNRM1WRIR27"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-lg font-medium hover:text-amber-400 transition-colors"
                                     >
-                                        sundara-moorthy.com
+                                        Strategy & Growth Insights
                                     </a>
                                 </div>
                             </div>
@@ -158,7 +158,7 @@ const Footer = () => {
                     <p className="text-sm text-gray-400">
                          Powered by{" "}
                         <a
-                            href="https://www.risva.app/"
+                            href="https://www.risva.app"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="hover:text-amber-400"
@@ -169,7 +169,15 @@ const Footer = () => {
 
                     <div className="flex items-center gap-8">
                         <a href="/privacy-policy" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">Privacy Policy</a>
-                        <a href="#" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">Terms of Service</a>
+
+                        <a
+                            href="https://whatsapp.com/channel/0029VbBzqZV3AzNRM1WRIR27"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-amber-400 transition-colors"
+                        >
+                            <MessageCircle  size={20} />
+                        </a>
 
                         <a
                             href="https://www.linkedin.com/in/sundaramoorthy15/"

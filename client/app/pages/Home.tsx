@@ -207,13 +207,13 @@ export default function HomePage() {
         if (article.coverImage) {
             return article.coverImage;
         }
-        return "/Insights/default.jpg";
+        return "/insights/default.jpg";
     };
 
     return (
-        <div className="min-h-screen bg-white pt-6 md:pt-0 px-12">
+        <div className="container-wide  pt-6 md:pt-20 ">
             {/* Hero Section */}
-            <section className="md:py-5 lg:py-8 bg-white ">
+            <section className="md:py-5 lg:py-8  pt-20 pb-16 ">
                 <div className="container mx-auto px-4">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                         {/* Left Content */}
@@ -377,7 +377,7 @@ export default function HomePage() {
 
             {/* Latest Articles Section */}
             {latestArticles.length > 0 && (
-                <section className="py-16 bg-gray-50">
+                <section className="py-16">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
@@ -403,14 +403,14 @@ export default function HomePage() {
                                     >
                                         {latestArticles.map((article, index) => (
                                             <div key={article.id} className="w-full flex-shrink-0">
-                                                <div className="grid md:grid-cols-2 gap-0">
+                                                <div className="grid md:grid-cols-2 gap-0 items-stretch">
                                                     {/* Article Image */}
                                                     <div className="relative h-64 md:h-96">
                                                         <Image
                                                             src={getArticleImage(article)}
                                                             alt={article.title}
                                                             fill
-                                                            className="w-full h-full object-cover"
+                                                            className="object-cover"
                                                             sizes="(max-width: 768px) 100vw, 50vw"
                                                             priority={index === 0}
                                                         />
@@ -447,7 +447,7 @@ export default function HomePage() {
                                                                 <Clock size={14} />
                                                                 {calculateReadTime(article.content)}
                                                             </span>
-                                                            <Link href={`/Insights/${article.slug}`}>
+                                                            <Link href={`/insights/${article.slug}`}>
                                                                 <Button variant="secondary" className="hover:bg-primary hover:text-white transition-colors">
                                                                     Read Insight
                                                                     <ArrowRight className="ml-2" size={16} />

@@ -164,7 +164,7 @@ const PortfolioPage = () => {
     };
 
     return (
-        <main className="min-h-screen bg-subtle-gradient py-16">
+        <main className="min-h-screen  py-16">
 
             {/* Overview Section */}
             <motion.section

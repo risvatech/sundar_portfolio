@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 // ✅ CORS setup
 app.use(
     cors({
-        origin: ["http://localhost:3000", "https://sundar.risva.app"],
+        origin: ["http://localhost:3000", "https://www.sundara-moorthy.com"],
         credentials: true,
     }),
 );

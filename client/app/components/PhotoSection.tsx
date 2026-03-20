@@ -11,6 +11,8 @@ import portfolio5 from "../../public/assets/sundar-moorthy-4.jpeg";
 import portfolio6 from "../../public/assets/sundar-moorthy-6.jpg";
 import heroWedding from "../../public/assets/sundar-moorthy-7.jpg";
 import heroFashion from "../../public/assets/sundar-moorthy-8.jpg";
+import portfolio9 from "../../public/assets/sundara-moorthy-event-1a.jpeg";
+import portfolio10 from "../../public/assets/sundara-moorthy-event-1b.jpeg";
 
 const rowImages = [
     portfolio1,
@@ -22,6 +24,9 @@ const rowImages = [
     portfolio4,
     portfolio6,
     heroFashion,
+    portfolio9,
+    portfolio10,
+    portfolio1
 ];
 
 const PhotoSection = () => {

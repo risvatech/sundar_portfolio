@@ -283,8 +283,8 @@ const Blog = () => {
             <SEOHead page="home" />
             <Layout>
                 {/* Hero */}
-                <section className="pt-32 pb-8 bg-primary/5 dark:from-gray-900 dark:to-gray-800">
-                    <div className="container mx-auto max-w-6xl text-center px-4">
+                <section className="pt-32 pb-8  dark:from-gray-900 dark:to-gray-800">
+                    <div className="container mx-auto max-w-6xl text-center ">
                         <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
                             Insights & Ideas
                         </span>

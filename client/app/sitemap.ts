@@ -2,7 +2,7 @@
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.risva.app';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sundara-moorthy.com';
 
     console.log('🔧 Generating sitemap at build time...');
 
@@ -138,7 +138,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     let blogPosts: MetadataRoute.Sitemap = [];
 
     try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://www.risva.app/api';
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://www.sundara-moorthy.com/api';
         const response = await fetch(`${apiUrl}/posts?status=published&limit=1000`, {
             // This will be cached at build time
             next: { revalidate: 3600 } // Revalidate every hour
@@ -166,7 +166,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     let portfolioItems: MetadataRoute.Sitemap = [];
 
     try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://www.risva.app/api';
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://www.sundara-moorthy.com/api';
         const response = await fetch(`${apiUrl}/apps/all`, {
             next: { revalidate: 3600 }
         });
