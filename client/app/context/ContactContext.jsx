@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 const ContactsContext = createContext();
 
 export const ContactsProvider = ({ children }) => {
+    console.log('ContactsProvider is mounted');
 
   const sendZohoMessageMutation = useApiMutation({
     url: "/zoho/send",
@@ -19,13 +20,13 @@ export const ContactsProvider = ({ children }) => {
 
 
   return (
-    <ContactsContext.Provider
-      value={{
-        sendZohoMessageMutation,
-      }}
-    >
-      {children}
-    </ContactsContext.Provider>
+      <ContactsContext.Provider
+          value={{
+            sendZohoMessageMutation,
+          }}
+      >
+        {children}
+      </ContactsContext.Provider>
   );
 };
 

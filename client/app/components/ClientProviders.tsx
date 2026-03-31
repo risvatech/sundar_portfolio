@@ -9,6 +9,7 @@ import { ReactNode, useState, useEffect, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import {RolesProvider} from "@/app/context/rolesContext";
 import {AuthProvider} from "@/app/context/AuthContext";
+import {ContactsProvider} from "@/app/context/ContactContext";
 
 
 interface ClientProvidersProps {
@@ -39,6 +40,7 @@ export default function ClientProviders({ children }: ClientProvidersProps) {
         <QueryClientProvider client={queryClient}>
             <RolesProvider>
                 <AuthProvider>
+                    <ContactsProvider>
                         <TooltipProvider>
                             {/* Wrap ScrollHandler in Suspense since it uses useSearchParams */}
                             <Suspense fallback={null}>
@@ -50,6 +52,7 @@ export default function ClientProviders({ children }: ClientProvidersProps) {
                             <Toaster />
                             <Sonner />
                         </TooltipProvider>
+                    </ContactsProvider>
                 </AuthProvider>
             </RolesProvider>
         </QueryClientProvider>

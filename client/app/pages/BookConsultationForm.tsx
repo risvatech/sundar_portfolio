@@ -22,7 +22,7 @@ const consultationSchema = z.object({
     description: z.string().min(10, "Description must be at least 10 characters").max(500),
 });
 
-type ConsultationFormData = z.infer<typeof consultationSchema>;
+export type ConsultationFormData = z.infer<typeof consultationSchema>;
 
 interface BookConsultationFormProps {
     onSubmit: (data: ConsultationFormData) => Promise<void>;

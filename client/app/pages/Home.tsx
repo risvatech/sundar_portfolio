@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     ArrowUpRight,
     Calendar,
@@ -14,7 +14,7 @@ import {
     ChevronRight,
     Clock,
     ArrowRight,
-    Linkedin, Facebook, Twitter
+    Linkedin, Facebook, Twitter, MessageCircle
 } from "lucide-react";
 import api from "../service/api";
 import {Button} from "@/app/components/ui/button";
@@ -316,6 +316,15 @@ export default function HomePage() {
 
                                     {/* Social Links */}
                                     <div className="flex justify-center gap-4 mt-4">
+                                        <a
+                                            href="https://whatsapp.com/channel/0029VbBzqZV3AzNRM1WRIR27"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-primary hover:text-amber-400 transition-colors"
+                                        >
+                                            <MessageCircle  size={20} />
+                                        </a>
+
                                         <a
                                             href="https://www.linkedin.com/in/sundaramoorthy15/"
                                             target="_blank"

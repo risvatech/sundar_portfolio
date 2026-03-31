@@ -2,67 +2,96 @@
 
 import { Layout } from "../components/layout/Layout";
 import { Button } from "../components/ui/button";
-import { ArrowRight, Calendar, Clock, CheckCircle2, Users, Star, Target, Phone, Mail } from "lucide-react";
-import BookConsultationForm from "../pages/BookConsultationForm";
+import { Calendar, Clock, CheckCircle2, Users, Phone, Mail, MessageCircle } from "lucide-react";
+import BookConsultationForm, { ConsultationFormData } from "../pages/BookConsultationForm";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useToast } from "@/app/hooks/use-toast"; // Import your toast hook
+import { useToast } from "@/app/hooks/use-toast";
 import api from "../service/api";
 import SEOHead from "@/app/components/SEOHead";
 import Image from "next/image";
 import img2 from "../../public/IMG-20260205-WA0011.jpg";
 import bg from "../../public/assets/6975302_23833.jpg";
 import { Linkedin, Facebook, Twitter } from "lucide-react";
+import { useContacts } from "@/app/context/ContactContext";
 
-
-// Type for the form data - Updated with only 8 fields
-interface ConsultationFormData {
-    name: string;
-    email: string;
-    phone: string;
-    company: string;
-    title: string;
-    location: string;
-    serviceType: string;
-    description: string;
-}
-
-// Type for API response
-interface ApiResponse {
-    success: boolean;
+// Add error type definitions
+interface ApiError {
+    response?: {
+        data?: {
+            errors?: string[];
+            message?: string;
+        };
+        status?: number;
+    };
+    request?: any;
     message?: string;
-    data?: any;
-    errors?: string[];
 }
 
 export default function BookConsultationPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formResetKey, setFormResetKey] = useState(0);
-    const { toast } = useToast(); // Use your toast hook
+    const { toast } = useToast();
+
+    // Get Zoho mutation from context with safe fallback
+    let sendZohoMessageMutation;
+    try {
+        const contacts = useContacts();
+        sendZohoMessageMutation = contacts?.sendZohoMessageMutation;
+    } catch (error) {
+        console.warn('ContactsProvider not available:', error);
+        sendZohoMessageMutation = {
+            mutate: (data: any) => {
+                console.log('Zoho mail would be sent with data:', data);
+            }
+        };
+    }
 
     // Handle form submission
     const handleSubmitForm = async (formData: ConsultationFormData) => {
         setIsSubmitting(true);
 
         try {
-            console.log('Submitting form data:', formData); // Debug log
+            console.log('Submitting form data:', formData);
 
             const response = await api.post('/consultations', formData);
 
             // Handle different response formats
-            let result: ApiResponse;
-
+            let result;
             if (typeof response === 'object' && 'data' in response) {
-                // Axios response format
-                result = response.data as ApiResponse;
+                result = response.data;
             } else {
-                // Direct response format
-                result = response as ApiResponse;
+                result = response;
             }
 
-            console.log('API Response:', result); // Debug log
+            console.log('API Response:', result);
 
             if (result.success) {
+                // Prepare data for Zoho
+                const zohoFormattedData = {
+                    subject: "Consultation Booking Request",
+                    firstName: formData.name.split(' ')[0],
+                    phone: formData.phone || "",
+                    email: formData.email,
+                    notes: `Consultation Booking Request:
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Company: ${formData.company || "Not provided"}
+Job Title: ${formData.title || "Not provided"}
+Location: ${formData.location || "Not provided"}
+Service Type: ${formData.serviceType || "Not provided"}
+Consultation Details: ${formData.description || "No additional details provided"}`,
+                };
+
+                // Send to Zoho if available
+                if (sendZohoMessageMutation && typeof sendZohoMessageMutation.mutate === 'function') {
+                    sendZohoMessageMutation.mutate(zohoFormattedData);
+                    console.log('Zoho notification triggered');
+                } else {
+                    console.log('Zoho mutation not available, skipping Zoho notification');
+                }
+
                 // Show success toast
                 toast({
                     title: "Success!",
@@ -77,12 +106,11 @@ export default function BookConsultationPage() {
                 // Scroll to top
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                // Show success message in console for debugging
                 console.log('Form submitted successfully:', result.data);
             } else {
                 // Handle API errors
                 if (result.errors && result.errors.length > 0) {
-                    result.errors.forEach((err: string) => {
+                    result.errors.forEach((err: any) => {
                         toast({
                             title: "Error",
                             description: err,
@@ -99,15 +127,17 @@ export default function BookConsultationPage() {
                     });
                 }
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Error submitting form:', error);
 
+            // Type guard to check if error is an object with response property
+            const apiError = error as ApiError;
+
             // Handle network errors or server errors
-            if (error.response) {
-                // Server responded with error status
-                const errorData = error.response.data || {};
+            if (apiError.response) {
+                const errorData = apiError.response.data || {};
                 if (errorData.errors && Array.isArray(errorData.errors)) {
-                    errorData.errors.forEach((err: string) => {
+                    errorData.errors.forEach((err: any) => {
                         toast({
                             title: "Error",
                             description: err,
@@ -125,13 +155,12 @@ export default function BookConsultationPage() {
                 } else {
                     toast({
                         title: "Server Error",
-                        description: `Server error: ${error.response.status}`,
+                        description: `Server error: ${apiError.response.status}`,
                         variant: "destructive",
                         duration: 5000,
                     });
                 }
-            } else if (error.request) {
-                // Request was made but no response
+            } else if (apiError.request) {
                 toast({
                     title: "Network Error",
                     description: 'Network error. Please check your connection and try again.',
@@ -139,10 +168,9 @@ export default function BookConsultationPage() {
                     duration: 5000,
                 });
             } else {
-                // Other errors
                 toast({
                     title: "Error",
-                    description: error.message || 'Something went wrong. Please try again.',
+                    description: apiError.message || 'Something went wrong. Please try again.',
                     variant: "destructive",
                     duration: 5000,
                 });
@@ -157,24 +185,21 @@ export default function BookConsultationPage() {
             <SEOHead page="home" />
             {/* Hero Section */}
             <section className="relative pt-32 overflow-hidden">
-            {/* Background Image */}
-                <div className="absolute inset-0 ">
+                <div className="absolute inset-0">
                     <Image
-                        src={bg}   // 🔥 change to your image path
+                        src={bg}
                         alt="Consultation Background"
                         fill
                         className="object-cover"
                         priority
                     />
-                    {/* Dark Overlay */}
-                    {/*<div className="absolute inset-0 bg-black/50"></div>*/}
                 </div>
 
                 <div className="container-wide relative z-10">
                     <div className="text-center text-black">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-sm text-black text-sm font-medium mb-4">
-                Consultation
-            </span>
+                        <span className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-sm text-black text-sm font-medium mb-4">
+                            Consultation
+                        </span>
 
                         <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold mb-6">
                             Let's Have a Strategic Conversation
@@ -227,7 +252,7 @@ export default function BookConsultationPage() {
                         {/* Left Column - Form */}
                         <div className="lg:col-span-2">
                             <BookConsultationForm
-                                key={formResetKey} // This will force re-render and reset
+                                key={formResetKey}
                                 onSubmit={handleSubmitForm}
                                 isSubmitting={isSubmitting}
                             />
@@ -235,11 +260,8 @@ export default function BookConsultationPage() {
 
                         {/* Right Column - Benefits & Info */}
                         <div className="lg:col-span-1">
-
                             {/* Inner Profile Card */}
                             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-5">
-
-                                {/* Image */}
                                 <div className="relative w-full h-56 mb-4 rounded-lg overflow-hidden">
                                     <Image
                                         src={img2}
@@ -250,18 +272,23 @@ export default function BookConsultationPage() {
                                     />
                                 </div>
 
-                                {/* Consultant Name and Title */}
-                                <div className="text-center ">
+                                <div className="text-center">
                                     <h3 className="text-xl font-bold text-black">
                                         S. Sundara Moorthy
                                     </h3>
-
                                     <p className="text-sm text-black/80 mt-2">
                                         Strategy & Growth Advisor | Design Thinking Practitioner
                                     </p>
 
-                                    {/* Social Links */}
                                     <div className="flex justify-center gap-4 mt-4">
+                                        <a
+                                            href="https://whatsapp.com/channel/0029VbBzqZV3AzNRM1WRIR27"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-primary hover:text-amber-400 transition-colors"
+                                        >
+                                            <MessageCircle size={20} />
+                                        </a>
                                         <a
                                             href="https://www.linkedin.com/in/sundaramoorthy15/"
                                             target="_blank"
@@ -270,7 +297,6 @@ export default function BookConsultationPage() {
                                         >
                                             <Linkedin size={20} />
                                         </a>
-
                                         <a
                                             href="https://www.facebook.com/profile.php?id=100064303444109"
                                             target="_blank"
@@ -279,7 +305,6 @@ export default function BookConsultationPage() {
                                         >
                                             <Facebook size={20} />
                                         </a>
-
                                         <a
                                             href="https://x.com/sundara_sethu"
                                             target="_blank"
@@ -290,7 +315,6 @@ export default function BookConsultationPage() {
                                         </a>
                                     </div>
                                 </div>
-
                             </div>
 
                             {/* Contact Info Card */}
@@ -304,12 +328,14 @@ export default function BookConsultationPage() {
                                 <div className="space-y-3">
                                     <div className="flex items-center gap-2">
                                         <Mail className="w-4 h-4" />
-                                        <span className="text-sm"> <a
-                                            href="mailto:reach@sundara-moorthy.com"
-                                            className="text-lg hover:text-amber-400 transition-colors"
-                                        >
-                                        reach@sundara-moorthy.com
-                                    </a> </span>
+                                        <span className="text-sm">
+                                            <a
+                                                href="mailto:reach@sundara-moorthy.com"
+                                                className="text-lg hover:text-amber-400 transition-colors"
+                                            >
+                                                reach@sundara-moorthy.com
+                                            </a>
+                                        </span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Phone className="w-4 h-4" />
@@ -330,8 +356,8 @@ export default function BookConsultationPage() {
                                     <Link href="/portfolio">View My Portfolio</Link>
                                 </Button>
                             </div>
+
                             <div className="lg:sticky lg:top-32 space-y-8">
-                                {/* What to Expect Card */}
                                 <div className="bg-card rounded-2xl p-6 shadow-soft">
                                     <h3 className="font-serif text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
                                         <Calendar className="w-5 h-5 text-primary" />
@@ -372,7 +398,6 @@ export default function BookConsultationPage() {
                                         </li>
                                     </ul>
                                 </div>
-
                             </div>
                         </div>
                     </div>

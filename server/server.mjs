@@ -15,6 +15,7 @@ import path from "path";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import consultationRoutes from "./routes/consultationRoutes.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
+import zohoMailRoutes from "./routes/zohoMailRoutes.js";
 
 
 dotenv.config();
@@ -41,7 +42,7 @@ app.use("/api/uploads", express.static(path.resolve(uploadPath)));
 // app.use("/api/uploads", express.static(path.resolve("uploads")));
 
 // ================== API ROUTES ==================
-
+app.use("/api/zoho", zohoMailRoutes);
 app.use("/api", installRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
