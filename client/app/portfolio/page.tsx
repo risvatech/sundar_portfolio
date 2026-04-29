@@ -8,7 +8,7 @@ export default function Portfolio() {
     return (
         <>
             <Layout>
-                <SEOHead page="home" />
+                <SEOHead page="portfolio" />
                 <PortfolioPage/>
             </Layout>
         </>

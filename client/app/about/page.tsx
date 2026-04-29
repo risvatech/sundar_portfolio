@@ -10,7 +10,7 @@ import SEOHead from "@/app/components/SEOHead";
 const About = () => {
     return (
         <Layout>
-            <SEOHead page="home" />
+            <SEOHead page="about" />
             <AboutSection />
             {/*<AboutCards />*/}
             {/*<WhyChooseUs/>*/}

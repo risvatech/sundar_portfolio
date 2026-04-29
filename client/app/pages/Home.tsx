@@ -20,7 +20,7 @@ import api from "../service/api";
 import {Button} from "@/app/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import img2 from "../../public/assets/SM BW 2026.png";
+import img2 from "../../public/sundara-moorthy.jpeg";
 import ExperienceSection from "@/app/components/sections/ExperienceSection";
 import ValuePropositionSection from "@/app/components/sections/Valuepropositionsection";
 import PhotoSection from "@/app/components/PhotoSection";
@@ -298,11 +298,12 @@ export default function HomePage() {
                         <div className="relative">
                             <div className="w-full flex flex-col items-center justify-center p-8">
                                 {/* Single Image Container */}
-                                <div className="relative w-full max-w-[28rem] sm:max-w-[32rem] lg:max-w-[40rem] aspect-[3/2] rounded-2xl overflow-hidden shadow-2xl">
+                                <div className="relative w-full max-w-[28rem] sm:max-w-[32rem] lg:max-w-[40rem] rounded-2xl overflow-hidden shadow-2xl">
                                     <Image
                                         src={img2} // You can change this to img if you prefer the other image
                                         alt="Sundar - Business Consultant"
-                                        fill
+                                        width={1000}
+                                        height={1200}
                                         className="object-cover object-top"
                                         sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, 448px"
                                         priority

@@ -1,8 +1,7 @@
 import {
     pgTable, varchar, text, integer, serial, timestamp, boolean, jsonb
 } from 'drizzle-orm/pg-core';
-import {relations, sql} from 'drizzle-orm';
-import {json} from "express";
+import {relations} from 'drizzle-orm';
 
 // ===========================
 // USER MANAGEMENT

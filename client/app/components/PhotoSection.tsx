@@ -2,8 +2,8 @@
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-import portfolio1 from "../../public/assets/sundar-moorthy-1.jpeg";
+import portfolio1 from "../../public/iim-alumnus.jpg";
+import portfolio11 from "../../public/assets/sundar-moorthy-1.jpeg";
 import portfolio2 from "../../public/assets/sundar-moorthy-2.jpg";
 import portfolio3 from "../../public/assets/sundar-moorthy-5.jpg";
 import portfolio4 from "../../public/assets/sundar-moorthy-3.jpeg";
@@ -26,7 +26,7 @@ const rowImages = [
     heroFashion,
     portfolio9,
     portfolio10,
-    portfolio1
+    portfolio11
 ];
 
 const PhotoSection = () => {

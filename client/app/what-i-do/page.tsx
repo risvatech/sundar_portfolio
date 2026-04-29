@@ -6,7 +6,7 @@ import SEOHead from "@/app/components/SEOHead";
 export default function Service() {
     return (
         <>
-            <SEOHead page="home" />
+            <SEOHead page="whatido" />
             <Services/>
         </>
     )

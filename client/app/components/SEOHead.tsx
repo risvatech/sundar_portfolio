@@ -10,7 +10,7 @@ interface SEOHeadProps {
 
 export default function SEOHead({ page }: SEOHeadProps) {
     const metadata = SEO_CONFIG[page];
-    const SITE_NAME = "Risva Technologies";
+    const SITE_NAME = "Sundara Moorthy";
 
     if (!metadata) {
         console.warn(`No metadata found for page: ${page}`);

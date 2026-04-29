@@ -142,7 +142,7 @@ const Footer = () => {
                         <Link href="/" className="flex items-center gap-2 group">
                             <Image
                                 src={Logo}
-                                alt="Risva Technologies Logo"
+                                alt="Sundara Moorthy Logo"
                                 width={30}
                                 height={10}
                                 className={`object-contain transition-all duration-300 group-hover:scale-110`}

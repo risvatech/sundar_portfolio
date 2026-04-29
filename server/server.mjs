@@ -54,7 +54,6 @@ app.use("/api/gallery", galleryRoutes);
 app.use('/api', consultationRoutes);
 
 
-
 app.post("/api/testDatabaseDetails", async (req, res) => {
     try {
         console.log("Received:", req.body);

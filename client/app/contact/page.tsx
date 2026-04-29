@@ -182,7 +182,7 @@ Consultation Details: ${formData.description || "No additional details provided"
 
     return (
         <Layout>
-            <SEOHead page="home" />
+            <SEOHead page="contact" />
             {/* Hero Section */}
             <section className="relative pt-32 overflow-hidden">
                 <div className="absolute inset-0">
