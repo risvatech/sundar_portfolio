@@ -20,7 +20,7 @@ export const SEO_CONFIG: Record<string, PageMetadata> = {
         description: 'Sundara Moorthy, Strategy & Growth Advisor | Design Thinking Practitioner',
         keywords: 'strategy consultant India, growth advisor, business strategy consultant, market research consulting, design thinking expert, GTM strategy, MSME consultant India, startup advisor',
         ogTitle: 'Sundara Moorthy – Strategy & Growth Advisor',
-        ogDescription: 'Helping businesses solve complex problems with insight-led, execution-ready strategies.',
+        ogDescription: 'Helping businesses decode markets, design strategy and scale with clarity.',
         ogImage: 'https://www.sundara-moorthy.com/favicon.ico',
         ogUrl: 'https://www.sundara-moorthy.com/',
         ogType: 'website',
