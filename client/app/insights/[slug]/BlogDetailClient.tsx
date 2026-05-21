@@ -37,6 +37,7 @@ interface BlogPost {
     tags?: string;
     categoryId?: number;
     createdAt?: string;
+    publishDate?: string | null;  // ✅ Added publishDate
     updatedAt?: string;
     status: string;
     metaExcerpt?: string;
@@ -144,21 +145,51 @@ export default function BlogDetailClient({
         }
     }
 
-    const formatDate = (dateString?: string) => {
-        if (!dateString) return "Recent"
-        const date = new Date(dateString)
-        const now = new Date()
-        const diffTime = Math.abs(now.getTime() - date.getTime())
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    // ✅ Updated formatDate function to prioritize publish date
+    const formatDate = (post: BlogPost): string => {
+        // First try to use publish date
+        if (post.publishDate) {
+            try {
+                const date = new Date(post.publishDate)
+                const now = new Date()
+                const diffTime = Math.abs(now.getTime() - date.getTime())
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
-        if (diffDays === 1) return "Yesterday"
-        if (diffDays <= 7) return `${diffDays} days ago`
+                if (diffDays === 1) return "Yesterday"
+                if (diffDays <= 7) return `${diffDays} days ago`
 
-        return date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        })
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                })
+            } catch {
+                // Fall through to created date
+            }
+        }
+
+        // Fallback to created date
+        if (post.createdAt) {
+            try {
+                const date = new Date(post.createdAt)
+                const now = new Date()
+                const diffTime = Math.abs(now.getTime() - date.getTime())
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+                if (diffDays === 1) return "Yesterday"
+                if (diffDays <= 7) return `${diffDays} days ago`
+
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                })
+            } catch {
+                return "Recent"
+            }
+        }
+
+        return "Recent"
     }
 
     const calculateReadTime = (content: string) => {
@@ -176,6 +207,13 @@ export default function BlogDetailClient({
     const postTags = getPostTags();
     const displayExcerpt = initialPost.excerpt || initialPost.description || initialPost.metaExcerpt || "";
 
+    // Get the display date for structured data (prioritize publish date)
+    const getDisplayDate = (): string => {
+        if (initialPost.publishDate) return initialPost.publishDate;
+        if (initialPost.createdAt) return initialPost.createdAt;
+        return new Date().toISOString();
+    };
+
     return (
         <>
             {/* Structured Data */}
@@ -188,8 +226,8 @@ export default function BlogDetailClient({
                         "headline": initialPost.metaTitle || initialPost.title,
                         "description": initialPost.metaDescription || initialPost.description || initialPost.excerpt,
                         "image": initialPost.coverImage || "",
-                        "datePublished": initialPost.createdAt,
-                        "dateModified": initialPost.updatedAt,
+                        "datePublished": getDisplayDate(),  // ✅ Use publish date if available
+                        "dateModified": initialPost.updatedAt || getDisplayDate(),
                         "author": {
                             "@type": "Person",
                             "name": "Admin"
@@ -222,7 +260,6 @@ export default function BlogDetailClient({
                                     </Button>
                                 </Link>
                             </div>
-                            {/*<div className="w-24 h-1.5 bg-[hsl(21_90%_48%)] mb-6" />*/}
                             <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-primary mb-3 animate-fade-in">
                                 {initialPost.metaTitle || initialPost.title}
                             </h1>
@@ -250,9 +287,10 @@ export default function BlogDetailClient({
                                                     <span className="text-sm font-medium">{calculateReadTime(initialPost.content)}</span>
                                                 </div>
                                                 <Separator orientation="vertical" className="h-4" />
+                                                {/* ✅ Updated date display - shows publish date or created date */}
                                                 <div className="flex items-center gap-2">
                                                     <Calendar className="w-4 h-4 text-primary" />
-                                                    <span className="text-sm font-medium">{formatDate(initialPost.createdAt)}</span>
+                                                    <span className="text-sm font-medium">{formatDate(initialPost)}</span>
                                                 </div>
                                                 <Separator orientation="vertical" className="h-4" />
                                                 <div className="flex items-center gap-2">
@@ -276,240 +314,240 @@ export default function BlogDetailClient({
 
                                         <article className="prose prose-lg dark:prose-invert max-w-none mb-16">
                                             <style jsx global>{`
-                                            .html-content {
-                                                font-size: 1rem;
-                                                line-height: 1;
-                                                color: var(--foreground);
-                                            }
-                                            .html-content p {
-                                                margin-bottom: 0.4rem;
-                                            }
-                                            .html-content h1,
-                                            .html-content h2,
-                                            .html-content h3,
-                                            .html-content h4,
-                                            .html-content h5,
-                                            .html-content h6 {
-                                                font-weight: bold;
-                                                line-height: 1.2;
-                                                margin-top: 1.2rem;
-                                                margin-bottom: 1rem;
-                                                color: var(--foreground);
-                                                scroll-margin-top: 2rem;
-                                            }
-                                            .html-content h1 {
-                                                font-size: 2.5rem;
-                                                margin-top: 3rem;
-                                                margin-bottom: 1.5rem;
-                                            }
-                                            .html-content h2 {
-                                                font-size: 1.5rem;
-                                                margin-top: 1rem;
-                                                margin-bottom: 0.5rem;
-                                                padding-bottom: 0.5rem;
-                                                border-bottom: 2px solid var(--primary);
-                                                position: relative;
-                                            }
-                                            .html-content h2::after {
-                                                content: '';
-                                                position: absolute;
-                                                bottom: -2px;
-                                                left: 0;
-                                                width: 60px;
-                                                height: 2px;
-                                                background: linear-gradient(90deg, var(--primary), var(--secondary));
-                                            }
-                                            .html-content h3 {
-                                                font-size: 1.5rem;
-                                            }
-                                            .html-content h4 {
-                                                font-size: 1.2rem;
-                                            }
-                                            .html-content h5 {
-                                                font-size: 1rem;
-                                            }
-                                            .html-content h6 {
-                                                font-size: 1rem;
-                                            }
-                                            .html-content a {
-                                                color: var(--primary);
-                                                text-decoration: none;
-                                                border-bottom: 1px solid transparent;
-                                                transition: all 0.2s ease;
-                                            }
-                                            .html-content a:hover {
-                                                border-bottom-color: var(--primary);
-                                                opacity: 0.9;
-                                            }
-                                            .html-content ol,
-                                            .html-content ul {
-                                                margin-left: 1.5rem;
-                                                margin-bottom: 0.5rem;
-                                                padding-left: 0.5rem;
-                                            }
-                                            .html-content li {
-                                                margin-bottom: 0.5rem;
-                                                position: relative;
-                                                padding-left: 0.5rem;
-                                                color: var(--foreground);
-                                            }
-                                            .html-content ol {
-                                                list-style-type: decimal;
-                                            }
-                                            .html-content ol li::marker {
-                                                font-weight: 600;
-                                                color: var(--primary);
-                                            }
-                                            .html-content ul {
-                                                list-style-type: disc;
-                                            }
-                                            .html-content ul li::marker {
-                                                color: var(--primary);
-                                            }
-                                            .html-content ul ul,
-                                            .html-content ol ol {
-                                                margin-top: 0.5rem;
-                                                margin-bottom: 0.5rem;
-                                            }
-                                            .html-content ul ul {
-                                                list-style-type: circle;
-                                            }
-                                            .html-content ul ul ul {
-                                                list-style-type: square;
-                                            }
-                                            .html-content ol ol {
-                                                list-style-type: lower-alpha;
-                                            }
-                                            .html-content ol ol ol {
-                                                list-style-type: lower-roman;
-                                            }
-                                            .html-content li strong {
-                                                color: var(--primary);
-                                                font-weight: 600;
-                                            }
-                                            .html-content li + li {
-                                                margin-top: 0.25rem;
-                                            }
-                                            .html-content pre {
-                                                background: var(--secondary);
-                                                border-radius: 0.75rem;
-                                                padding: 1.5rem;
-                                                margin: 1.5rem 0;
-                                                overflow-x: auto;
-                                                border: 1px solid var(--border);
-                                            }
-                                            .html-content code {
-                                                background: var(--secondary);
-                                                padding: 0.2rem 0.4rem;
-                                                border-radius: 0.375rem;
-                                                font-family: 'Monaco', 'Consolas', monospace;
-                                                font-size: 0.9em;
-                                                border: 1px solid var(--border);
-                                            }
-                                            .html-content pre code {
-                                                background: transparent;
-                                                padding: 0;
-                                                border: none;
-                                            }
-                                            .html-content blockquote {
-                                                border-left: 4px solid var(--primary);
-                                                padding-left: 1.5rem;
-                                                margin: 2rem 0;
-                                                font-style: italic;
-                                                background: linear-gradient(90deg, rgba(var(--primary-rgb, 147, 51, 234), 0.1), transparent);
-                                                border-radius: 0 0.75rem 0.75rem 0;
-                                            }
-                                            .html-content blockquote p {
-                                                margin: 0;
-                                                color: var(--foreground);
-                                                opacity: 0.9;
-                                            }
-                                            .html-content img {
-                                                max-width: 100%;
-                                                height: auto;
-                                                border-radius: 0.75rem;
-                                                margin: 2rem 0;
-                                                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-                                                border: 1px solid var(--border);
-                                            }
-                                            .html-content table {
-                                                width: 100%;
-                                                border-collapse: collapse;
-                                                margin: 1.5rem 0;
-                                                background: var(--secondary);
-                                                border-radius: 0.75rem;
-                                                overflow: hidden;
-                                                border: 1px solid var(--border);
-                                            }
-                                            .html-content th,
-                                            .html-content td {
-                                                padding: 0.5rem;
-                                                text-align: left;
-                                                border-bottom: 1px solid var(--border);
-                                            }
-                                            .html-content th {
-                                                background: var(--primary);
-                                                color: white;
-                                                font-weight: 600;
-                                            }
-                                            .html-content tr:last-child td {
-                                                border-bottom: none;
-                                            }
-                                            .html-content tr:hover {
-                                                background: rgba(var(--primary-rgb, 147, 51, 234), 0.05);
-                                            }
-                                            .html-content hr {
-                                                border: none;
-                                                height: 2px;
-                                                background: linear-gradient(90deg, transparent, var(--primary), transparent);
-                                                margin: 3rem 0;
-                                            }
-                                            .html-content strong {
-                                                color: var(--primary);
-                                                font-weight: 700;
-                                            }
-                                            .html-content em {
-                                                color: var(--foreground);
-                                                opacity: 0.9;
-                                            }
-                                            @media (max-width: 768px) {
                                                 .html-content {
                                                     font-size: 1rem;
-                                                    line-height: 1.7;
+                                                    line-height: 1;
+                                                    color: var(--foreground);
+                                                }
+                                                .html-content p {
+                                                    margin-bottom: 0.4rem;
+                                                }
+                                                .html-content h1,
+                                                .html-content h2,
+                                                .html-content h3,
+                                                .html-content h4,
+                                                .html-content h5,
+                                                .html-content h6 {
+                                                    font-weight: bold;
+                                                    line-height: 1.2;
+                                                    margin-top: 1.2rem;
+                                                    margin-bottom: 1rem;
+                                                    color: var(--foreground);
+                                                    scroll-margin-top: 2rem;
                                                 }
                                                 .html-content h1 {
-                                                    font-size: 1.75rem;
+                                                    font-size: 2.5rem;
+                                                    margin-top: 3rem;
+                                                    margin-bottom: 1.5rem;
                                                 }
                                                 .html-content h2 {
                                                     font-size: 1.5rem;
+                                                    margin-top: 1rem;
+                                                    margin-bottom: 0.5rem;
+                                                    padding-bottom: 0.5rem;
+                                                    border-bottom: 2px solid var(--primary);
+                                                    position: relative;
+                                                }
+                                                .html-content h2::after {
+                                                    content: '';
+                                                    position: absolute;
+                                                    bottom: -2px;
+                                                    left: 0;
+                                                    width: 60px;
+                                                    height: 2px;
+                                                    background: linear-gradient(90deg, var(--primary), var(--secondary));
                                                 }
                                                 .html-content h3 {
-                                                    font-size: 1.25rem;
+                                                    font-size: 1.5rem;
                                                 }
                                                 .html-content h4 {
+                                                    font-size: 1.2rem;
+                                                }
+                                                .html-content h5 {
                                                     font-size: 1rem;
+                                                }
+                                                .html-content h6 {
+                                                    font-size: 1rem;
+                                                }
+                                                .html-content a {
+                                                    color: var(--primary);
+                                                    text-decoration: none;
+                                                    border-bottom: 1px solid transparent;
+                                                    transition: all 0.2s ease;
+                                                }
+                                                .html-content a:hover {
+                                                    border-bottom-color: var(--primary);
+                                                    opacity: 0.9;
                                                 }
                                                 .html-content ol,
                                                 .html-content ul {
-                                                    margin-left: 1rem;
+                                                    margin-left: 1.5rem;
+                                                    margin-bottom: 0.5rem;
+                                                    padding-left: 0.5rem;
+                                                }
+                                                .html-content li {
+                                                    margin-bottom: 0.5rem;
+                                                    position: relative;
+                                                    padding-left: 0.5rem;
+                                                    color: var(--foreground);
+                                                }
+                                                .html-content ol {
+                                                    list-style-type: decimal;
+                                                }
+                                                .html-content ol li::marker {
+                                                    font-weight: 600;
+                                                    color: var(--primary);
+                                                }
+                                                .html-content ul {
+                                                    list-style-type: disc;
+                                                }
+                                                .html-content ul li::marker {
+                                                    color: var(--primary);
+                                                }
+                                                .html-content ul ul,
+                                                .html-content ol ol {
+                                                    margin-top: 0.5rem;
+                                                    margin-bottom: 0.5rem;
+                                                }
+                                                .html-content ul ul {
+                                                    list-style-type: circle;
+                                                }
+                                                .html-content ul ul ul {
+                                                    list-style-type: square;
+                                                }
+                                                .html-content ol ol {
+                                                    list-style-type: lower-alpha;
+                                                }
+                                                .html-content ol ol ol {
+                                                    list-style-type: lower-roman;
+                                                }
+                                                .html-content li strong {
+                                                    color: var(--primary);
+                                                    font-weight: 600;
+                                                }
+                                                .html-content li + li {
+                                                    margin-top: 0.25rem;
                                                 }
                                                 .html-content pre {
-                                                    padding: 1rem;
+                                                    background: var(--secondary);
+                                                    border-radius: 0.75rem;
+                                                    padding: 1.5rem;
+                                                    margin: 1.5rem 0;
+                                                    overflow-x: auto;
+                                                    border: 1px solid var(--border);
+                                                }
+                                                .html-content code {
+                                                    background: var(--secondary);
+                                                    padding: 0.2rem 0.4rem;
+                                                    border-radius: 0.375rem;
+                                                    font-family: 'Monaco', 'Consolas', monospace;
+                                                    font-size: 0.9em;
+                                                    border: 1px solid var(--border);
+                                                }
+                                                .html-content pre code {
+                                                    background: transparent;
+                                                    padding: 0;
+                                                    border: none;
+                                                }
+                                                .html-content blockquote {
+                                                    border-left: 4px solid var(--primary);
+                                                    padding-left: 1.5rem;
+                                                    margin: 2rem 0;
+                                                    font-style: italic;
+                                                    background: linear-gradient(90deg, rgba(var(--primary-rgb, 147, 51, 234), 0.1), transparent);
+                                                    border-radius: 0 0.75rem 0.75rem 0;
+                                                }
+                                                .html-content blockquote p {
+                                                    margin: 0;
+                                                    color: var(--foreground);
+                                                    opacity: 0.9;
+                                                }
+                                                .html-content img {
+                                                    max-width: 100%;
+                                                    height: auto;
+                                                    border-radius: 0.75rem;
+                                                    margin: 2rem 0;
+                                                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                                                    border: 1px solid var(--border);
                                                 }
                                                 .html-content table {
-                                                    font-size: 0.9rem;
+                                                    width: 100%;
+                                                    border-collapse: collapse;
+                                                    margin: 1.5rem 0;
+                                                    background: var(--secondary);
+                                                    border-radius: 0.75rem;
+                                                    overflow: hidden;
+                                                    border: 1px solid var(--border);
                                                 }
-                                            }
-                                            .html-content :target {
-                                                scroll-margin-top: 5rem;
-                                            }
-                                            @media (min-width: 1200px) {
-                                                .html-content {
-                                                    font-size: 1.15rem;
-                                                    line-height: 1.9;
+                                                .html-content th,
+                                                .html-content td {
+                                                    padding: 0.5rem;
+                                                    text-align: left;
+                                                    border-bottom: 1px solid var(--border);
                                                 }
-                                            }
-                                        `}</style>
+                                                .html-content th {
+                                                    background: var(--primary);
+                                                    color: white;
+                                                    font-weight: 600;
+                                                }
+                                                .html-content tr:last-child td {
+                                                    border-bottom: none;
+                                                }
+                                                .html-content tr:hover {
+                                                    background: rgba(var(--primary-rgb, 147, 51, 234), 0.05);
+                                                }
+                                                .html-content hr {
+                                                    border: none;
+                                                    height: 2px;
+                                                    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+                                                    margin: 3rem 0;
+                                                }
+                                                .html-content strong {
+                                                    color: var(--primary);
+                                                    font-weight: 700;
+                                                }
+                                                .html-content em {
+                                                    color: var(--foreground);
+                                                    opacity: 0.9;
+                                                }
+                                                @media (max-width: 768px) {
+                                                    .html-content {
+                                                        font-size: 1rem;
+                                                        line-height: 1.7;
+                                                    }
+                                                    .html-content h1 {
+                                                        font-size: 1.75rem;
+                                                    }
+                                                    .html-content h2 {
+                                                        font-size: 1.5rem;
+                                                    }
+                                                    .html-content h3 {
+                                                        font-size: 1.25rem;
+                                                    }
+                                                    .html-content h4 {
+                                                        font-size: 1rem;
+                                                    }
+                                                    .html-content ol,
+                                                    .html-content ul {
+                                                        margin-left: 1rem;
+                                                    }
+                                                    .html-content pre {
+                                                        padding: 1rem;
+                                                    }
+                                                    .html-content table {
+                                                        font-size: 0.9rem;
+                                                    }
+                                                }
+                                                .html-content :target {
+                                                    scroll-margin-top: 5rem;
+                                                }
+                                                @media (min-width: 1200px) {
+                                                    .html-content {
+                                                        font-size: 1.15rem;
+                                                        line-height: 1.9;
+                                                    }
+                                                }
+                                            `}</style>
 
                                             {initialPost.coverImage && (
                                                 <div className="relative aspect-video w-full mb-12 rounded-2xl overflow-hidden border">

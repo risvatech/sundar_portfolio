@@ -11,6 +11,7 @@ import {
     Folder,
     X,
     Send,
+    Calendar,
 } from "lucide-react";
 
 import api from "../../service/api";
@@ -52,6 +53,7 @@ interface Post {
     updated_at?: string;
     createdAt: string;
     updatedAt: string;
+    publishDate?: string | null;  // ✅ Added publishDate
 }
 
 interface Category {
@@ -73,6 +75,7 @@ interface FormData {
     metaKeywords: string;
     metaDescription: string;
     categoryId: string;
+    publishDate: string;  // ✅ Added publishDate
 }
 
 interface AddEditBlogProps {
@@ -119,6 +122,7 @@ export default function AddEditBlog({ postToEdit, categories, onSuccess, onCance
         metaKeywords: "",
         metaDescription: "",
         categoryId: "",
+        publishDate: "",  // ✅ Added publishDate
     });
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [slugError, setSlugError] = useState("");
@@ -135,6 +139,13 @@ export default function AddEditBlog({ postToEdit, categories, onSuccess, onCance
         if (postToEdit) {
             const tagsArray = parseTags(postToEdit.tags);
 
+            // Format publishDate for datetime-local input
+            let formattedPublishDate = "";
+            if (postToEdit.publishDate) {
+                const date = new Date(postToEdit.publishDate);
+                formattedPublishDate = date.toISOString().slice(0, 16); // Format: YYYY-MM-DDThh:mm
+            }
+
             setFormData({
                 title: postToEdit.title || "",
                 slug: postToEdit.slug || "",
@@ -149,6 +160,7 @@ export default function AddEditBlog({ postToEdit, categories, onSuccess, onCance
                 metaKeywords: postToEdit.meta_keywords || "",
                 metaDescription: postToEdit.meta_description || "",
                 categoryId: postToEdit.category_id?.toString() || "none",
+                publishDate: formattedPublishDate,  // ✅ Added publishDate
             });
 
             setImagePreview(postToEdit.cover_image || null);
@@ -271,6 +283,7 @@ export default function AddEditBlog({ postToEdit, categories, onSuccess, onCance
             metaKeywords: "",
             metaDescription: "",
             categoryId: "",
+            publishDate: "",  // ✅ Reset publishDate
         });
         setImagePreview(null);
         setSlugError("");
@@ -316,6 +329,7 @@ export default function AddEditBlog({ postToEdit, categories, onSuccess, onCance
             metaKeywords: formData.metaKeywords || "",
             metaDescription: formData.metaDescription || "",
             categoryId: formData.categoryId === "none" ? null : formData.categoryId,
+            publishDate: formData.publishDate || null,  // ✅ Added publishDate
         };
 
         try {
@@ -368,204 +382,228 @@ export default function AddEditBlog({ postToEdit, categories, onSuccess, onCance
             <div className="p-6">
                 {!showPreview ? (
                     <div className="space-y-6">
-                        {/* Title */}
-                        <div>
-                            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-                                Title *
-                            </label>
-                            <input
-                                id="title"
-                                type="text"
-                                value={formData.title}
-                                onChange={handleTitleChange}
-                                placeholder="Enter post title..."
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                            />
-                        </div>
-
-                        {/* Slug */}
-                        <div>
-                            <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-1">
-                                Slug *
-                            </label>
-                            <div className="relative">
+                        {/* Row 1: Title & Slug */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Title *
+                                </label>
                                 <input
-                                    id="slug"
+                                    id="title"
                                     type="text"
-                                    value={formData.slug}
-                                    onChange={handleSlugChange}
-                                    placeholder="post-url-slug"
-                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition pr-24 ${
-                                        slugError ? "border-red-500" : "border-gray-300"
-                                    }`}
+                                    value={formData.title}
+                                    onChange={handleTitleChange}
+                                    placeholder="Enter post title..."
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                                 />
-                                {formData.slug && (
-                                    <span
-                                        className={`absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium ${
-                                            slugError ? "text-red-500" : "text-green-600"
-                                        }`}
-                                    >
-                                        {slugError ? "Not available" : "Available"}
-                                    </span>
-                                )}
                             </div>
-                            {slugError && <p className="text-red-500 text-sm mt-1">{slugError}</p>}
-                        </div>
 
-                        {/* Category */}
-                        <div>
-                            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-                                Category
-                            </label>
-                            <select
-                                id="category"
-                                value={formData.categoryId || "none"}
-                                onChange={(e: ChangeEvent<HTMLSelectElement>) => setFormData(p => ({
-                                    ...p,
-                                    categoryId: e.target.value === "none" ? "" : e.target.value
-                                }))}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                            >
-                                <option value="none">No category</option>
-                                {categories.map((category) => (
-                                    <option key={category.id} value={category.id.toString()}>
-                                        {category.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        {/* Tags */}
-                        <div>
-                            <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-1">
-                                Tags
-                            </label>
-                            <div className="space-y-2">
-                                <div className="flex gap-2">
-                                    <div className="flex-1 relative">
-                                        <input
-                                            id="tags"
-                                            type="text"
-                                            value={formData.tagInput}
-                                            onChange={handleTagInput}
-                                            onKeyDown={handleTagKeyPress}
-                                            placeholder="Type tag and press Enter or comma..."
-                                            className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                                        />
-                                        <Tag className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={addTag}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                                    >
-                                        Add
-                                    </button>
-                                </div>
-                                {formData.tags.length > 0 && (
-                                    <div className="flex flex-wrap gap-2 mt-2">
-                                        {formData.tags.map((tag) => (
-                                            <span
-                                                key={tag}
-                                                className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm"
-                                            >
-                                                <Hash size={12} />
-                                                {tag}
-                                                <button
-                                                    type="button"
-                                                    onClick={() => removeTag(tag)}
-                                                    className="ml-1 hover:text-red-500"
-                                                >
-                                                    <X size={14} />
-                                                </button>
-                                            </span>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Cover Image */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Cover Image
-                            </label>
-                            <div className="space-y-3">
-                                <div className="flex items-center gap-3">
-                                    <button
-                                        type="button"
-                                        onClick={handleImageButtonClick}
-                                        className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                                    >
-                                        Choose Image
-                                    </button>
+                            <div>
+                                <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Slug *
+                                </label>
+                                <div className="relative">
                                     <input
-                                        ref={fileInputRef}
-                                        id="coverImageInput"
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={handleImageChange}
-                                        className="hidden"
+                                        id="slug"
+                                        type="text"
+                                        value={formData.slug}
+                                        onChange={handleSlugChange}
+                                        placeholder="post-url-slug"
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition pr-24 ${
+                                            slugError ? "border-red-500" : "border-gray-300"
+                                        }`}
                                     />
-                                    {formData.coverImage && (
-                                        <span className="text-sm text-gray-600 truncate">
-                                            {formData.coverImage instanceof File ? formData.coverImage.name : "Image selected"}
-                                        </span>
+                                    {formData.slug && (
+                                        <span
+                                            className={`absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium ${
+                                                slugError ? "text-red-500" : "text-green-600"
+                                            }`}
+                                        >
+                                {slugError ? "Not available" : "Available"}
+                            </span>
                                     )}
                                 </div>
-                                {imagePreview && (
-                                    <div className="relative w-full max-w-md">
-                                        <img
-                                            src={imagePreview}
-                                            alt="preview"
-                                            className="w-full h-48 object-cover rounded-lg border border-gray-300"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                setImagePreview(null);
-                                                setFormData(p => ({ ...p, coverImage: null }));
-                                            }}
-                                            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
-                                        >
-                                            <X size={16} />
-                                        </button>
-                                    </div>
-                                )}
+                                {slugError && <p className="text-red-500 text-sm mt-1">{slugError}</p>}
                             </div>
                         </div>
 
-                        {/* Excerpt */}
-                        <div>
-                            <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-1">
-                                Excerpt
-                            </label>
-                            <textarea
-                                id="excerpt"
-                                value={formData.excerpt}
-                                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setFormData((p) => ({ ...p, excerpt: e.target.value }))}
-                                placeholder="Brief description of your post..."
-                                rows={2}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition resize-none"
-                            />
+                        {/* Row 2: Category & Tags */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Category
+                                </label>
+                                <select
+                                    id="category"
+                                    value={formData.categoryId || "none"}
+                                    onChange={(e: ChangeEvent<HTMLSelectElement>) => setFormData(p => ({
+                                        ...p,
+                                        categoryId: e.target.value === "none" ? "" : e.target.value
+                                    }))}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                >
+                                    <option value="none">No category</option>
+                                    {categories.map((category) => (
+                                        <option key={category.id} value={category.id.toString()}>
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div>
+                                <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Tags
+                                </label>
+                                <div className="space-y-2">
+                                    <div className="flex gap-2">
+                                        <div className="flex-1 relative">
+                                            <input
+                                                id="tags"
+                                                type="text"
+                                                value={formData.tagInput}
+                                                onChange={handleTagInput}
+                                                onKeyDown={handleTagKeyPress}
+                                                placeholder="Type tag and press Enter or comma..."
+                                                className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                            />
+                                            <Tag className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={addTag}
+                                            className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                        >
+                                            Add
+                                        </button>
+                                    </div>
+                                    {formData.tags.length > 0 && (
+                                        <div className="flex flex-wrap gap-2 mt-2">
+                                            {formData.tags.map((tag) => (
+                                                <span
+                                                    key={tag}
+                                                    className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm"
+                                                >
+                                        <Hash size={12} />
+                                                    {tag}
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeTag(tag)}
+                                                        className="ml-1 hover:text-red-500"
+                                                    >
+                                            <X size={14} />
+                                        </button>
+                                    </span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
 
-                        {/* Description */}
-                        <div>
-                            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-                                Description
-                            </label>
-                            <textarea
-                                id="description"
-                                value={formData.description}
-                                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setFormData((p) => ({ ...p, description: e.target.value }))}
-                                placeholder="Detailed description of your post..."
-                                rows={3}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition resize-none"
-                            />
+                        {/* Row 3: Cover Image & Publish Date */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Cover Image
+                                </label>
+                                <div className="space-y-3">
+                                    <div className="flex items-center gap-3">
+                                        <button
+                                            type="button"
+                                            onClick={handleImageButtonClick}
+                                            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                        >
+                                            Choose Image
+                                        </button>
+                                        <input
+                                            ref={fileInputRef}
+                                            id="coverImageInput"
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleImageChange}
+                                            className="hidden"
+                                        />
+                                        {formData.coverImage && (
+                                            <span className="text-sm text-gray-600 truncate">
+                                    {formData.coverImage instanceof File ? formData.coverImage.name : "Image selected"}
+                                </span>
+                                        )}
+                                    </div>
+                                    {imagePreview && (
+                                        <div className="relative w-full max-w-md">
+                                            <img
+                                                src={imagePreview}
+                                                alt="preview"
+                                                className="w-full h-48 object-cover rounded-lg border border-gray-300"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setImagePreview(null);
+                                                    setFormData(p => ({ ...p, coverImage: null }));
+                                                }}
+                                                className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                                            >
+                                                <X size={16} />
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label htmlFor="publishDate" className="block text-sm font-medium text-gray-700 mb-1">
+                                    <div className="flex items-center gap-2">
+                                        <Calendar size={14} />
+                                        Publish Date
+                                    </div>
+                                </label>
+                                <input
+                                    id="publishDate"
+                                    type="datetime-local"
+                                    value={formData.publishDate}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData(p => ({ ...p, publishDate: e.target.value }))}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                />
+                                <p className="text-xs text-gray-500 mt-1">
+                                    Set a future date to schedule publication
+                                </p>
+                            </div>
                         </div>
 
-                        {/* SEO Meta Fields */}
+                        {/* Row 4: Excerpt & Description */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Excerpt
+                                </label>
+                                <textarea
+                                    id="excerpt"
+                                    value={formData.excerpt}
+                                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setFormData((p) => ({ ...p, excerpt: e.target.value }))}
+                                    placeholder="Brief description of your post..."
+                                    rows={3}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition resize-none"
+                                />
+                            </div>
+
+                            <div>
+                                <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Description
+                                </label>
+                                <textarea
+                                    id="description"
+                                    value={formData.description}
+                                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setFormData((p) => ({ ...p, description: e.target.value }))}
+                                    placeholder="Detailed description of your post..."
+                                    rows={3}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition resize-none"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Row 5: SEO Meta Fields */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label htmlFor="metaTitle" className="block text-sm font-medium text-gray-700 mb-1">
@@ -583,6 +621,7 @@ export default function AddEditBlog({ postToEdit, categories, onSuccess, onCance
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                                 />
                             </div>
+
                             <div>
                                 <label htmlFor="metaDescription" className="block text-sm font-medium text-gray-700 mb-1">
                                     <div className="flex items-center gap-2">
@@ -599,31 +638,33 @@ export default function AddEditBlog({ postToEdit, categories, onSuccess, onCance
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition resize-none"
                                 />
                             </div>
-                            <div className="md:col-span-2">
-                                <label htmlFor="metaKeywords" className="block text-sm font-medium text-gray-700 mb-1">
-                                    <div className="flex items-center gap-2">
-                                        <FileText size={14} />
-                                        Meta Keywords
-                                    </div>
-                                </label>
-                                <textarea
-                                    id="metaKeywords"
-                                    value={formData.metaKeywords}
-                                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setFormData((p) => ({ ...p, metaKeywords: e.target.value }))}
-                                    placeholder="Comma-separated keywords for SEO"
-                                    rows={2}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition resize-none"
-                                />
-                            </div>
                         </div>
 
-                        {/* Content Editor */}
+                        {/* Row 6: Meta Keywords - Full Width */}
+                        <div>
+                            <label htmlFor="metaKeywords" className="block text-sm font-medium text-gray-700 mb-1">
+                                <div className="flex items-center gap-2">
+                                    <FileText size={14} />
+                                    Meta Keywords
+                                </div>
+                            </label>
+                            <textarea
+                                id="metaKeywords"
+                                value={formData.metaKeywords}
+                                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setFormData((p) => ({ ...p, metaKeywords: e.target.value }))}
+                                placeholder="Comma-separated keywords for SEO"
+                                rows={2}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition resize-none"
+                            />
+                        </div>
+
+                        {/* Content Editor - Full Width */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Content *
                             </label>
                             <RichTextEditor
-                                key={editorKey} // Key to force re-render when editing existing post
+                                key={editorKey}
                                 onContentChange={handleContentChange}
                                 initialContent={formData.content}
                             />
@@ -672,8 +713,16 @@ export default function AddEditBlog({ postToEdit, categories, onSuccess, onCance
                                 <div className="flex items-center gap-1">
                                     <Folder size={14} />
                                     <span>
-                                        {categories.find(c => c.id.toString() === formData.categoryId)?.name}
-                                    </span>
+                            {categories.find(c => c.id.toString() === formData.categoryId)?.name}
+                        </span>
+                                </div>
+                            )}
+                            {formData.publishDate && (
+                                <div className="flex items-center gap-1">
+                                    <Calendar size={14} />
+                                    <span>
+                            {new Date(formData.publishDate).toLocaleDateString()}
+                        </span>
                                 </div>
                             )}
                             {formData.tags.length > 0 && (
@@ -682,8 +731,8 @@ export default function AddEditBlog({ postToEdit, categories, onSuccess, onCance
                                     <div className="flex flex-wrap gap-1">
                                         {formData.tags.map(tag => (
                                             <span key={tag} className="bg-gray-100 px-2 py-1 rounded">
-                                                #{tag}
-                                            </span>
+                                    #{tag}
+                                </span>
                                         ))}
                                     </div>
                                 </div>

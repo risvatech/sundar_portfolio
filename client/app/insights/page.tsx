@@ -26,6 +26,7 @@ interface Post {
         name: string
     }
     created_at?: string
+    publishDate?: string | null  // ✅ Added publishDate
     status: string
 }
 
@@ -134,16 +135,19 @@ const Blog = () => {
                     categoryId: post.categoryId,
                     category: category || { id: post.categoryId || 0, name: "Uncategorized" },
                     created_at: post.createdAt || post.created_at,
+                    publishDate: post.publishDate || post.publish_date || null,  // ✅ Get publish date
                     status: post.status || "published",
                 }
             })
 
             console.log("✅ Transformed posts:", transformedPosts)
 
-            // Sort posts by creation date (newest first)
+            // ✅ Sort posts by publish date if available, fallback to created date
             const sortedPosts = transformedPosts.sort((a: Post, b: Post) => {
-                const dateA = a.created_at ? new Date(a.created_at).getTime() : 0
-                const dateB = b.created_at ? new Date(b.created_at).getTime() : 0
+                const dateA = a.publishDate ? new Date(a.publishDate).getTime() :
+                    a.created_at ? new Date(a.created_at).getTime() : 0
+                const dateB = b.publishDate ? new Date(b.publishDate).getTime() :
+                    b.created_at ? new Date(b.created_at).getTime() : 0
                 return dateB - dateA // Newest first
             })
 
@@ -222,18 +226,37 @@ const Blog = () => {
         return "/insights/default.jpg"
     }
 
-    const formatDate = (dateString?: string) => {
-        if (!dateString) return "Recent"
-        try {
-            const date = new Date(dateString)
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            })
-        } catch {
-            return dateString
+    // ✅ Updated formatDate function to prioritize publish date
+    const formatDate = (post: Post): string => {
+        // First try to use publish date
+        if (post.publishDate) {
+            try {
+                const date = new Date(post.publishDate)
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                })
+            } catch {
+                // Fall through to created date
+            }
         }
+
+        // Fallback to created date
+        if (post.created_at) {
+            try {
+                const date = new Date(post.created_at)
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                })
+            } catch {
+                return "Recent"
+            }
+        }
+
+        return "Recent"
     }
 
     const calculateReadTime = (content: string) => {
@@ -283,8 +306,8 @@ const Blog = () => {
             <SEOHead page="blog" />
             <Layout>
                 {/* Hero */}
-                <section className="pt-32 pb-8  dark:from-gray-900 dark:to-gray-800">
-                    <div className="container mx-auto max-w-6xl text-center ">
+                <section className="pt-32 pb-8 dark:from-gray-900 dark:to-gray-800">
+                    <div className="container mx-auto max-w-6xl text-center">
                         <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
                             Insights & Ideas
                         </span>
@@ -343,9 +366,13 @@ const Blog = () => {
                                                         <Badge variant="secondary" className="rounded-lg bg-primary/10 text-primary">
                                                             {post.category?.name || "Uncategorized"}
                                                         </Badge>
-                                                        <span className="text-sm text-muted-foreground">
-                                                            {formatDate(post.created_at)}
-                                                        </span>
+                                                        {/* ✅ Updated date display - shows publish date or created date */}
+                                                        <div className="flex items-center gap-1">
+                                                            <Clock size={14} className="text-muted-foreground" />
+                                                            <span className="text-sm text-muted-foreground">
+                                                                {formatDate(post)}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                     <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 leading-tight">
                                                         {post.title}
@@ -450,9 +477,13 @@ const Blog = () => {
                                                         <Badge variant="secondary" className="rounded-lg bg-primary/10 text-primary">
                                                             {post.category?.name || "Uncategorized"}
                                                         </Badge>
-                                                        <span className="text-xs text-muted-foreground">
-                                                            {formatDate(post.created_at)}
-                                                        </span>
+                                                        {/* ✅ Updated date display in grid cards */}
+                                                        <div className="flex items-center gap-1">
+                                                            <Clock size={12} className="text-muted-foreground" />
+                                                            <span className="text-xs text-muted-foreground">
+                                                                {formatDate(post)}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                     <h3 className="text-xl font-semibold text-foreground mb-3 leading-tight group-hover:text-primary transition-colors line-clamp-2">
                                                         {post.title}

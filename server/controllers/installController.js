@@ -149,6 +149,7 @@ export const runInstallation = async (req, res) => {
                                                  meta_title VARCHAR(255),
                                                  meta_keywords TEXT,
                                                  meta_description TEXT,
+                                                 publish_date TIMESTAMP, 
                                                  category_id INTEGER REFERENCES categories(id)
             );
         `);

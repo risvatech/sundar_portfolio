@@ -72,6 +72,7 @@ export const posts = pgTable("posts", {
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
     coverImage: text("cover_image"),
+    publishDate: timestamp("publish_date"),
 
     // ✅ Added fields:
     description: text("description"), // Could be used for a longer summary

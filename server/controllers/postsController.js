@@ -91,8 +91,8 @@ export const createPost = async (req, res) => {
         metaTitle,
         metaKeywords,
         metaDescription,
-
-        categoryId
+        categoryId,
+        publishDate  // ✅ Added publishDate
     } = req.body;
 
     if (!title || !slug || !content) {
@@ -131,6 +131,7 @@ export const createPost = async (req, res) => {
             metaKeywords: metaKeywords || "",
             metaDescription: metaDescription || "",
             categoryId: categoryId ? Number(categoryId) : null,
+            publishDate: publishDate ? new Date(publishDate) : null,  // ✅ Added publishDate
             createdAt: new Date(),
             updatedAt: new Date(),
         }).returning();
@@ -159,7 +160,8 @@ export const updatePost = async (req, res) => {
         metaTitle,
         metaKeywords,
         metaDescription,
-        categoryId
+        categoryId,
+        publishDate  // ✅ Added publishDate
     } = req.body;
 
     if (!title || !slug || !content) {
@@ -179,7 +181,7 @@ export const updatePost = async (req, res) => {
             .from(posts)
             .where(and(eq(posts.slug, slug), not(eq(posts.id, Number(id)))));
         if (existingSlug.length) {
-            return res.status(400).json({ success: false, message: "Slug already exists" });
+            return res.status(400).json({ success: false, message: "Server error" });
         }
 
         let coverImageUrl = existingPost.coverImage;
@@ -222,6 +224,7 @@ export const updatePost = async (req, res) => {
                 metaKeywords: metaKeywords || existingPost.metaKeywords || "",
                 metaDescription: metaDescription || existingPost.metaDescription || "",
                 categoryId: categoryId !== undefined ? (categoryId ? Number(categoryId) : null) : existingPost.categoryId,
+                publishDate: publishDate !== undefined ? (publishDate ? new Date(publishDate) : null) : existingPost.publishDate,  // ✅ Added publishDate
                 updatedAt: new Date(),
             })
             .where(eq(posts.id, Number(id)))

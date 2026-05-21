@@ -22,6 +22,7 @@ interface Post {
         name: string;
     } | null;
     created_at?: string;
+    publishDate?: string | null;  // ✅ Allow null
     updated_at?: string;
     createdAt: string;
     updatedAt: string;
@@ -47,6 +48,16 @@ const formatTagsForDisplay = (tags: any): string => {
     }
 
     return "";
+};
+
+// ✅ Helper function to format date safely
+const formatDate = (dateString?: string | null): string => {
+    if (!dateString) return "Not set";
+    try {
+        return new Date(dateString).toLocaleDateString();
+    } catch {
+        return "Invalid date";
+    }
 };
 
 interface BlogListProps {
@@ -77,6 +88,7 @@ export default function BlogList({ onEditPost, refreshTrigger }: BlogListProps) 
                 created_at: post.created_at || post.createdAt,
                 updated_at: post.updated_at || post.updatedAt,
                 category_id: post.category_id || post.categoryId,
+                publishDate: post.publish_date || post.publishDate,  // ✅ Handle both naming conventions
             }));
             setPosts(normalizedPosts);
 
@@ -98,11 +110,12 @@ export default function BlogList({ onEditPost, refreshTrigger }: BlogListProps) 
         try {
             const res = await api.delete(`/posts/${id}`);
             if (res.status === 200) {
+                const deletedPost = posts.find(p => p.id === id);
                 setPosts((p) => p.filter((post) => post.id !== id));
                 setStats(prev => ({
                     total: prev.total - 1,
-                    published: posts.find(p => p.id === id)?.status === "published" ? prev.published - 1 : prev.published,
-                    draft: posts.find(p => p.id === id)?.status === "draft" ? prev.draft - 1 : prev.draft
+                    published: deletedPost?.status === "published" ? prev.published - 1 : prev.published,
+                    draft: deletedPost?.status === "draft" ? prev.draft - 1 : prev.draft
                 }));
                 alert("Post deleted successfully");
             } else {
@@ -183,7 +196,7 @@ export default function BlogList({ onEditPost, refreshTrigger }: BlogListProps) 
                                                     </span>
                                                     <button
                                                         onClick={() => {
-                                                            window.open(`/blog/${post.slug}`, '_blank');
+                                                            window.open(`/insights/${post.slug}`, '_blank');
                                                         }}
                                                         className="p-1 hover:bg-gray-100 rounded"
                                                         title="Preview"
@@ -201,9 +214,14 @@ export default function BlogList({ onEditPost, refreshTrigger }: BlogListProps) 
                                                 <div className="flex items-center gap-1">
                                                     <Calendar size={14} />
                                                     <span>
-                                                        Created: {new Date(
-                                                        post.created_at || post.createdAt
-                                                    ).toLocaleDateString()}
+                                                        Created: {formatDate(post.created_at || post.createdAt)}
+                                                    </span>
+                                                </div>
+                                                {/* ✅ Fixed publish date display */}
+                                                <div className="flex items-center gap-1">
+                                                    <Calendar size={14} />
+                                                    <span>
+                                                        Published: {formatDate(post.publishDate)}
                                                     </span>
                                                 </div>
                                                 {post.category && (

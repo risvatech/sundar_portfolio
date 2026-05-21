@@ -3,13 +3,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
     ArrowUpRight,
-    Calendar,
-    Tag,
     CheckCircle,
     Briefcase,
     Globe,
     Target,
-    Users,
     ChevronLeft,
     ChevronRight,
     Clock,
@@ -20,7 +17,7 @@ import api from "../service/api";
 import {Button} from "@/app/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import img2 from "../../public/sundara-moorthy.jpeg";
+import img2 from "../../public/sundara-moorthy.jpg";
 import ExperienceSection from "@/app/components/sections/ExperienceSection";
 import ValuePropositionSection from "@/app/components/sections/Valuepropositionsection";
 import PhotoSection from "@/app/components/PhotoSection";
@@ -63,6 +60,7 @@ interface Article {
     coverImage?: string;
     category?: ArticleCategory;
     created_at?: string;
+    publishDate?: string | null;  // ✅ Added publishDate
     status: string;
 }
 
@@ -151,11 +149,15 @@ export default function HomePage() {
                     coverImage: article.coverImage,
                     category: article.categoryId ? categoryMap[article.categoryId] : undefined,
                     created_at: article.createdAt || article.created_at,
+                    publishDate: article.publishDate || article.publish_date || null,  // ✅ Get publish date
                     status: article.status || "published",
                 }))
                 .sort((a: Article, b: Article) => {
-                    const dateA = a.created_at ? new Date(a.created_at).getTime() : 0;
-                    const dateB = b.created_at ? new Date(b.created_at).getTime() : 0;
+                    // ✅ Sort by publish date if available, fallback to created date
+                    const dateA = a.publishDate ? new Date(a.publishDate).getTime() :
+                        a.created_at ? new Date(a.created_at).getTime() : 0;
+                    const dateB = b.publishDate ? new Date(b.publishDate).getTime() :
+                        b.created_at ? new Date(b.created_at).getTime() : 0;
                     return dateB - dateA; // Newest first
                 })
                 .slice(0, 4); // Get latest 4 articles
@@ -173,18 +175,37 @@ export default function HomePage() {
         fetchLatestArticles();
     }, []);
 
-    const formatDate = (dateString?: string) => {
-        if (!dateString) return "Recent";
-        try {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-        } catch {
-            return dateString;
+    // ✅ Updated formatDate function to prioritize publish date
+    const formatDate = (article: Article): string => {
+        // First try to use publish date
+        if (article.publishDate) {
+            try {
+                const date = new Date(article.publishDate);
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+            } catch {
+                // Fall through to created date
+            }
         }
+
+        // Fallback to created date
+        if (article.created_at) {
+            try {
+                const date = new Date(article.created_at);
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+            } catch {
+                return "Recent";
+            }
+        }
+
+        return "Recent";
     };
 
     const calculateReadTime = (content: string) => {
@@ -215,7 +236,7 @@ export default function HomePage() {
             {/* Hero Section */}
             <section className="md:py-5 lg:py-8  pt-20 pb-16 ">
                 <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
                         {/* Left Content */}
                         <div className="space-y-8">
                             {/* Experience Badge */}
@@ -295,67 +316,49 @@ export default function HomePage() {
                         </div>
 
                         {/* Right Image */}
-                        <div className="relative">
-                            <div className="w-full flex flex-col items-center justify-center p-8">
-                                {/* Single Image Container */}
-                                <div className="relative w-full max-w-[28rem] sm:max-w-[32rem] lg:max-w-[40rem] rounded-2xl overflow-hidden shadow-2xl">
+                        <div className="relative pt-16">
+                            <div className="relative flex flex-col items-center justify-start">
+
+                                {/* Image */}
+                                <div className="relative w-full max-w-[20rem] sm:max-w-[24rem] lg:max-w-[28rem] rounded-2xl overflow-hidden shadow-2xl">
                                     <Image
-                                        src={img2} // You can change this to img if you prefer the other image
+                                        src={img2}
                                         alt="Sundar - Business Consultant"
-                                        width={1000}
-                                        height={1200}
-                                        className="object-cover object-top"
-                                        sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, 448px"
+                                        width={480}
+                                        height={650}
+                                        className="w-full h-auto object-cover object-top"
                                         priority
                                     />
                                 </div>
 
-                                {/* Consultant Name and Title */}
-                                <div className="text-center mt-4 md:mt-12 pt-2 md:pt-8 w-full max-w-md">
-                                <h3 className="text-2xl font-bold text-primary">S. Sundara Moorthy</h3>
-                                    <p className="text-md text-gray-600 mt-2">Strategy & Growth Advisor | Design Thinking Practitioner</p>
+                                {/* Name + Title */}
+                                <div className="pt-6 w-full justify-items-center">
+                                    <h3 className="text-2xl font-bold text-primary">
+                                        S. Sundara Moorthy
+                                    </h3>
+
+                                    <p className="text-md text-gray-600 mt-2">
+                                        Strategy & Growth Advisor | Design Thinking Practitioner
+                                    </p>
 
                                     {/* Social Links */}
-                                    <div className="flex justify-center gap-4 mt-4">
-                                        <a
-                                            href="https://whatsapp.com/channel/0029VbBzqZV3AzNRM1WRIR27"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-primary hover:text-amber-400 transition-colors"
-                                        >
-                                            <MessageCircle  size={20} />
+                                    <div className="flex gap-4 mt-4 ">
+                                        <a href="https://whatsapp.com/channel/0029VbBzqZV3AzNRM1WRIR27" target="_blank" rel="noopener noreferrer">
+                                            <MessageCircle size={20} className="text-primary hover:text-amber-400" />
                                         </a>
-
-                                        <a
-                                            href="https://www.linkedin.com/in/sundaramoorthy15/"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-primary hover:text-amber-400 transition-colors"
-                                        >
-                                            <Linkedin size={20} />
+                                        <a href="https://www.linkedin.com/in/sundaramoorthy15/" target="_blank" rel="noopener noreferrer">
+                                            <Linkedin size={20} className="text-primary hover:text-amber-400" />
                                         </a>
-
-                                        <a
-                                            href="https://www.facebook.com/profile.php?id=100064303444109"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-primary hover:text-amber-400 transition-colors"
-                                        >
-                                            <Facebook size={20} />
+                                        <a href="https://www.facebook.com/profile.php?id=100064303444109" target="_blank" rel="noopener noreferrer">
+                                            <Facebook size={20} className="text-primary hover:text-amber-400" />
                                         </a>
-
-                                        <a
-                                            href="https://x.com/sundara_sethu"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-primary hover:text-amber-400 transition-colors"
-                                        >
-                                            <Twitter size={20} />
+                                        <a href="https://x.com/sundara_sethu" target="_blank" rel="noopener noreferrer">
+                                            <Twitter size={20} className="text-primary hover:text-amber-400" />
                                         </a>
                                     </div>
 
-                                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mt-4">
-
+                                    {/* Stats */}
+                                    <div className="flex gap-6 mt-4">
                                         <div className="flex items-center gap-2 text-gray-600">
                                             <Briefcase className="w-4 h-4" />
                                             <span className="text-sm">18+ Years Experience</span>
@@ -365,9 +368,7 @@ export default function HomePage() {
                                             <CheckCircle className="w-4 h-4" />
                                             <span className="text-sm">250+ Assignments</span>
                                         </div>
-
                                     </div>
-
                                 </div>
                             </div>
 
@@ -439,9 +440,13 @@ export default function HomePage() {
                                                                     {article.category.name}
                                                                 </span>
                                                             )}
-                                                            <span className="text-sm text-gray-600">
-                                                                {formatDate(article.created_at)}
-                                                            </span>
+                                                            {/* ✅ Updated date display - shows publish date or created date */}
+                                                            <div className="flex items-center gap-1">
+                                                                <Clock size={14} className="text-gray-500" />
+                                                                <span className="text-sm text-gray-600">
+                                                                    {formatDate(article)}
+                                                                </span>
+                                                            </div>
                                                         </div>
 
                                                         <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight">
