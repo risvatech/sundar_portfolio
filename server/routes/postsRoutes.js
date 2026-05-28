@@ -6,7 +6,11 @@ import {
     checkSlug,
     createPost,
     updatePost,
-    deletePost, getPostBySlug,
+    deletePost,
+    getPostBySlug,
+    getPublishedPosts,        // ✅ Add this import
+    getPublishedPostBySlug,   // ✅ Add this import
+    updatePostStatus,         // ✅ Add this import
 } from "../controllers/postsController.js";
 
 const router = express.Router();
@@ -28,14 +32,18 @@ router.post("/upload", upload.single("coverImage"), (req, res) => {
 
 // CRUD routes
 router.get("/", getAllPosts);
+router.get("/published", getPublishedPosts);  // ✅ Add this route - IMPORTANT!
+router.get("/published/:slug", getPublishedPostBySlug);  // ✅ Add this route
 router.get("/check-slug/:slug", checkSlug);
 router.get("/slug/:slug", getPostBySlug);
 router.get("/:id", getPostById);
 
-// ✅ Remove upload middleware - frontend sends JSON with image URL
+// Create and update
 router.post("/", createPost);
 router.put("/:id", updatePost);
+router.patch("/:id/status", updatePostStatus);  // ✅ Add status update route
 
+// Delete
 router.delete("/:id", deletePost);
 
 export default router;

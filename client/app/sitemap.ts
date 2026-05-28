@@ -15,7 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 1,
         },
         {
-            url: `${baseUrl}/blog`,
+            url: `${baseUrl}/insights`,
             lastModified: new Date(),
             changeFrequency: 'daily',
             priority: 0.9,
@@ -33,22 +33,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.7,
         },
         {
-            url: `${baseUrl}/web-apps`,
+            url: `${baseUrl}/what-i-do`,
             lastModified: new Date(),
             changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/mobile-apps`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/ai-solutions`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
+            priority: 0.8,
         },
         {
             url: `${baseUrl}/portfolio`,
@@ -57,109 +45,48 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.9,
         },
         {
-            url: `${baseUrl}/get-started`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/seo-questionnaire`,
+            url: `${baseUrl}/privacy-policy`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/hybrid-cms-vs-wordpress`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/hybrid-customized-cms-website`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/nextjs-website-design`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/seo-friendly-website-design`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/web-design-company-bangalore`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/web-design-company-hosur`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },{
-            url: `${baseUrl}/web-design-company-tamilnadu`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },{
-            url: `${baseUrl}/website-design-to-boost-sales`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/web-design-development`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/website-maintenance`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/website-speed-optimization`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
+            priority: 0.3,
         },
     ];
 
-    // 2. Blog posts - fetch at build time
+    // 2. Blog posts (insights) - fetch at build time
     let blogPosts: MetadataRoute.Sitemap = [];
 
     try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://www.sundara-moorthy.com/api';
-        const response = await fetch(`${apiUrl}/posts?status=published&limit=1000`, {
-            // This will be cached at build time
-            next: { revalidate: 3600 } // Revalidate every hour
+        console.log('📡 Fetching blog posts from:', `${apiUrl}/posts/published`);
+
+        const response = await fetch(`${apiUrl}/posts/published`, {
+            next: { revalidate: 3600 }
         });
 
         if (response.ok) {
             const data = await response.json();
+            console.log('📦 Blog posts response:', data);
 
-            // Handle response format
             const posts = Array.isArray(data) ? data :
-                data?.data || data?.posts || data?.items || [];
+                data?.posts || data?.data || data?.items || [];
 
-            blogPosts = posts.map((post: any) => ({
-                url: `${baseUrl}/blog/${post.slug || post.id}`,
-                lastModified: new Date(post.updatedAt || post.createdAt || new Date()),
-                changeFrequency: 'weekly',
-                priority: 0.7,
-            }));
+            console.log(`📊 Found ${posts.length} published blog posts`);
+
+            blogPosts = posts
+                .filter((post: any) => post.status === 'published' && post.slug)
+                .map((post: any) => ({
+                    url: `${baseUrl}/insights/${post.slug}`,
+                    lastModified: new Date(post.publishDate || post.updatedAt || post.createdAt || new Date()),
+                    changeFrequency: 'weekly',
+                    priority: 0.7,
+                }));
+
+            console.log(`✅ Generated ${blogPosts.length} blog post URLs for sitemap`);
+        } else {
+            console.error('❌ Failed to fetch blog posts:', response.status, response.statusText);
         }
     } catch (error) {
-        console.error('Error fetching blog posts:', error);
+        console.error('❌ Error fetching blog posts:', error);
     }
 
     // 3. Portfolio items
@@ -167,13 +94,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://www.sundara-moorthy.com/api';
+        console.log('📡 Fetching portfolio items from:', `${apiUrl}/apps/all`);
+
         const response = await fetch(`${apiUrl}/apps/all`, {
             next: { revalidate: 3600 }
         });
 
         if (response.ok) {
             const data = await response.json();
-            const apps = Array.isArray(data) ? data : data?.data || [];
+            console.log('📦 Portfolio response:', data);
+
+            const apps = Array.isArray(data) ? data : data?.data || data?.apps || [];
+
+            console.log(`📊 Found ${apps.length} portfolio items`);
 
             portfolioItems = apps
                 .filter((app: any) => app.isActive && app.seoSlug)
@@ -183,11 +116,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                     changeFrequency: 'monthly',
                     priority: 0.6,
                 }));
+
+            console.log(`✅ Generated ${portfolioItems.length} portfolio URLs for sitemap`);
+        } else {
+            console.error('❌ Failed to fetch portfolio items:', response.status, response.statusText);
         }
     } catch (error) {
-        console.error('Error fetching portfolio items:', error);
+        console.error('❌ Error fetching portfolio items:', error);
     }
 
     // Combine all
-    return [...staticPages, ...blogPosts, ...portfolioItems];
+    const allUrls = [...staticPages, ...blogPosts, ...portfolioItems];
+    console.log(`📊 Total sitemap URLs generated: ${allUrls.length}`);
+
+    return allUrls;
 }

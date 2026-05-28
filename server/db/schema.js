@@ -76,7 +76,7 @@ export const posts = pgTable("posts", {
 
     // ✅ Added fields:
     description: text("description"), // Could be used for a longer summary
-    tags: varchar("tags", { length: 255 }), // Store as comma-separated or JSON
+    tags: text("tags"),
     metaTitle: varchar("meta_title", { length: 255 }),
     metaKeywords: text("meta_keywords"),
     metaDescription: text("meta_description"),

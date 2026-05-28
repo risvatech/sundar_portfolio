@@ -1,42 +1,90 @@
+// app/insights/[slug]/page.tsx
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import BlogDetailClient from './BlogDetailClient'
 import serverApi from '../../service/server-api'
 
 // Define types
-type Post = {
-    id: string;
+interface Post {
+    id: string | number;
     slug: string;
     title: string;
-    metaTitle: string;
-    metaDescription: string;
-    description: string;
-    excerpt: string;
+    metaTitle: string | null;
+    metaDescription: string | null;
+    description: string | null;
+    excerpt: string | null;
     content: string;
-    coverImage: string;
-    tags: string;
-    categoryId: number;
+    coverImage: string | null;
+    tags: string | null;
+    categoryId: number | null;
     createdAt: string;
     updatedAt: string;
     status: string;
-    metaKeywords: string;
+    metaKeywords: string | null;
+    publishDate?: string | null;
 }
 
-type Category = {
+interface Category {
     id: number;
     name: string;
 }
 
-type RelatedPost = {
-    id: string;
+interface RelatedPost {
+    id: string | number;
     slug: string;
     title: string;
     excerpt: string;
     category: string;
 }
 
+// Define API response types
+interface SinglePostApiResponse {
+    success: boolean;
+    post?: Post;
+    data?: Post;
+}
+
+interface PostsListApiResponse {
+    success: boolean;
+    posts?: Post[];
+    data?: Post[];
+}
+
+interface CategoriesListApiResponse {
+    success: boolean;
+    categories?: Category[];
+    data?: Category[];
+}
+
+// ✅ FOR DYNAMIC ROUTING
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+
+// Helper function to convert null to undefined and format for BlogPost
+const formatPostForClient = (post: Post) => {
+    return {
+        id: post.id,
+        title: post.title,
+        slug: post.slug,
+        excerpt: post.excerpt ?? undefined,  // Convert null to undefined
+        content: post.content,
+        coverImage: post.coverImage ?? undefined,  // Convert null to undefined
+        description: post.description ?? undefined,  // Convert null to undefined
+        tags: post.tags ?? undefined,  // Convert null to undefined
+        categoryId: post.categoryId ?? undefined,  // Convert null to undefined
+        createdAt: post.createdAt ?? undefined,  // Convert null to undefined
+        publishDate: post.publishDate ?? undefined,  // Convert null to undefined
+        updatedAt: post.updatedAt ?? undefined,  // Convert null to undefined
+        status: post.status,
+        metaExcerpt: post.excerpt ?? undefined,  // Convert null to undefined
+        metaDescription: post.metaDescription ?? undefined,  // Convert null to undefined
+        metaTitle: post.metaTitle ?? undefined,  // Convert null to undefined
+        metaKeywords: post.metaKeywords ?? undefined,  // Convert null to undefined
+    };
+};
+
 // Helper function to parse tags
-const parseTags = (tags: any): string[] => {
+const parseTags = (tags: string | null | undefined): string[] => {
     if (!tags) return [];
     if (Array.isArray(tags)) return tags.filter((tag: any) => typeof tag === 'string');
 
@@ -63,58 +111,24 @@ const parseTags = (tags: any): string[] => {
     return [];
 };
 
-// CRITICAL: For static export
-export const dynamicParams = false; // Don't generate pages on-demand
-
-// Generate static paths
-export async function generateStaticParams() {
-    console.log('📦 Generating static params for blog posts...');
-
-    try {
-        const { data } = await serverApi.get("/posts");
-        const posts = data?.posts || data?.data || data || [];
-
-        console.log(`📊 Found ${posts.length} total posts from API`);
-
-        // Filter only published posts
-        const publishedPosts = posts.filter((post: any) =>
-            post.slug &&
-            post.slug.trim() !== '' &&
-            post.status === 'published'
-        );
-
-        console.log(`✅ Generating ${publishedPosts.length} published posts`);
-
-        // Return only the slugs
-        return publishedPosts.map((post: any) => ({
-            slug: post.slug.trim(),
-        }));
-
-    } catch (error: any) {
-        console.error('❌ Error in generateStaticParams:', error.message);
-        // Return empty array to prevent build failure
-        console.log('⚠️ Returning empty array for static paths');
-        return [];
-    }
-}
-
 // Generate metadata dynamically
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
     try {
         console.log(`📄 Generating metadata for slug: ${params.slug}`);
 
-        const { data } = await serverApi.get(`/posts/slug/${params.slug}`);
-        const post = data?.post || data;
+        const response = await serverApi.get<SinglePostApiResponse>(`/posts/slug/${params.slug}`);
+        const post = response.data?.post || response.data?.data;
 
-        if (!post) {
-            console.log(`❌ Post not found for slug: ${params.slug}`);
+        if (!post || post.status !== 'published') {
+            console.log(`❌ Post not found or not published for slug: ${params.slug}`);
             return {
                 title: "Blog Post Not Found",
                 description: "The requested blog post could not be found.",
+                robots: "noindex, nofollow",
             };
         }
 
-        const siteUrl = 'https://www.sundara-moorthy.com';
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sundara-moorthy.com';
         const pageUrl = `${siteUrl}/insights/${post.slug}`;
 
         const title = post.metaTitle || post.title || "Blog Post";
@@ -146,7 +160,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
                         alt: title,
                     },
                 ],
-                publishedTime: post.createdAt,
+                publishedTime: post.publishDate || post.createdAt,
                 modifiedTime: post.updatedAt,
                 authors: ["Future Indias"],
                 tags: tagsArray,
@@ -170,48 +184,55 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         return {
             title: "Blog Post",
             description: "Read this interesting blog post",
+            robots: "noindex, nofollow",
         };
     }
 }
 
 // Main page component
-export default async function BlogDetailPage({ params }: { params: { slug: string } }) {
+interface PageProps {
+    params: {
+        slug: string;
+    };
+}
+
+export default async function BlogDetailPage({ params }: PageProps) {
     try {
         console.log(`🚀 Loading page for slug: ${params.slug}`);
 
         // Fetch the post
-        const { data } = await serverApi.get(`/posts/slug/${params.slug}`);
-        const post = data?.post || data;
+        const response = await serverApi.get<SinglePostApiResponse>(`/posts/slug/${params.slug}`);
+        const post = response.data?.post || response.data?.data;
 
-        if (!post) {
-            console.log(`❌ Post not found for slug: ${params.slug}`);
+        // Check if post exists AND is published
+        if (!post || post.status !== 'published') {
+            console.log(`❌ Post not found or not published for slug: ${params.slug}`);
             notFound();
         }
 
-        // Fetch related data
+        // Fetch category if exists
         let category: Category | null = null;
         let relatedPosts: RelatedPost[] = [];
 
         if (post.categoryId) {
             try {
                 // Fetch categories
-                const { data: categoriesData } = await serverApi.get("/categories");
-                const categories = categoriesData?.categories || categoriesData?.data || categoriesData || [];
+                const categoriesResponse = await serverApi.get<CategoriesListApiResponse>("/categories");
+                const categories = categoriesResponse.data?.categories || categoriesResponse.data?.data || [];
+                category = categories.find((cat: Category) => cat.id === post.categoryId) || null;
 
-                category = categories.find((cat: any) => cat.id === post.categoryId);
-
-                // Fetch all posts for related posts
-                const { data: allPostsData } = await serverApi.get("/posts");
-                const allPosts = allPostsData?.posts || allPostsData?.data || allPostsData || [];
+                // Fetch published posts for related content
+                const postsResponse = await serverApi.get<PostsListApiResponse>("/posts/published");
+                const allPosts = postsResponse.data?.posts || postsResponse.data?.data || [];
 
                 relatedPosts = allPosts
-                    .filter((p: any) =>
+                    .filter((p: Post) =>
                         p.categoryId === post.categoryId &&
                         p.id !== post.id &&
                         p.status === "published"
                     )
                     .slice(0, 3)
-                    .map((p: any) => ({
+                    .map((p: Post) => ({
                         id: p.id,
                         slug: p.slug,
                         title: p.title,
@@ -220,16 +241,18 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
                     }));
             } catch (error) {
                 console.error('Error fetching related data:', error);
-                // Continue without related data
             }
         }
 
         console.log(`✅ Successfully loaded post: ${post.title}`);
 
+        // ✅ Format the post to convert null to undefined before passing to client
+        const formattedPost = formatPostForClient(post);
+
         return (
             <BlogDetailClient
                 slug={params.slug}
-                initialPost={post}
+                initialPost={formattedPost}
                 initialCategory={category}
                 initialRelatedPosts={relatedPosts}
             />

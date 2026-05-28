@@ -68,31 +68,6 @@ export const upload = multer({
     storage: postStorage,
 });
 
-export const uploadProductImages = multer({
-    ...multerConfig,
-    storage: productStorage,
-});
-
-// Convenience methods
-export const uploadSingle = multer({
-    ...multerConfig,
-    storage: postStorage,
-}).single("image");
-
-export const uploadMultiple = multer({
-    ...multerConfig,
-    storage: postStorage,
-}).array("images", 10); // Max 10 files
-
-export const uploadProductMultiple = multer({
-    ...multerConfig,
-    storage: productStorage,
-}).array("images", 10); // Max 10 files for products
-
-export const uploadProductSingle = multer({
-    ...multerConfig,
-    storage: productStorage,
-}).single("image");
 
 // Delete file helper
 export const deleteFile = (filePath) => {

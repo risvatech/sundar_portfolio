@@ -71,7 +71,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
         <body>
         {/* Add Google Analytics here */}
-        <GoogleAnalytics />
+        {/*<GoogleAnalytics />*/}
 
         <ClientProviders>
             {children}

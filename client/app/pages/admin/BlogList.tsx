@@ -22,7 +22,7 @@ interface Post {
         name: string;
     } | null;
     created_at?: string;
-    publishDate?: string | null;  // ✅ Allow null
+    publishDate?: string | null;
     updated_at?: string;
     createdAt: string;
     updatedAt: string;
@@ -50,7 +50,7 @@ const formatTagsForDisplay = (tags: any): string => {
     return "";
 };
 
-// ✅ Helper function to format date safely
+// Helper function to format date safely
 const formatDate = (dateString?: string | null): string => {
     if (!dateString) return "Not set";
     try {
@@ -58,6 +58,13 @@ const formatDate = (dateString?: string | null): string => {
     } catch {
         return "Invalid date";
     }
+};
+
+// Helper function to truncate text
+const truncateText = (text: string, maxLength: number): string => {
+    if (!text) return "";
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + "...";
 };
 
 interface BlogListProps {
@@ -88,7 +95,7 @@ export default function BlogList({ onEditPost, refreshTrigger }: BlogListProps) 
                 created_at: post.created_at || post.createdAt,
                 updated_at: post.updated_at || post.updatedAt,
                 category_id: post.category_id || post.categoryId,
-                publishDate: post.publish_date || post.publishDate,  // ✅ Handle both naming conventions
+                publishDate: post.publish_date || post.publishDate,
             }));
             setPosts(normalizedPosts);
 
@@ -183,11 +190,13 @@ export default function BlogList({ onEditPost, refreshTrigger }: BlogListProps) 
                                     className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
                                 >
                                     <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-                                        <div className="flex-1">
-                                            <div className="flex items-start justify-between mb-2">
-                                                <h3 className="text-lg font-semibold text-gray-800">{post.title}</h3>
-                                                <div className="flex items-center gap-2">
-                                                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                                        <div className="flex-1 min-w-0"> {/* Added min-w-0 for proper flex truncation */}
+                                            <div className="flex items-start justify-between gap-2 mb-2 flex-wrap">
+                                                <h3 className="text-lg font-semibold text-gray-800 break-words flex-1 min-w-0">
+                                                    {truncateText(post.title, 100)}
+                                                </h3>
+                                                <div className="flex items-center gap-2 flex-shrink-0">
+                                                    <span className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
                                                         post.status === "published"
                                                             ? "bg-green-100 text-green-800"
                                                             : "bg-gray-100 text-gray-800"
@@ -198,7 +207,7 @@ export default function BlogList({ onEditPost, refreshTrigger }: BlogListProps) 
                                                         onClick={() => {
                                                             window.open(`/insights/${post.slug}`, '_blank');
                                                         }}
-                                                        className="p-1 hover:bg-gray-100 rounded"
+                                                        className="p-1 hover:bg-gray-100 rounded flex-shrink-0"
                                                         title="Preview"
                                                     >
                                                         <Eye size={16} className="text-gray-600" />
@@ -207,51 +216,56 @@ export default function BlogList({ onEditPost, refreshTrigger }: BlogListProps) 
                                             </div>
 
                                             {post.excerpt && (
-                                                <p className="text-gray-600 text-sm mb-3 line-clamp-2">{post.excerpt}</p>
+                                                <p className="text-gray-600 text-sm mb-3 line-clamp-2 break-words">
+                                                    {truncateText(post.excerpt, 150)}
+                                                </p>
                                             )}
 
                                             <div className="flex flex-wrap gap-4 text-gray-500 text-xs mb-3">
-                                                <div className="flex items-center gap-1">
-                                                    <Calendar size={14} />
-                                                    <span>
+                                                <div className="flex items-center gap-1 whitespace-nowrap">
+                                                    <Calendar size={14} className="flex-shrink-0" />
+                                                    <span className="truncate">
                                                         Created: {formatDate(post.created_at || post.createdAt)}
                                                     </span>
                                                 </div>
-                                                {/* ✅ Fixed publish date display */}
-                                                <div className="flex items-center gap-1">
-                                                    <Calendar size={14} />
-                                                    <span>
+                                                <div className="flex items-center gap-1 whitespace-nowrap">
+                                                    <Calendar size={14} className="flex-shrink-0" />
+                                                    <span className="truncate">
                                                         Published: {formatDate(post.publishDate)}
                                                     </span>
                                                 </div>
                                                 {post.category && (
-                                                    <div className="flex items-center gap-1">
-                                                        <Folder size={14} />
-                                                        <span>{post.category.name}</span>
+                                                    <div className="flex items-center gap-1 whitespace-nowrap">
+                                                        <Folder size={14} className="flex-shrink-0" />
+                                                        <span className="truncate">{post.category.name}</span>
                                                     </div>
                                                 )}
                                                 {post.tags && (
-                                                    <div className="flex items-center gap-1">
-                                                        <Tag size={14} />
-                                                        <span>{formatTagsForDisplay(post.tags)}</span>
+                                                    <div className="flex items-center gap-1 min-w-0 flex-1">
+                                                        <Tag size={14} className="flex-shrink-0 mt-0.5" />
+                                                        <span className="truncate">
+                                                            {truncateText(formatTagsForDisplay(post.tags), 50)}
+                                                        </span>
                                                     </div>
                                                 )}
                                             </div>
 
-                                            <div className="text-xs text-gray-400 font-mono">/blog/{post.slug}</div>
+                                            <div className="text-xs text-gray-400 font-mono break-all">
+                                                /blog/{post.slug}
+                                            </div>
                                         </div>
 
-                                        <div className="flex gap-2 lg:flex-col">
+                                        <div className="flex gap-2 lg:flex-col lg:flex-shrink-0">
                                             <button
                                                 onClick={() => onEditPost(post)}
-                                                className="flex items-center gap-2 px-4 py-2 border border-blue-300 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
+                                                className="flex items-center gap-2 px-4 py-2 border border-blue-300 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors whitespace-nowrap"
                                             >
                                                 <Edit size={16} />
                                                 Edit
                                             </button>
                                             <button
                                                 onClick={() => handleDeletePost(post.id)}
-                                                className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                                                className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors whitespace-nowrap"
                                             >
                                                 <Trash2 size={16} />
                                                 Delete
