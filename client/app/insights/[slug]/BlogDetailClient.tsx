@@ -211,9 +211,9 @@ export default function BlogDetailClient({
             />
 
             <Layout>
-                <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-16">
+                <article className="max-w-6xl mx-auto px-4 sm:px-6 py-12 mt-16">
                     {/* Back button */}
-                    <div className="mb-8">
+                    <div className="mb-4">
                         <Link href="/insights">
                             <Button variant="ghost" className="gap-2 pl-0 hover:bg-transparent hover:text-primary">
                                 <ArrowLeft className="w-4 h-4" />
@@ -223,19 +223,19 @@ export default function BlogDetailClient({
                     </div>
 
                     {/* Category */}
-                    <div className="mb-6">
+                    <div className="mb-3">
                         <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-0 px-4 py-1.5 text-sm">
                             {initialCategory?.name || "Insights"}
                         </Badge>
                     </div>
 
                     {/* Title */}
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
                         {initialPost.metaTitle || initialPost.title}
                     </h1>
 
                     {/* Meta info bar */}
-                    <div className="flex flex-wrap items-center gap-4 py-4 border-y border-gray-200 dark:border-gray-800 mb-8">
+                    <div className="flex flex-wrap items-center gap-4 py-2 border-y border-gray-200 dark:border-gray-800 mb-4">
                         <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                             <Calendar className="w-4 h-4" />
                             <span>{formatDate(initialPost)}</span>
@@ -298,9 +298,6 @@ export default function BlogDetailClient({
                                 line-height: 1.75;
                                 color: var(--foreground);
                             }
-                            .html-content p {
-                                margin-bottom: 1.25rem;
-                            }
                             .html-content h1 {
                                 font-size: 2.25rem;
                                 font-weight: 700;
@@ -339,7 +336,7 @@ export default function BlogDetailClient({
                             }
                             .html-content ul, .html-content ol {
                                 margin-left: 1.5rem;
-                                margin-bottom: 1.25rem;
+                                margin-bottom: 1.5rem;
                             }
                             .html-content li {
                                 margin-bottom: 0.5rem;
