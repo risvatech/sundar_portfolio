@@ -323,7 +323,7 @@ export default function HomePage() {
                                 <div className="relative w-full max-w-[20rem] sm:max-w-[24rem] lg:max-w-[28rem] rounded-2xl overflow-hidden shadow-2xl">
                                     <Image
                                         src={img2}
-                                        alt="Sundar - Business Consultant"
+                                        alt="S. Sundara Moorthy, Strategy and Growth Advisor, Chennai"
                                         width={480}
                                         height={650}
                                         className="w-full h-auto object-cover object-top"
@@ -421,7 +421,6 @@ export default function HomePage() {
                                                             src={getArticleImage(article)}
                                                             alt={article.title}
                                                             fill
-                                                            className="object-cover"
                                                             sizes="(max-width: 768px) 100vw, 50vw"
                                                             priority={index === 0}
                                                         />

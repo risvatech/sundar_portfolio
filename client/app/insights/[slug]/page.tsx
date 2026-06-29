@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import BlogDetailClient from './BlogDetailClient'
 import serverApi from '../../service/server-api'
+import BreadcrumbSchema from "@/app/components/BreadcrumbSchema";
 
 // Define types
 interface Post {
@@ -250,12 +251,31 @@ export default async function BlogDetailPage({ params }: PageProps) {
         const formattedPost = formatPostForClient(post);
 
         return (
-            <BlogDetailClient
-                slug={params.slug}
-                initialPost={formattedPost}
-                initialCategory={category}
-                initialRelatedPosts={relatedPosts}
-            />
+            <>
+                <BreadcrumbSchema
+                    items={[
+                        {
+                            name: "Home",
+                            item: "https://www.sundara-moorthy.com/"
+                        },
+                        {
+                            name: "Insights",
+                            item: "https://www.sundara-moorthy.com/insights"
+                        },
+                        {
+                            name: post.title,
+                            item: `https://www.sundara-moorthy.com/insights/${post.slug}`
+                        },
+                    ]}
+                />
+                <BlogDetailClient
+                    slug={params.slug}
+                    initialPost={formattedPost}
+                    initialCategory={category}
+                    initialRelatedPosts={relatedPosts}
+                />
+            </>
+
         );
 
     } catch (error) {

@@ -35,34 +35,23 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 dangerouslySetInnerHTML={{
                     __html: JSON.stringify({
                         "@context": "https://schema.org",
-                        "@type": "Organization",
-                        "name": "Risva Technologies",
-                        "url": "https://www.sundara-moorthy.com/",
-                        "logo": "https://www.sundara-moorthy.com/assets/Logo.png",
-                        "description": "Risva Technologies delivers fast, affordable web app, mobile app & AI solutions using React, Next.js, Node.js, Laravel & PostgreSQL.",
+                        "@type": "Person",
+                        "name": "S. Sundara Moorthy",
+                        "jobTitle": "Strategy & Growth Advisor",
+                        "url": "https://www.sundara-moorthy.com",
                         "address": {
                             "@type": "PostalAddress",
-                            "streetAddress": "HSR Layout, Bangalore,KA\n" +
-                                "Hosur, TN\n" +
-                                "India",
-                            "addressLocality": "Bengaluru",
-                            "postalCode": "",
+                            "addressLocality": "Chennai",
                             "addressCountry": "IN"
                         },
-                        "contactPoint": {
-                            "@type": "ContactPoint",
-                            "telephone": "+91 9740972122",
-                            "contactType": "customer service",
-                            "email": "info(at)risvatech.com"
+                        "alumniOf": {
+                            "@type": "CollegeOrUniversity",
+                            "name": "IIM Trichy"
                         },
-                        "publisher": {
-                            "@type": "Organization",
-                            "name": "Risva Technologies",
-                            "url": "https://www.sundara-moorthy.com/",
-                            "logo": "https://www.sundara-moorthy.com/assets/Logo.png",
-                            "description": "Risva Technologies delivers fast, affordable web app, mobile app & AI solutions using React, Next.js, Node.js, Laravel & PostgreSQL."
-                        },
-                        "sameAs": []
+                        "sameAs": [
+                            "https://www.linkedin.com/in/sundaramoorthy15/",
+                            "https://x.com/sundara_sethu"
+                        ]
                     })
                 }}
             />

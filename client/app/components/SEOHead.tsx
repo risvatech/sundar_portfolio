@@ -56,8 +56,8 @@ export default function SEOHead({ page }: SEOHeadProps) {
             <meta name="twitter:image" content={metadata.twitterImage} />
 
             {/* Twitter - Creator/Site */}
-            <meta name="twitter:site" content="@RisvaTech" />
-            <meta name="twitter:creator" content="@RisvaTech" />
+            <meta name="twitter:site" content="@sundara_sethu" />
+            <meta name="twitter:creator" content="@sundara_sethu" />
 
             {/* Canonical */}
             <link rel="canonical" href={metadata.ogUrl} />
