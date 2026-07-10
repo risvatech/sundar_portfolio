@@ -83,6 +83,7 @@ export const abouts: about[] = [
         icon: IndianRupee, // 🚚 Supply chain, logistics, procurement
         title: "Investment, Board & Decision Advisory",
         description: [
+            "Investment Facilitation—Equity, Project & Debt Funding",
             "Investment readiness and decision validation",
             "Board-level perspective on growth and risk",
             "Strategic due diligence and market validation",

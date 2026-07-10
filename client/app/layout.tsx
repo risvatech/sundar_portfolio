@@ -2,7 +2,6 @@
 import { ReactNode } from "react";
 import "./globals.css";
 import ClientProviders from "./components/ClientProviders";
-import GoogleAnalytics from "./components/GoogleAnalytics";
 import FloatingWhatsApp from "@/app/components/FloatingWhatsApp"; // Add this import
 
 interface RootLayoutProps {

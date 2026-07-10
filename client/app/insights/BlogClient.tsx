@@ -8,7 +8,6 @@ import { Badge } from "../components/ui/badge"
 import { Clock, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { Layout } from "../components/layout/Layout"
 import SEOHead from "@/app/components/SEOHead"
 
 // ---------- Types ----------
@@ -117,20 +116,17 @@ export default function BlogClient({ initialPosts, initialCategories }: BlogClie
 
     if (posts.length === 0) {
         return (
-            <Layout>
                 <div className="min-h-screen flex items-center justify-center">
                     <div className="text-center">
                         <p className="text-lg text-muted-foreground">No blog posts found.</p>
                     </div>
                 </div>
-            </Layout>
         )
     }
 
     return (
         <>
             <SEOHead page="blog" />
-            <Layout>
                 {/* Hero */}
                 <section className="pt-32 pb-8 dark:from-gray-900 dark:to-gray-800">
                     <div className="container mx-auto max-w-6xl text-center">
@@ -342,7 +338,6 @@ export default function BlogClient({ initialPosts, initialCategories }: BlogClie
                         )}
                     </div>
                 </section>
-            </Layout>
         </>
     )
 }
