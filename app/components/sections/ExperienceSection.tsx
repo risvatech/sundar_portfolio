@@ -1,0 +1,99 @@
+import {
+    Target,
+    TrendingUp,
+    Building2,
+    GitBranch,
+    UserCheck,
+    ShieldPlus,
+} from "lucide-react";
+
+const ExperienceSection = () => {
+    const experienceHighlights = [
+        {
+            icon: Target,
+            title: "250+ Strategy & Research Engagements",
+            description: "Market research, growth strategy, feasibility, competitive intelligence, and strategic sourcing engagements."
+        },
+        {
+            icon: UserCheck,
+            title: "Leadership & CXO Engagement",
+            description: "Worked closely with startup founders, MSME promoters, and senior leaders"
+        },
+        {
+            icon: TrendingUp,
+            title: "Growth & Investment Decisions",
+            description: "Supported market entry, expansion, investment, and procurement decisions"
+        },
+        {
+            icon: Building2,
+            title: "Built & Scaled Advisory Practices",
+            description: "Established and scaled consulting practices, sector-focused capabilities, and multidisciplinary advisory teams."
+        },
+        {
+            icon: ShieldPlus,
+            title: "Multi-Sector Experience",
+            description: "Healthcare & MedTech, automotive & mobility, industrial manufacturing, energy, sustainability, agriculture, infrastructure, and consumer sectors."
+        },
+        {
+            icon: GitBranch,
+            title: "Strategy to Execution",
+            description: "Translated market insights and strategic recommendations into practical, execution-ready roadmaps."
+        }
+    ];
+
+    return (
+        <section className="w-full py-20 px-6">
+            <div className="mx-auto max-w-7xl ">
+
+                {/* Section Header */}
+                <div className="mb-16 max-w-3xl">
+                    <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
+                        Experience
+                    </h2>
+
+                    <p className="mt-5 text-lg leading-relaxed text-gray-600">
+                        With over{" "}
+                        <span className="font-semibold text-gray-900">
+                            18 years
+                        </span>{" "}
+                        years of experience across strategy, market research, and business advisory, I have supported organizations in making informed decisions across complex markets and high-stakes business situations.
+                    </p>
+                </div>
+
+                {/* Experience Highlights */}
+                <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+                    {experienceHighlights.map((item, index) => {
+                        const IconComponent = item.icon;
+
+                        return (
+                            <div
+                                key={index}
+                                className="relative rounded-xl border border-gray-200 p-6 transition-shadow hover:shadow-md"
+                            >
+                                {/* Icon */}
+                                <div className="mb-4">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                                        <IconComponent className="h-6 w-6 text-[#0B1F32]" />
+                                    </div>
+                                </div>
+
+                                {/* Title */}
+                                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                                    {item.title}
+                                </h3>
+
+                                {/* Description */}
+                                <p className="text-base leading-relaxed text-gray-600">
+                                    {item.description}
+                                </p>
+                            </div>
+                        );
+                    })}
+                </div>
+
+            </div>
+        </section>
+    );
+};
+
+export default ExperienceSection;
